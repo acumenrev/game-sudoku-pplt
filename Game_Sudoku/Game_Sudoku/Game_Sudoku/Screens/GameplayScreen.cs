@@ -22,6 +22,7 @@ namespace Game_Sudoku.Screens
 
         ContentManager content;
         SpriteFont gameFont;
+        Texture2D gamescreenBG;
 
         //Vector2 playerPosition = new Vector2(100, 100);
         //Vector2 enemyPosition = new Vector2(100, 100);
@@ -59,6 +60,7 @@ namespace Game_Sudoku.Screens
                     content = new ContentManager(ScreenManager.Game.Services, "Content");
 
                 gameFont = content.Load<SpriteFont>("gamefont");
+                gamescreenBG = content.Load<Texture2D>("Background/gamescreenBG");
 
                 // A real game would probably have more content than this sample, so
                 // it would take longer to load. We simulate that by delaying for a
@@ -153,7 +155,7 @@ namespace Game_Sudoku.Screens
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
             spriteBatch.Begin();
 
-
+            spriteBatch.Draw(gamescreenBG, new Vector2(0, 0), Color.White);
             spriteBatch.End();
 
             // If the game is transitioning on or Off, it out to black
