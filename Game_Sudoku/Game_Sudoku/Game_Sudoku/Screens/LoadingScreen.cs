@@ -71,7 +71,7 @@ namespace Game_Sudoku
 
             // If all the previous screens have finished transitioning
             // off, it is time to actually perform the load.
-            if (otherScreenHasFocus)
+            if (otherScreenAreGone)
             {
                 ScreenManager.RemoveScreen(this);
 
