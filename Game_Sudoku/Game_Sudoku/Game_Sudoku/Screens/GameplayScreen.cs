@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Threading;
 using GameStateManagement;
 
 namespace Game_Sudoku.Screens
@@ -22,20 +22,30 @@ namespace Game_Sudoku.Screens
 
         ContentManager content;
         SpriteFont gameFont;
+        SpriteFont m_timefont;
         Texture2D gamescreenBG;
         SpriteBatch spriteBatch;
         Map.Map Mapdemo;
         MouseState mouseStateCurrent, mouseStatePrevious;
         Vector2 v2;
+        Vector2 vTime;
         //Vector2 playerPosition = new Vector2(100, 100);
         //Vector2 enemyPosition = new Vector2(100, 100);
 
         //Random random = new Random();
 
         float pauseAlpha;
+        
+        // time
+        clsTime time;
+        bool flagTime;
+
+
+        bool flagChangeNumber;
+        
 
         InputAction pauseAction;
-
+        
         #endregion
 
         #region Initialization
@@ -45,12 +55,15 @@ namespace Game_Sudoku.Screens
         /// </summary>
         public GameplayScreen()
         {
+            
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
             v2 = new Vector2(0,0);
-            
+            vTime = new Vector2(630, 320);
             pauseAction = new InputAction(null,new Keys[]{ Keys.Escape}, true);
-
+            flagTime = true;
+            time = new clsTime();
+            
         }
 
         /// <summary>
@@ -58,6 +71,7 @@ namespace Game_Sudoku.Screens
         /// </summary>
         public override void Activate(bool instancePreserved)
         {
+
             if (!instancePreserved)
             {
                 if (content == null)
@@ -65,13 +79,16 @@ namespace Game_Sudoku.Screens
 
                 gameFont = content.Load<SpriteFont>("gamefont");
                 gamescreenBG = content.Load<Texture2D>("Background/gamescreenBG");
+                m_timefont = content.Load<SpriteFont>("timefont");
                 Mapdemo = new Map.Map();
                 
 
                 // A real game would probably have more content than this sample, so
                 // it would take longer to load. We simulate that by delaying for a
                 // while, giving you a chance to admire the beautiful loading screen.
-                Thread.Sleep(1000);
+
+                
+                //Thread.Sleep(this.TransitionOnTime);
 
                 // once the load has finished, we use ResetElapsedTime to tell the game's
                 // timing mechanism that we have just finished a very long frame, and that
@@ -103,6 +120,7 @@ namespace Game_Sudoku.Screens
         /// </summary>
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
+            
             // bắt sự kiện chuột
             mouseStateCurrent = Mouse.GetState();
             if (mouseStateCurrent.LeftButton == ButtonState.Pressed &&
@@ -110,10 +128,16 @@ namespace Game_Sudoku.Screens
             {
                 v2.X = (float)mouseStateCurrent.X;
                 v2.Y = (float)mouseStateCurrent.Y;
+                flagChangeNumber = true;
             }
 
             mouseStatePrevious = mouseStateCurrent;
-            ChangeNumber();
+            
+            // Draw timer
+            time.IncreaseTime(gameTime);
+
+            
+            
 
             //
             base.Update(gameTime, otherScreenHasFocus, false);
@@ -128,13 +152,13 @@ namespace Game_Sudoku.Screens
                 pauseAlpha = Math.Max(pauseAlpha - 1f / 32, 0);
             }
 
-            if (IsActive)
-            {
-                // Apply some random jutter to make the enemy move around
-                
+            //if (IsActive)
+            //{
+            //    // Apply some random jutter to make the enemy move around
+            //}
 
-                
-            }
+            
+            
            
         }
 
@@ -144,6 +168,7 @@ namespace Game_Sudoku.Screens
         /// </summary>
         public override void HandleInput(GameTime gameTime, InputState input)
         {
+
             if (input == null)
                 throw new ArgumentNullException("input");
 
@@ -157,24 +182,26 @@ namespace Game_Sudoku.Screens
             if (pauseAction.Evaluate(input, ControllingPlayer, out player))
             {
                 ScreenManager.AddScreen(new PauseMenuScreen(), ControllingPlayer);
-
+                flagTime = false;
             }
             else
             {
                 // handle movement of enemy, player
             }
+            ChangeNumber();
             base.HandleInput(gameTime, input);
         }
 
         public override void Draw(GameTime gameTime)
         {
-
+            
             ScreenManager.GraphicsDevice.Clear(ClearOptions.Target, Color.CornflowerBlue, 0, 0);
-            SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
+            spriteBatch = ScreenManager.SpriteBatch;
             
             spriteBatch.Begin();
 
             spriteBatch.Draw(gamescreenBG, new Vector2(0, 0), Color.White);
+            spriteBatch.DrawString(m_timefont, time.getTime(), new Vector2(630, 318), Color.White);
             DrawMatrix();
             spriteBatch.DrawString(gameFont, "Mouse", v2, Color.White);
             
@@ -187,6 +214,8 @@ namespace Game_Sudoku.Screens
                 ScreenManager.FadeBackBufferToBlack(alpha);
 
             }
+
+            
             base.Draw(gameTime);
         }
         public void DrawMatrix()
@@ -208,9 +237,35 @@ namespace Game_Sudoku.Screens
         }
         public void ChangeNumber()
         {
-            int x = ((int)v2.X-50)/60;
-            int y = ((int)v2.Y-30)/60;
-            Mapdemo.MatrixMap[y,x]=9;
+            try
+            {
+                float x = ((int)v2.X - 30) / 60;
+                float y = ((int)v2.Y - 30) / 60;
+                if (flagChangeNumber)
+                {
+                    if (x >= 0 && x <= 9)
+                    {
+                        if (y >= 0 && y <= 9)
+                        {
+                            int number = Mapdemo.MatrixMap[(int)y, (int)x];
+
+
+                            if (number == 9)
+                            {
+                                number = 0;
+                            }
+                            number++;
+                            Mapdemo.MatrixMap[(int)y, (int)x] = number;
+                            flagChangeNumber = false;
+                        }
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+            	
+            }
+            
         }
         #endregion
     }
