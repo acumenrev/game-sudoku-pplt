@@ -91,7 +91,7 @@ namespace Game_Sudoku.Screens
 
                 }
                 
-
+            
                 // A real game would probably have more content than this sample, so
                 // it would take longer to load. We simulate that by delaying for a
                 // while, giving you a chance to admire the beautiful loading screen.
