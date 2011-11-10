@@ -26,6 +26,7 @@ namespace Game_Sudoku.Screens
         Texture2D gamescreenBG;
         SpriteBatch spriteBatch;
         Map.Map Mapdemo;
+        int [,] LockMatrixNumber = new int [9,9];
         MouseState mouseStateCurrent, mouseStatePrevious;
         Vector2 v2;
         Vector2 vTime;
@@ -81,6 +82,14 @@ namespace Game_Sudoku.Screens
                 gamescreenBG = content.Load<Texture2D>("Background/gamescreenBG");
                 m_timefont = content.Load<SpriteFont>("timefont");
                 Mapdemo = new Map.Map();
+                for (int i = 0; i < 9; i++)
+                {
+                    for (int j = 0; j < 9; j++)
+                    {
+                        LockMatrixNumber[i, j] = Mapdemo.MatrixMap[i, j];
+                    }
+
+                }
                 
 
                 // A real game would probably have more content than this sample, so
@@ -220,52 +229,64 @@ namespace Game_Sudoku.Screens
         }
         public void DrawMatrix()
         {
+
             for (int i = 0; i < 9; i++)
             {
                 for (int j = 0; j < 9; j++)
                 {
-                    SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
-                 
-                    string a = Mapdemo.MatrixMap[j, i].ToString();
-                    float x = (i * 60) + 50;
-                    float y = (j * 60) + 30;
-                    spriteBatch.DrawString(gameFont, a, new Vector2(x, y), Color.White);
-                    
+                    if (LockMatrixNumber[j, i] != 0)
+                    {
+                        SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
+                        string a = LockMatrixNumber[j, i].ToString();
+                        float x = (i * 60) + 50;
+                        float y = (j * 60) + 30;
+                        spriteBatch.DrawString(gameFont, a, new Vector2(x, y), Color.Red);
+                    }
+
+                    if (LockMatrixNumber[j, i] == 0 && Mapdemo.MatrixMap[j, i] != 0)
+                    {
+                        SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
+                        string a = Mapdemo.MatrixMap[j, i].ToString();
+                        float x = (i * 60) + 50;
+                        float y = (j * 60) + 30;
+                        spriteBatch.DrawString(gameFont, a, new Vector2(x, y), Color.White);
+                    }
+
+
+
 
                 }
             }
+
+
         }
         public void ChangeNumber()
         {
-            try
+            float x = (v2.X - 30) / 60;
+            float y = (v2.Y - 30) / 60;
+            if (flagChangeNumber == true)
             {
-                float x = ((int)v2.X - 30) / 60;
-                float y = ((int)v2.Y - 30) / 60;
-                if (flagChangeNumber)
+                if (x >= 0 && x <= 9)
                 {
-                    if (x >= 0 && x <= 9)
+                    if (y >= 0 && y <= 9)
                     {
-                        if (y >= 0 && y <= 9)
+                        if (LockMatrixNumber[(int)y, (int)x] == 0)
                         {
-                            int number = Mapdemo.MatrixMap[(int)y, (int)x];
-
-
-                            if (number == 9)
+                            int numbercurrent = Mapdemo.MatrixMap[(int)y, (int)x];
+                            if (numbercurrent == 9)
                             {
-                                number = 0;
+                                numbercurrent = 0;
                             }
-                            number++;
-                            Mapdemo.MatrixMap[(int)y, (int)x] = number;
+                            Mapdemo.MatrixMap[(int)y, (int)x] = numbercurrent + 1;
                             flagChangeNumber = false;
                         }
+
                     }
+
                 }
             }
-            catch (System.Exception ex)
-            {
-            	
-            }
-            
+
+
         }
         #endregion
     }
