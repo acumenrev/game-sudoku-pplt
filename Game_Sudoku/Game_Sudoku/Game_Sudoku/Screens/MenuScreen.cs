@@ -19,7 +19,7 @@ namespace Game_Sudoku.Screens
 
         List<MenuEntry> menuEntries = new List<MenuEntry>();
         int selectedEntry = 0;
-        string menuTitle;
+        string menuTitle = "TNTSUDOKU";
 
         InputAction menuUp;
         InputAction menuDown;
@@ -47,8 +47,6 @@ namespace Game_Sudoku.Screens
 
         public MenuScreen(string menuTitle)
         {
-            this.menuTitle = menuTitle;
-
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
 

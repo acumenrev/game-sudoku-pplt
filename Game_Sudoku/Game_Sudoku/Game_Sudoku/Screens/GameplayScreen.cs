@@ -30,6 +30,7 @@ namespace Game_Sudoku.Screens
         MouseState mouseStateCurrent, mouseStatePrevious;
         Vector2 v2;
         Vector2 vTime;
+        Xuly.clsSudoku solvesudoku;
         //Vector2 playerPosition = new Vector2(100, 100);
         //Vector2 enemyPosition = new Vector2(100, 100);
 
@@ -65,6 +66,7 @@ namespace Game_Sudoku.Screens
             flagTime = true;
             time = new clsTime();
             
+            
         }
 
         /// <summary>
@@ -86,10 +88,15 @@ namespace Game_Sudoku.Screens
                 {
                     for (int j = 0; j < 9; j++)
                     {
-                        LockMatrixNumber[i, j] = Mapdemo.MatrixMap[i, j];
+                        LockMatrixNumber[i, j] = (int)Mapdemo.MatrixMap[i, j];
                     }
 
                 }
+                solvesudoku = new Xuly.clsSudoku();
+                solvesudoku.solve();
+                solvesudoku.showsolve();
+                Mapdemo.MatrixMap = solvesudoku.Mapsolve;
+
                 
             
                 // A real game would probably have more content than this sample, so
@@ -272,7 +279,7 @@ namespace Game_Sudoku.Screens
                     {
                         if (LockMatrixNumber[(int)y, (int)x] == 0)
                         {
-                            int numbercurrent = Mapdemo.MatrixMap[(int)y, (int)x];
+                            int numbercurrent = (int)Mapdemo.MatrixMap[(int)y, (int)x];
                             if (numbercurrent == 9)
                             {
                                 numbercurrent = 0;
@@ -288,6 +295,7 @@ namespace Game_Sudoku.Screens
 
 
         }
+        
         #endregion
     }
 }
