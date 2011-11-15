@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 using System.Threading;
 using GameStateManagement;
 
@@ -31,6 +32,7 @@ namespace Game_Sudoku.Screens
         Vector2 v2;
         Vector2 vTime;
         Xuly.clsSudoku solvesudoku;
+        SoundEffect finishsound;
         //Vector2 playerPosition = new Vector2(100, 100);
         //Vector2 enemyPosition = new Vector2(100, 100);
 
@@ -83,6 +85,8 @@ namespace Game_Sudoku.Screens
                 gameFont = content.Load<SpriteFont>("gamefont");
                 gamescreenBG = content.Load<Texture2D>("Background/gamescreenBG");
                 m_timefont = content.Load<SpriteFont>("timefont");
+                finishsound = content.Load<SoundEffect>("Sound/finish");
+                //Load Map
                 Mapdemo = new Map.Map();
                 for (int i = 0; i < 9; i++)
                 {
@@ -96,7 +100,7 @@ namespace Game_Sudoku.Screens
                 solvesudoku.solve();
                 solvesudoku.showsolve();
                 Mapdemo.MatrixMap = solvesudoku.Mapsolve;
-
+                finishsound.Play();
                 
             
                 // A real game would probably have more content than this sample, so
