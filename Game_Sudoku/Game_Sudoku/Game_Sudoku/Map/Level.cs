@@ -27,13 +27,11 @@ namespace Game_Sudoku.Map
         #endregion
 
         #region Methods & Constructor
-       
-
-        public int levelstatus;
+               
         /// <summary>
         /// Initialize empty matrix
         /// </summary>
-        public Level()
+        public Level(int level)
         {
             for (int i = 0; i < 9; i++)
             {
@@ -42,6 +40,7 @@ namespace Game_Sudoku.Map
                     m_emptyMatrix[i, j] = "";
                 }
             }
+            FillEmpty(level);
         }
 
         /// <summary>
