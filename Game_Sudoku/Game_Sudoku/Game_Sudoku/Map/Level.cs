@@ -23,7 +23,7 @@ namespace Game_Sudoku.Map
 
         
         private static Random m_rand = new Random();
-
+        public static int m_level;
         #endregion
 
         #region Methods & Constructor
@@ -31,7 +31,7 @@ namespace Game_Sudoku.Map
         /// <summary>
         /// Initialize empty matrix
         /// </summary>
-        public Level(int level)
+        public Level()
         {
             for (int i = 0; i < 9; i++)
             {
@@ -40,18 +40,18 @@ namespace Game_Sudoku.Map
                     m_emptyMatrix[i, j] = 1;
                 }
             }
-            FillEmpty(level);
+            FillEmpty();
         }
 
         /// <summary>
         /// Taking out cells from matrix (left empty)
         /// </summary>
         /// <param name="level">Game level</param>
-        private static void FillEmpty(int level)
+        private static void FillEmpty()
         {
             // quantity of empty cells
             int qCells;
-            switch(level)
+            switch(m_level)
             {
                 // Easy
                 // 40 -> 45 empty cells

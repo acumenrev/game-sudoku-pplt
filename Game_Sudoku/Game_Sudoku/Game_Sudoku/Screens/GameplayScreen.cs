@@ -22,35 +22,35 @@ namespace Game_Sudoku.Screens
         #region Fields
 
         ContentManager content;
-        SpriteFont gameFont;
+        SpriteFont m_gameFont;
         SpriteFont m_timefont;
-        SpriteFont gameFontError;
-        Texture2D gamescreenBG;
-        SpriteBatch spriteBatch;
-        Map.Map Mapdemo;
-        int [,] LockMatrixNumber = new int [9,9];
+        SpriteFont m_gameFontError;
+        Texture2D m_gamescreenBG;
+        SpriteBatch m_spriteBatch;
+       
+        int [,] m_lockMatrixNumber = new int [9,9];
         MouseState mouseStateCurrent, mouseStatePrevious;
-        Vector2 v2;
-        Vector2 vTime;
-        Xuly.clsSudoku solvesudoku;
-        SoundEffect finishsound;
-        string errorsoduku;
+        Vector2 m_v2;
+        Vector2 m_vTime;
+        Xuly.Sudoku m_solveSudoku;
+        SoundEffect m_finishSound;
+        string m_errorSudoku;
         //Vector2 playerPosition = new Vector2(100, 100);
         //Vector2 enemyPosition = new Vector2(100, 100);
 
         //Random random = new Random();
 
-        float pauseAlpha;
+        float m_pauseAlpha;
         
         // time
-        clsTime time;
-        bool flagTime;
+        clsTime m_time;
+        bool m_flagTime;
 
 
-        bool flagChangeNumber;
+        bool m_flagChangeNumber;
         
 
-        InputAction pauseAction;
+        InputAction m_pauseAction;
         
         #endregion
 
@@ -64,11 +64,11 @@ namespace Game_Sudoku.Screens
             
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
-            v2 = new Vector2(0,0);
-            vTime = new Vector2(630, 320);
-            pauseAction = new InputAction(null,new Keys[]{ Keys.Escape}, true);
-            flagTime = true;
-            time = new clsTime();
+            m_v2 = new Vector2(0,0);
+            m_vTime = new Vector2(630, 320);
+            m_pauseAction = new InputAction(null,new Keys[]{ Keys.Escape}, true);
+            m_flagTime = true;
+            m_time = new clsTime();
             
             
         }
@@ -84,39 +84,37 @@ namespace Game_Sudoku.Screens
                 if (content == null)
                     content = new ContentManager(ScreenManager.Game.Services, "Content");
 
-                gameFont = content.Load<SpriteFont>("gamefont");
-                gameFontError = content.Load<SpriteFont>("gameerror");
-                gamescreenBG = content.Load<Texture2D>("Background/gamescreenBG");
+                m_gameFont = content.Load<SpriteFont>("gamefont");
+                m_gameFontError = content.Load<SpriteFont>("gameerror");
+                m_gamescreenBG = content.Load<Texture2D>("Background/gamescreenBG");
                 m_timefont = content.Load<SpriteFont>("timefont");
-                finishsound = content.Load<SoundEffect>("Sound/finish");
+                m_finishSound = content.Load<SoundEffect>("Sound/finish");
                 //Load Map
-                Mapdemo = new Map.Map();
+                
+                
+                m_solveSudoku = new Xuly.Sudoku();
                 for (int i = 0; i < 9; i++)
                 {
                     for (int j = 0; j < 9; j++)
                     {
-                        LockMatrixNumber[i, j] = (int)Mapdemo.MatrixMap[i, j];
+                        m_lockMatrixNumber[i, j] = m_solveSudoku.m_Sudoku[i, j];
                     }
 
                 }
-                solvesudoku = new Xuly.clsSudoku();
-                if(solvesudoku.solve())
-                {                    
-                solvesudoku.showsolve();
-                Mapdemo.MatrixMap = solvesudoku.Mapsolve;
-                finishsound.Play();
-                }
-                else
-                {
-                    errorsoduku = "Sudoku Error: Your sudoku has errors";
-                }
+                //if(m_solveSudoku.Solve())
+                //{                    
+                //    m_solveSudoku.ShowSolve();
+                //    m_mapDemo.m_matrixMap = m_solveSudoku.m_Sudoku;
+                //    m_finishSound.Play();
+                //}
+                //else
+                //{
+                //    m_errorSudoku = "Sudoku Error: Your sudoku has errors";
+                //}
                 
                 
             
-                // A real game would probably have more content than this sample, so
-                // it would take longer to load. We simulate that by delaying for a
-                // while, giving you a chance to admire the beautiful loading screen.
-
+               
                 
                 //Thread.Sleep(this.TransitionOnTime);
 
@@ -151,45 +149,36 @@ namespace Game_Sudoku.Screens
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
             
-            // bắt sự kiện chuột
+            // catch the mouse events
             mouseStateCurrent = Mouse.GetState();
             if (mouseStateCurrent.LeftButton == ButtonState.Pressed &&
                 mouseStatePrevious.LeftButton == ButtonState.Released)
             {
-                v2.X = (float)mouseStateCurrent.X;
-                v2.Y = (float)mouseStateCurrent.Y;
-                flagChangeNumber = true;
+                m_v2.X = (float)mouseStateCurrent.X;
+                m_v2.Y = (float)mouseStateCurrent.Y;
+                m_flagChangeNumber = true;
             }
 
             mouseStatePrevious = mouseStateCurrent;
             
             // Draw timer
-            time.IncreaseTime(gameTime);
-
-            
-            
-
-            //
+            m_time.IncreaseTime(gameTime);
             base.Update(gameTime, otherScreenHasFocus, false);
 
             // Gradually fade in or out depending on whether we are covered by the pause screen.
             if (coveredByOtherScreen)
             {
-                pauseAlpha = Math.Min(pauseAlpha + 1f / 32, 1);
+                m_pauseAlpha = Math.Min(m_pauseAlpha + 1f / 32, 1);
             }
             else
             {
-                pauseAlpha = Math.Max(pauseAlpha - 1f / 32, 0);
+                m_pauseAlpha = Math.Max(m_pauseAlpha - 1f / 32, 0);
             }
 
             //if (IsActive)
             //{
             //    // Apply some random jutter to make the enemy move around
             //}
-
-            
-            
-           
         }
 
         /// <summary>
@@ -209,10 +198,10 @@ namespace Game_Sudoku.Screens
 
 
             PlayerIndex player;
-            if (pauseAction.Evaluate(input, ControllingPlayer, out player))
+            if (m_pauseAction.Evaluate(input, ControllingPlayer, out player))
             {
                 ScreenManager.AddScreen(new PauseMenuScreen(), ControllingPlayer);
-                flagTime = false;
+                m_flagTime = false;
             }
             else
             {
@@ -226,25 +215,25 @@ namespace Game_Sudoku.Screens
         {
             
             ScreenManager.GraphicsDevice.Clear(ClearOptions.Target, Color.CornflowerBlue, 0, 0);
-            spriteBatch = ScreenManager.SpriteBatch;
+            m_spriteBatch = ScreenManager.SpriteBatch;
             
-            spriteBatch.Begin();
+            m_spriteBatch.Begin();
 
-            spriteBatch.Draw(gamescreenBG, new Vector2(0, 0), Color.White);
-            spriteBatch.DrawString(m_timefont, time.getTime(), new Vector2(630, 318), Color.White);
+            m_spriteBatch.Draw(m_gamescreenBG, new Vector2(0, 0), Color.White);
+            m_spriteBatch.DrawString(m_timefont, m_time.getTime(), new Vector2(630, 318), Color.White);
             DrawMatrix();
-            spriteBatch.DrawString(gameFont, "Mouse", v2, Color.White);
-            if (!solvesudoku.solve())
-            {
-                spriteBatch.DrawString(gameFontError, errorsoduku, new Vector2(0,0), Color.Yellow);
-            }
+            m_spriteBatch.DrawString(m_gameFont, "Mouse", m_v2, Color.White);
+            //if (!m_solveSudoku.Solve())
+            //{
+            //    m_spriteBatch.DrawString(m_gameFontError, m_errorSudoku, new Vector2(0,0), Color.Yellow);
+            //}
             
-            spriteBatch.End();
+            m_spriteBatch.End();
 
             // If the game is transitioning on or Off, it out to black
-            if (TransitionPosition > 0 || pauseAlpha >0)
+            if (TransitionPosition > 0 || m_pauseAlpha >0)
             {
-                float alpha = MathHelper.Lerp(1f - TransitionAlpha, 1f, pauseAlpha / 2);
+                float alpha = MathHelper.Lerp(1f - TransitionAlpha, 1f, m_pauseAlpha / 2);
                 ScreenManager.FadeBackBufferToBlack(alpha);
 
             }
@@ -259,22 +248,24 @@ namespace Game_Sudoku.Screens
             {
                 for (int j = 0; j < 9; j++)
                 {
-                    if (LockMatrixNumber[j, i] != 0)
+                    if (m_lockMatrixNumber[j, i] != 0)
                     {
                         SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
-                        string a = LockMatrixNumber[j, i].ToString();
+                        string a = m_lockMatrixNumber[j, i].ToString();
                         float x = (i * 60) + 50;
                         float y = (j * 60) + 30;
-                        spriteBatch.DrawString(gameFont, a, new Vector2(x, y), Color.Blue);
+                        spriteBatch.DrawString(m_gameFont, a, new Vector2(x, y), Color.Blue);
                     }
 
-                    if (LockMatrixNumber[j, i] == 0 && Mapdemo.MatrixMap[j, i] != 0)
+                    //if (m_lockMatrixNumber[j, i] == 0 &&  m_mapDemo.m_matrixMap[j, i] != 0)
+                    if (m_lockMatrixNumber[j, i] == 0 && m_solveSudoku.m_Sudoku[j, i] != 0)
                     {
                         SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
-                        string a = Mapdemo.MatrixMap[j, i].ToString();
+                        //string a = m_mapDemo.m_matrixMap[j, i].ToString();
+                        string a = m_solveSudoku.m_Sudoku[j, i].ToString();
                         float x = (i * 60) + 50;
                         float y = (j * 60) + 30;
-                        spriteBatch.DrawString(gameFont, a, new Vector2(x, y), Color.White);
+                        spriteBatch.DrawString(m_gameFont, a, new Vector2(x, y), Color.White);
                     }
 
 
@@ -287,23 +278,25 @@ namespace Game_Sudoku.Screens
         }
         public void ChangeNumber()
         {
-            float x = (v2.X - 30) / 60;
-            float y = (v2.Y - 30) / 60;
-            if (flagChangeNumber == true)
+            float x = (m_v2.X - 30) / 60;
+            float y = (m_v2.Y - 30) / 60;
+            if (m_flagChangeNumber == true)
             {
                 if (x >= 0 && x <= 9)
                 {
                     if (y >= 0 && y <= 9)
                     {
-                        if (LockMatrixNumber[(int)y, (int)x] == 0)
+                        if (m_lockMatrixNumber[(int)y, (int)x] == 0)
                         {
-                            int numbercurrent = (int)Mapdemo.MatrixMap[(int)y, (int)x];
+                            //int numbercurrent = (int)m_mapDemo.m_matrixMap[(int)y, (int)x];
+                            int numbercurrent = m_solveSudoku.m_Sudoku[(int)y, (int)x];
                             if (numbercurrent == 9)
                             {
                                 numbercurrent = 0;
                             }
-                            Mapdemo.MatrixMap[(int)y, (int)x] = numbercurrent + 1;
-                            flagChangeNumber = false;
+                            //m_mapDemo.m_matrixMap[(int)y, (int)x] = numbercurrent + 1;
+                            m_solveSudoku.m_Sudoku[(int)y, (int)x] = numbercurrent + 1;
+                            m_flagChangeNumber = false;
                         }
 
                     }
