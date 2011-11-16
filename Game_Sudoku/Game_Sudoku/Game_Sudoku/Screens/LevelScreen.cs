@@ -50,17 +50,20 @@ namespace Game_Sudoku.Screens
 
         void EasyMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-
+            Map.Level.m_level = 0;
+            LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new GameplayScreen());
         }
 
         void MediumMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-
+            Map.Level.m_level = 1;
+            LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new GameplayScreen());
         }
 
         void HardMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-
+            Map.Level.m_level = 2;
+            LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new GameplayScreen());
         }
         #endregion
     }
