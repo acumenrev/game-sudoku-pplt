@@ -108,7 +108,7 @@ namespace Game_Sudoku.Screens
                 }
                 else
                 {
-                    errorsoduku = "Sudoku Error: Your Map have errors";
+                    errorsoduku = "Sudoku Error: Your sudoku has errors";
                 }
                 
                 
