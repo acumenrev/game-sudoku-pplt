@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 
+
 namespace Game_Sudoku.Screens
 {
     /// <summary>
@@ -22,7 +23,7 @@ namespace Game_Sudoku.Screens
             MenuEntry playerGameMenuEntry = new MenuEntry("New Game");
             MenuEntry optionsMenuEntry = new MenuEntry("Options");
             MenuEntry exitMenuEntry = new MenuEntry("Exit");
-
+           
             // Hook up menu event handlers
             playerGameMenuEntry.Selected += PlayGameMenuEntrySelected;
             optionsMenuEntry.Selected += OptionsMenuEntrySelected;

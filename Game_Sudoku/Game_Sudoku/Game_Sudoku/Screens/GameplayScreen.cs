@@ -24,6 +24,7 @@ namespace Game_Sudoku.Screens
         ContentManager content;
         SpriteFont gameFont;
         SpriteFont m_timefont;
+        SpriteFont gameFontError;
         Texture2D gamescreenBG;
         SpriteBatch spriteBatch;
         Map.Map Mapdemo;
@@ -33,6 +34,7 @@ namespace Game_Sudoku.Screens
         Vector2 vTime;
         Xuly.clsSudoku solvesudoku;
         SoundEffect finishsound;
+        string errorsoduku;
         //Vector2 playerPosition = new Vector2(100, 100);
         //Vector2 enemyPosition = new Vector2(100, 100);
 
@@ -83,6 +85,7 @@ namespace Game_Sudoku.Screens
                     content = new ContentManager(ScreenManager.Game.Services, "Content");
 
                 gameFont = content.Load<SpriteFont>("gamefont");
+                gameFontError = content.Load<SpriteFont>("gameerror");
                 gamescreenBG = content.Load<Texture2D>("Background/gamescreenBG");
                 m_timefont = content.Load<SpriteFont>("timefont");
                 finishsound = content.Load<SoundEffect>("Sound/finish");
@@ -97,10 +100,17 @@ namespace Game_Sudoku.Screens
 
                 }
                 solvesudoku = new Xuly.clsSudoku();
-                solvesudoku.solve();
+                if(solvesudoku.solve())
+                {                    
                 solvesudoku.showsolve();
                 Mapdemo.MatrixMap = solvesudoku.Mapsolve;
                 finishsound.Play();
+                }
+                else
+                {
+                    errorsoduku = "Sudoku Error: Your Map have errors";
+                }
+                
                 
             
                 // A real game would probably have more content than this sample, so
@@ -224,6 +234,10 @@ namespace Game_Sudoku.Screens
             spriteBatch.DrawString(m_timefont, time.getTime(), new Vector2(630, 318), Color.White);
             DrawMatrix();
             spriteBatch.DrawString(gameFont, "Mouse", v2, Color.White);
+            if (!solvesudoku.solve())
+            {
+                spriteBatch.DrawString(gameFontError, errorsoduku, new Vector2(0,0), Color.Yellow);
+            }
             
             spriteBatch.End();
 
@@ -251,7 +265,7 @@ namespace Game_Sudoku.Screens
                         string a = LockMatrixNumber[j, i].ToString();
                         float x = (i * 60) + 50;
                         float y = (j * 60) + 30;
-                        spriteBatch.DrawString(gameFont, a, new Vector2(x, y), Color.Red);
+                        spriteBatch.DrawString(gameFont, a, new Vector2(x, y), Color.Blue);
                     }
 
                     if (LockMatrixNumber[j, i] == 0 && Mapdemo.MatrixMap[j, i] != 0)

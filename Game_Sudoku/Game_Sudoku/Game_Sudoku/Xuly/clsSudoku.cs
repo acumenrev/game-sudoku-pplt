@@ -94,6 +94,7 @@ namespace Game_Sudoku.Xuly
             int tongsophantu = 10;
             int[] daysotam = null;
 
+
             for (int i = 0; i < 9; i++)
             {
                 for (int j = 0; j < 9; j++)
@@ -105,10 +106,15 @@ namespace Game_Sudoku.Xuly
                         // xoa nhung so' trong M ma` trung` voi'cac hang , cot trong v3
                         for (int k = 0; k < 9; k++)
                         {
-                            M[(int)v3[k, j].Z] = 0;
+                            
                             M[(int)v3[i, k].Z] = 0;
                         }
 
+                        for (int l = 0; l < 9; l++)
+                        {
+
+                            M[(int)v3[l, j].Z] = 0;
+                        }
                         // xoa nhung so trong M ma` trung` voi mien vi tri dang xet trong v3
                         checkfield(M, i, j);
 
