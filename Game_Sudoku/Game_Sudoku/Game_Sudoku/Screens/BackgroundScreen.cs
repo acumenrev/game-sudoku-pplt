@@ -5,6 +5,8 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Input;
 using GameStateManagement;
 
 namespace Game_Sudoku.Screens
@@ -19,6 +21,9 @@ namespace Game_Sudoku.Screens
         #region Fields
         ContentManager content;
         Texture2D backgroundTexture;
+        SoundEffect ButtonSound;
+
+        
         #endregion
 
         #region Initialization
@@ -27,6 +32,7 @@ namespace Game_Sudoku.Screens
         {
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
+
         }
 
         /// <summary>
@@ -44,6 +50,7 @@ namespace Game_Sudoku.Screens
                 {
                     content = new ContentManager(ScreenManager.Game.Services, "Content");
                     backgroundTexture = content.Load<Texture2D>("background"); // load an image with name "background"
+                    ButtonSound = content.Load<SoundEffect>("Sound/buttonpush");
 
                 }
             }
@@ -52,13 +59,19 @@ namespace Game_Sudoku.Screens
 
         /// <summary>
         /// Unloads graphics content for this screen.
+        /// 
+        /// 
         /// </summary>
         public override void Unload()
         {
             content.Unload();
+          
+            
         }
 
         #endregion
+
+     
 
         #region Update and Draw
 

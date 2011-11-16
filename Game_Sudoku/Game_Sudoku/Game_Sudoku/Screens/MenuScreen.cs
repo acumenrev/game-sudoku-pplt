@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 using GameStateManagement;
 
 namespace Game_Sudoku.Screens
@@ -20,7 +21,7 @@ namespace Game_Sudoku.Screens
         List<MenuEntry> menuEntries = new List<MenuEntry>();
         int selectedEntry = 0;
         string menuTitle = "TNTSUDOKU";
-
+        
         InputAction menuUp;
         InputAction menuDown;
         InputAction menuSelect;
@@ -49,7 +50,7 @@ namespace Game_Sudoku.Screens
         {
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
-
+            
             menuUp = new InputAction(null, new Keys[]{Keys.Up},true);
 
             menuDown = new InputAction(null, new Keys[] { Keys.Down }, true);
@@ -202,7 +203,7 @@ namespace Game_Sudoku.Screens
             GraphicsDevice graphics = ScreenManager.GraphicsDevice;
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
             SpriteFont font = ScreenManager.Font;
-
+            
             spriteBatch.Begin();
 
             // Draw each menu entry in turn
