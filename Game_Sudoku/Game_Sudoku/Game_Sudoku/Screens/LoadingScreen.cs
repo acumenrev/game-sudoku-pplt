@@ -26,10 +26,10 @@ namespace Game_Sudoku
     {
         #region Fields
 
-        bool loadingIsSlow;
-        bool otherScreenAreGone;
+        bool m_loadingIsSlow;
+        bool m_otherScreenAreGone;
 
-        GameScreen[] screensToLoad;
+        GameScreen[] m_screensToLoad;
 
         #endregion
 
@@ -37,8 +37,8 @@ namespace Game_Sudoku
 
         private LoadingScreen(ScreenManager screenManager, bool loadingIsSlow, GameScreen[] screensToLoad)
         {
-            this.loadingIsSlow = loadingIsSlow;
-            this.screensToLoad = screensToLoad;
+            this.m_loadingIsSlow = loadingIsSlow;
+            this.m_screensToLoad = screensToLoad;
 
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
         }
@@ -71,11 +71,11 @@ namespace Game_Sudoku
 
             // If all the previous screens have finished transitioning
             // off, it is time to actually perform the load.
-            if (otherScreenAreGone)
+            if (m_otherScreenAreGone)
             {
                 ScreenManager.RemoveScreen(this);
 
-                foreach (GameScreen screen in screensToLoad)
+                foreach (GameScreen screen in m_screensToLoad)
                 {
                     if (screen != null)
                     {
@@ -103,7 +103,7 @@ namespace Game_Sudoku
             // have actually drawn a frame without them before we perform the load.
             if ((ScreenState == ScreenState.Active) && (ScreenManager.GetScreens().Length == 1))
             {
-                otherScreenAreGone = true;
+                m_otherScreenAreGone = true;
             }
             base.Draw(gameTime);
 
@@ -113,7 +113,7 @@ namespace Game_Sudoku
             // second while returning from the game to the menus. This parameter
             // tells us how long the loading is going to take, so we know whether
             // to bother drawing the message.
-            if (loadingIsSlow)
+            if (m_loadingIsSlow)
             {
                 SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
                 SpriteFont font = ScreenManager.Font;

@@ -18,11 +18,11 @@ namespace Game_Sudoku.Screens
     {
         #region Fields
 
-        string message;
-        Texture2D gradientTexture;
+        string m_message;
+        Texture2D m_gradientTexture;
 
-        InputAction menuSelect;
-        InputAction menuCancel;
+        InputAction m_menuSelect;
+        InputAction m_menuCancel;
         #endregion
 
         #region Events
@@ -49,11 +49,11 @@ namespace Game_Sudoku.Screens
             const string usageText = " \nEnter = OK\nEsc = Cancel";
             if (includeUseageText)
             {
-                this.message = msg + usageText;
+                this.m_message = msg + usageText;
             }
             else
             {
-                this.message = msg;
+                this.m_message = msg;
             }
 
             IsPopup = true;
@@ -61,8 +61,8 @@ namespace Game_Sudoku.Screens
             TransitionOnTime = TimeSpan.FromSeconds(0.2);
             TransitionOnTime = TimeSpan.FromSeconds(0.2);
 
-            menuSelect = new InputAction(null, new Keys[] { Keys.Enter }, true);
-            menuCancel = new InputAction(null, new Keys[] { Keys.Escape }, true);
+            m_menuSelect = new InputAction(null, new Keys[] { Keys.Enter }, true);
+            m_menuCancel = new InputAction(null, new Keys[] { Keys.Escape }, true);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Game_Sudoku.Screens
             if (!instancePreserved)
             {
                 ContentManager content = ScreenManager.Game.Content;
-                gradientTexture = content.Load<Texture2D>("gradient");
+                m_gradientTexture = content.Load<Texture2D>("gradient");
             }
             
         }
@@ -96,7 +96,7 @@ namespace Game_Sudoku.Screens
             // controlling player, the InputState helper returns to us which player
             // actually provided the input. We pass that through to our Accepted and
             // Cancelled events, so they can tell which player triggered them.
-            if (menuSelect.Evaluate(input, ControllingPlayer, out playerIndex))
+            if (m_menuSelect.Evaluate(input, ControllingPlayer, out playerIndex))
             {
                 // Raise the accepted event, then exit the message box.
                 if (Accepted != null)
@@ -108,7 +108,7 @@ namespace Game_Sudoku.Screens
             }
             else
             {
-                if (menuCancel.Evaluate(input, ControllingPlayer, out playerIndex))
+                if (m_menuCancel.Evaluate(input, ControllingPlayer, out playerIndex))
                 {
                     // Raise the cancelled event, then exit the message box
                     if (Cancelled != null)
@@ -138,7 +138,7 @@ namespace Game_Sudoku.Screens
             // Center the message text in the viewport
             Viewport viewport = ScreenManager.GraphicsDevice.Viewport;
             Vector2 viewportSize = new Vector2(viewport.Width, viewport.Width);
-            Vector2 textSize = font.MeasureString(message);
+            Vector2 textSize = font.MeasureString(m_message);
             Vector2 textPostion = (viewportSize - textSize) / 2;
 
             // the background includes a border somewhat larger than the text itself
@@ -156,9 +156,9 @@ namespace Game_Sudoku.Screens
             spriteBatch.Begin();
 
             // Draw the background rectangle
-            spriteBatch.Draw(gradientTexture, backgroundRectangle, color);
+            spriteBatch.Draw(m_gradientTexture, backgroundRectangle, color);
 
-            spriteBatch.DrawString(font, message, textPostion, color);
+            spriteBatch.DrawString(font, m_message, textPostion, color);
             spriteBatch.End();
             base.Draw(gameTime);
         }

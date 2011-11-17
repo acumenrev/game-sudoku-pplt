@@ -20,8 +20,8 @@ namespace Game_Sudoku.Screens
     {
         #region Fields
         ContentManager content;
-        Texture2D backgroundTexture;
-        SoundEffect ButtonSound;
+        Texture2D m_backgroundTexture;
+        SoundEffect m_buttonSound;
 
         
         #endregion
@@ -49,8 +49,8 @@ namespace Game_Sudoku.Screens
                 if (content == null)
                 {
                     content = new ContentManager(ScreenManager.Game.Services, "Content");
-                    backgroundTexture = content.Load<Texture2D>("background"); // load an image with name "background"
-                    ButtonSound = content.Load<SoundEffect>("Sound/buttonpush");
+                    m_backgroundTexture = content.Load<Texture2D>("background"); // load an image with name "background"
+                    m_buttonSound = content.Load<SoundEffect>("Sound/buttonpush");
 
                 }
             }
@@ -99,7 +99,7 @@ namespace Game_Sudoku.Screens
 
             spriteBatch.Begin();
 
-            spriteBatch.Draw(backgroundTexture, fullScreen, new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
+            spriteBatch.Draw(m_backgroundTexture, fullScreen, new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
 
             spriteBatch.End();
         }
