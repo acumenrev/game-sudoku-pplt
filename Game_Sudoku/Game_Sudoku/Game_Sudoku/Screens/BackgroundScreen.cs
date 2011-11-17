@@ -119,7 +119,10 @@ namespace Game_Sudoku.Screens
             {
                 if (m_KeyboardEvent.IsKeyUp(Keys.Up) && m_KeyboardEvent.IsKeyUp(Keys.Down) && m_KeyboardEvent.IsKeyUp(Keys.Enter))
                 {
-                    m_buttonSound.Play();
+                    if (OptionsMenuScreen.m_bSound == true)
+                    {
+                        m_buttonSound.Play();
+                    }
                     m_flagsound = false;
 
                 }
