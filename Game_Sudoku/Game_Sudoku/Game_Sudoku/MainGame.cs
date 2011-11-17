@@ -17,18 +17,18 @@ namespace Game_Sudoku
     /// </summary>
     public class MainGame : Microsoft.Xna.Framework.Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        ScreenManager screenManager;
-        ScreenFactory screenFactory;
+        GraphicsDeviceManager m_graphics;
+        SpriteBatch m_spriteBatch;
+        ScreenManager m_screenManager;
+        ScreenFactory m_screenFactory;
 
         public MainGame()
         {
-            
-            graphics = new GraphicsDeviceManager(this);
+
+            m_graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            graphics.PreferredBackBufferWidth = 800;
-            graphics.PreferredBackBufferHeight = 600;
+            m_graphics.PreferredBackBufferWidth = 800;
+            m_graphics.PreferredBackBufferHeight = 600;
 
             TargetElapsedTime = TimeSpan.FromTicks(333333);
            
@@ -36,12 +36,12 @@ namespace Game_Sudoku
 
 
             // Create the screen factory and add it to the Services
-            screenFactory = new ScreenFactory();
-            Services.AddService(typeof(IScreenFactory), screenFactory);
+            m_screenFactory = new ScreenFactory();
+            Services.AddService(typeof(IScreenFactory), m_screenFactory);
 
             // Create the screen manager component
-            screenManager = new ScreenManager(this);
-            Components.Add(screenManager);
+            m_screenManager = new ScreenManager(this);
+            Components.Add(m_screenManager);
 
             AddInitialScreens();
         }
@@ -49,9 +49,9 @@ namespace Game_Sudoku
         private void AddInitialScreens()
         {
             // Activate the first screens
-            screenManager.AddScreen(new Screens.BackgroundScreen(), null);
+            m_screenManager.AddScreen(new Screens.BackgroundScreen(), null);
 
-            screenManager.AddScreen(new Screens.MainMenuScreen(), null);
+            m_screenManager.AddScreen(new Screens.MainMenuScreen(), null);
 
 
         }
@@ -76,7 +76,7 @@ namespace Game_Sudoku
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            m_spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
         }
@@ -112,8 +112,8 @@ namespace Game_Sudoku
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            
-            graphics.GraphicsDevice.Clear(Color.Black);
+
+            m_graphics.GraphicsDevice.Clear(Color.Black);
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);

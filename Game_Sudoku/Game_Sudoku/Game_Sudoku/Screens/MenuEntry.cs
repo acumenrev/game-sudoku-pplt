@@ -21,7 +21,7 @@ namespace Game_Sudoku.Screens
         /// <summary>
         /// The text rendered for this entry.
         /// </summary>
-        string text;
+        string m_text;
 
         /// <summary>
         /// Tracks a fading selection effect on the entry.
@@ -29,13 +29,13 @@ namespace Game_Sudoku.Screens
         /// <remarks>
         /// The entries transition out of the selection effect when they are deselected.
         /// </remarks>
-        float selectionFade;
+        float m_selectionFade;
 
         /// <summary>
         /// The position at which the entry is drawn. This is set by the MenuScreen
         /// each frame in Update.
         /// </summary>
-        Vector2 position;
+        Vector2 m_position;
 
         #endregion
 
@@ -46,8 +46,8 @@ namespace Game_Sudoku.Screens
         /// </summary>
         public string Text
         {
-            get { return text; }
-            set { text = value; }
+            get { return m_text; }
+            set { m_text = value; }
         }
 
         /// <summary>
@@ -55,8 +55,8 @@ namespace Game_Sudoku.Screens
         /// </summary>
         public Vector2 Position
         {
-            get { return position; }
-            set { position = value; }
+            get { return m_position; }
+            set { m_position = value; }
         }
 
 
@@ -91,7 +91,7 @@ namespace Game_Sudoku.Screens
         
         public MenuEntry(string text)
         {
-            this.text = text;
+            this.m_text = text;
         }
         #endregion
 
@@ -108,12 +108,12 @@ namespace Game_Sudoku.Screens
             float fadeSpeed = (float)gameTime.ElapsedGameTime.TotalSeconds * 4;
             if (isSelected)
             {
-                selectionFade = Math.Min(selectionFade + fadeSpeed, 1);
+                m_selectionFade = Math.Min(m_selectionFade + fadeSpeed, 1);
 
             }
             else
             {
-                selectionFade = Math.Max(selectionFade - fadeSpeed, 0);
+                m_selectionFade = Math.Max(m_selectionFade - fadeSpeed, 0);
 
             }
 
@@ -132,7 +132,7 @@ namespace Game_Sudoku.Screens
 
             float pulsate = (float)Math.Sin(time * 6) + 1;
 
-            float scale = 1 + pulsate * 0.05f * selectionFade;
+            float scale = 1 + pulsate * 0.05f * m_selectionFade;
 
             // Modify the alpha to fade text out during transitions
             color *= screen.TransitionAlpha;
@@ -144,7 +144,7 @@ namespace Game_Sudoku.Screens
 
             Vector2 origin = new Vector2(0, font.LineSpacing / 2);
 
-            spriteBatch.DrawString(font, text, position, color, 0, origin, scale, SpriteEffects.None, 0);
+            spriteBatch.DrawString(font, m_text, m_position, color, 0, origin, scale, SpriteEffects.None, 0);
 
         }
 

@@ -12,13 +12,13 @@ namespace Game_Sudoku.Screens
     /// </summary>
     class PlayerIndexEventArgs : EventArgs
     {
-        PlayerIndex playerIndex;
+        PlayerIndex m_playerIndex;
         /// <summary>
         /// Constructor.
         /// </summary>
         public PlayerIndexEventArgs(PlayerIndex playerIndex)
         {
-            this.playerIndex = playerIndex;
+            this.m_playerIndex = playerIndex;
 
         }
 
@@ -27,7 +27,7 @@ namespace Game_Sudoku.Screens
         /// </summary>
         public PlayerIndex PlayerIndex
         {
-            get { return playerIndex; }
+            get { return m_playerIndex; }
         }
     }
 }

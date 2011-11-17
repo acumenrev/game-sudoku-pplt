@@ -18,14 +18,14 @@ namespace Game_Sudoku.Screens
     {
         #region Fields
 
-        List<MenuEntry> menuEntries = new List<MenuEntry>();
-        int selectedEntry = 0;
-        string menuTitle = "TNTSUDOKU";
-        
-        InputAction menuUp;
-        InputAction menuDown;
-        InputAction menuSelect;
-        InputAction menuCancel;
+        List<MenuEntry> m_menuEntries = new List<MenuEntry>();
+        int m_selectedEntry = 0;
+        string m_menuTitle = "TNTSUDOKU";
+
+        InputAction m_menuUp;
+        InputAction m_menuDown;
+        InputAction m_menuSelect;
+        InputAction m_menuCancel;
         #endregion
 
         #region Properties
@@ -39,7 +39,7 @@ namespace Game_Sudoku.Screens
         {
             get
             {
-                return menuEntries;
+                return m_menuEntries;
             }
         }
         #endregion
@@ -50,14 +50,14 @@ namespace Game_Sudoku.Screens
         {
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
-            
-            menuUp = new InputAction(null, new Keys[]{Keys.Up},true);
 
-            menuDown = new InputAction(null, new Keys[] { Keys.Down }, true);
+            m_menuUp = new InputAction(null, new Keys[] { Keys.Up }, true);
 
-            menuSelect = new InputAction(null, new Keys[] { Keys.Enter }, true);
+            m_menuDown = new InputAction(null, new Keys[] { Keys.Down }, true);
 
-            menuCancel = new InputAction(null, new Keys[] { Keys.Escape }, true);
+            m_menuSelect = new InputAction(null, new Keys[] { Keys.Enter }, true);
+
+            m_menuCancel = new InputAction(null, new Keys[] { Keys.Escape }, true);
         }
         #endregion
 
@@ -74,33 +74,33 @@ namespace Game_Sudoku.Screens
             PlayerIndex playerIndex;
             
             // Move to the previous menu entry?
-            if (menuUp.Evaluate(input, ControllingPlayer, out playerIndex))
+            if (m_menuUp.Evaluate(input, ControllingPlayer, out playerIndex))
             {
-                selectedEntry--;
+                m_selectedEntry--;
 
-                if (selectedEntry < 0)
+                if (m_selectedEntry < 0)
                 {
-                    selectedEntry = menuEntries.Count - 1;
+                    m_selectedEntry = m_menuEntries.Count - 1;
                 }
             }
 
             // Move to the next menu entry?
-            if (menuDown.Evaluate(input, ControllingPlayer, out playerIndex))
+            if (m_menuDown.Evaluate(input, ControllingPlayer, out playerIndex))
             {
-                selectedEntry++;
-                if (selectedEntry >= menuEntries.Count)
+                m_selectedEntry++;
+                if (m_selectedEntry >= m_menuEntries.Count)
                 {
-                    selectedEntry = 0;
+                    m_selectedEntry = 0;
                 }
             }
 
-            if (menuSelect.Evaluate(input, ControllingPlayer, out playerIndex))
+            if (m_menuSelect.Evaluate(input, ControllingPlayer, out playerIndex))
             {
-                OnSelectEntry(selectedEntry, playerIndex);
+                OnSelectEntry(m_selectedEntry, playerIndex);
             }
             else
             {
-                if (menuCancel.Evaluate(input, ControllingPlayer, out playerIndex))
+                if (m_menuCancel.Evaluate(input, ControllingPlayer, out playerIndex))
                 {
                     OnCancel(playerIndex);
                 }
@@ -113,7 +113,7 @@ namespace Game_Sudoku.Screens
         /// </summary>
         protected virtual void OnSelectEntry(int entryIndex, PlayerIndex playerIndex)
         {
-            menuEntries[entryIndex].OnSelectEntry(playerIndex);
+            m_menuEntries[entryIndex].OnSelectEntry(playerIndex);
         }
 
         /// <summary>
@@ -149,9 +149,9 @@ namespace Game_Sudoku.Screens
             Vector2 position = new Vector2(0f, 175f);
 
             // Update each menu entry's location in turn
-            for (int i = 0; i < menuEntries.Count; i++)
+            for (int i = 0; i < m_menuEntries.Count; i++)
             {
-                MenuEntry menuEntry = menuEntries[i];
+                MenuEntry menuEntry = m_menuEntries[i];
 
                 // each entry is to be centered horizontally
                 position.X = ScreenManager.GraphicsDevice.Viewport.Width / 2 - menuEntry.GetWidth(this) / 2;
@@ -183,11 +183,11 @@ namespace Game_Sudoku.Screens
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
 
             // Update each nested MenuEntry object
-            for (int i = 0; i < menuEntries.Count; i++)
+            for (int i = 0; i < m_menuEntries.Count; i++)
             {
-                bool isSelected = IsActive && (i == selectedEntry);
+                bool isSelected = IsActive && (i == m_selectedEntry);
 
-                menuEntries[i].Update(this, isSelected, gameTime);
+                m_menuEntries[i].Update(this, isSelected, gameTime);
 
             }
         }
@@ -207,11 +207,11 @@ namespace Game_Sudoku.Screens
             spriteBatch.Begin();
 
             // Draw each menu entry in turn
-            for (int i = 0; i < menuEntries.Count; i++)
+            for (int i = 0; i < m_menuEntries.Count; i++)
             {
-                MenuEntry menuEntry = menuEntries[i];
+                MenuEntry menuEntry = m_menuEntries[i];
 
-                bool isSelected = IsActive && (i == selectedEntry);
+                bool isSelected = IsActive && (i == m_selectedEntry);
 
                 menuEntry.Draw(this, isSelected, gameTime);
             }
@@ -222,13 +222,13 @@ namespace Game_Sudoku.Screens
             float transitionOffset = (float)Math.Pow(TransitionPosition, 2);
             // Draw the menu title centered on the screen
             Vector2 titlePosition = new Vector2(graphics.Viewport.Width / 2, 80);
-            Vector2 titleOrigin = font.MeasureString(menuTitle) / 2;
+            Vector2 titleOrigin = font.MeasureString(m_menuTitle) / 2;
             Color titleColor = new Color(192, 192, 192) * TransitionAlpha;
             float titleScale = 1.25f;
 
             titlePosition.Y -= transitionOffset * 100;
 
-            spriteBatch.DrawString(font, menuTitle, titlePosition, titleColor, 0, titleOrigin, titleScale, SpriteEffects.None, 0);
+            spriteBatch.DrawString(font, m_menuTitle, titlePosition, titleColor, 0, titleOrigin, titleScale, SpriteEffects.None, 0);
 
             spriteBatch.End();
                 
