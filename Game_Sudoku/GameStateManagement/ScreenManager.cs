@@ -34,18 +34,18 @@ namespace GameStateManagement
 
         private const string StateFilename = "ScreenManagerState.xml";
 
-        List<GameScreen> screens = new List<GameScreen>();
-        List<GameScreen> tempScreensList = new List<GameScreen>();
+        List<GameScreen> m_screens = new List<GameScreen>();
+        List<GameScreen> m_tempScreensList = new List<GameScreen>();
 
-        InputState input = new InputState();
+        InputState m_input = new InputState();
 
-        SpriteBatch spriteBatch;
-        SpriteFont font;
-        Texture2D blankTexture;
+        SpriteBatch m_spriteBatch;
+        SpriteFont m_font;
+        Texture2D m_blankTexture;
 
-        bool isInitialized;
+        bool m_isInitialized;
 
-        bool traceEnabled;
+        bool m_traceEnabled;
 
         #endregion
 
@@ -58,7 +58,7 @@ namespace GameStateManagement
         /// </summary>
         public SpriteBatch SpriteBatch
         {
-            get { return spriteBatch; }
+            get { return m_spriteBatch; }
         }
 
 
@@ -68,7 +68,7 @@ namespace GameStateManagement
         /// </summary>
         public SpriteFont Font
         {
-            get { return font; }
+            get { return m_font; }
         }
 
 
@@ -79,8 +79,8 @@ namespace GameStateManagement
         /// </summary>
         public bool TraceEnabled
         {
-            get { return traceEnabled; }
-            set { traceEnabled = value; }
+            get { return m_traceEnabled; }
+            set { m_traceEnabled = value; }
         }
 
 
@@ -89,7 +89,7 @@ namespace GameStateManagement
         /// </summary>
         public Texture2D BlankTexture
         {
-            get { return blankTexture; }
+            get { return m_blankTexture; }
         }
 
 
@@ -117,7 +117,7 @@ namespace GameStateManagement
         {
             base.Initialize();
 
-            isInitialized = true;
+            m_isInitialized = true;
         }
 
 
@@ -129,12 +129,12 @@ namespace GameStateManagement
             // Load content belonging to the screen manager.
             ContentManager content = Game.Content;
 
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-            font = content.Load<SpriteFont>("menufont");
-            blankTexture = content.Load<Texture2D>("blank");
+            m_spriteBatch = new SpriteBatch(GraphicsDevice);
+            m_font = content.Load<SpriteFont>("menufont");
+            m_blankTexture = content.Load<Texture2D>("blank");
 
             // Tell each of the screens to load their content.
-            foreach (GameScreen screen in screens)
+            foreach (GameScreen screen in m_screens)
             {
                 screen.Activate(false);
             }
@@ -147,7 +147,7 @@ namespace GameStateManagement
         protected override void UnloadContent()
         {
             // Tell each of the screens to unload their content.
-            foreach (GameScreen screen in screens)
+            foreach (GameScreen screen in m_screens)
             {
                 screen.Unload();
             }
@@ -165,25 +165,25 @@ namespace GameStateManagement
         public override void Update(GameTime gameTime)
         {
             // Read the keyboard and gamepad.
-            input.Update();
+            m_input.Update();
 
             // Make a copy of the master screen list, to avoid confusion if
             // the process of updating one screen adds or removes others.
-            tempScreensList.Clear();
+            m_tempScreensList.Clear();
 
-            foreach (GameScreen screen in screens)
-                tempScreensList.Add(screen);
+            foreach (GameScreen screen in m_screens)
+                m_tempScreensList.Add(screen);
 
             bool otherScreenHasFocus = !Game.IsActive;
             bool coveredByOtherScreen = false;
 
             // Loop as long as there are screens waiting to be updated.
-            while (tempScreensList.Count > 0)
+            while (m_tempScreensList.Count > 0)
             {
                 // Pop the topmost screen off the waiting list.
-                GameScreen screen = tempScreensList[tempScreensList.Count - 1];
+                GameScreen screen = m_tempScreensList[m_tempScreensList.Count - 1];
 
-                tempScreensList.RemoveAt(tempScreensList.Count - 1);
+                m_tempScreensList.RemoveAt(m_tempScreensList.Count - 1);
 
                 // Update the screen.
                 screen.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
@@ -195,7 +195,7 @@ namespace GameStateManagement
                     // give it a chance to handle input.
                     if (!otherScreenHasFocus)
                     {
-                        screen.HandleInput(gameTime, input);
+                        screen.HandleInput(gameTime, m_input);
 
                         otherScreenHasFocus = true;
                     }
@@ -208,7 +208,7 @@ namespace GameStateManagement
             }
 
             // Print debug trace?
-            if (traceEnabled)
+            if (m_traceEnabled)
                 TraceScreens();
         }
 
@@ -220,7 +220,7 @@ namespace GameStateManagement
         {
             List<string> screenNames = new List<string>();
 
-            foreach (GameScreen screen in screens)
+            foreach (GameScreen screen in m_screens)
                 screenNames.Add(screen.GetType().Name);
 
             Debug.WriteLine(string.Join(", ", screenNames.ToArray()));
@@ -232,7 +232,7 @@ namespace GameStateManagement
         /// </summary>
         public override void Draw(GameTime gameTime)
         {
-            foreach (GameScreen screen in screens)
+            foreach (GameScreen screen in m_screens)
             {
                 if (screen.ScreenState == ScreenState.Hidden)
                     continue;
@@ -257,12 +257,12 @@ namespace GameStateManagement
             screen.IsExiting = false;
 
             // If we have a graphics device, tell the screen to load content.
-            if (isInitialized)
+            if (m_isInitialized)
             {
                 screen.Activate(false);
             }
 
-            screens.Add(screen);
+            m_screens.Add(screen);
 
             // update the TouchPanel to respond to gestures this screen is interested in
             //TouchPanel.EnabledGestures = screen.EnabledGestures;
@@ -278,17 +278,17 @@ namespace GameStateManagement
         public void RemoveScreen(GameScreen screen)
         {
             // If we have a graphics device, tell the screen to unload content.
-            if (isInitialized)
+            if (m_isInitialized)
             {
                 screen.Unload();
             }
 
-            screens.Remove(screen);
-            tempScreensList.Remove(screen);
+            m_screens.Remove(screen);
+            m_tempScreensList.Remove(screen);
 
             // if there is a screen still in the manager, update TouchPanel
             // to respond to gestures that screen is interested in.
-            if (screens.Count > 0)
+            if (m_screens.Count > 0)
             {
                 //TouchPanel.EnabledGestures = screens[screens.Count - 1].EnabledGestures;
             }
@@ -302,7 +302,7 @@ namespace GameStateManagement
         /// </summary>
         public GameScreen[] GetScreens()
         {
-            return screens.ToArray();
+            return m_screens.ToArray();
         }
 
 
@@ -312,9 +312,9 @@ namespace GameStateManagement
         /// </summary>
         public void FadeBackBufferToBlack(float alpha)
         {
-            spriteBatch.Begin();
-            spriteBatch.Draw(blankTexture, GraphicsDevice.Viewport.Bounds, Color.Black * alpha);
-            spriteBatch.End();
+            m_spriteBatch.Begin();
+            m_spriteBatch.Draw(m_blankTexture, GraphicsDevice.Viewport.Bounds, Color.Black * alpha);
+            m_spriteBatch.End();
         }
 
         /// <summary>

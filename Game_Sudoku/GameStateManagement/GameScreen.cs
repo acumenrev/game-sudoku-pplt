@@ -44,11 +44,11 @@ namespace GameStateManagement
         /// </summary>
         public bool IsPopup
         {
-            get { return isPopup; }
-            protected set { isPopup = value; }
+            get { return m_isPopup; }
+            protected set { m_isPopup = value; }
         }
 
-        bool isPopup = false;
+        bool m_isPopup = false;
 
 
         /// <summary>
@@ -57,11 +57,11 @@ namespace GameStateManagement
         /// </summary>
         public TimeSpan TransitionOnTime
         {
-            get { return transitionOnTime; }
-            protected set { transitionOnTime = value; }
+            get { return m_transitionOnTime; }
+            protected set { m_transitionOnTime = value; }
         }
 
-        TimeSpan transitionOnTime = TimeSpan.Zero;
+        TimeSpan m_transitionOnTime = TimeSpan.Zero;
 
 
         /// <summary>
@@ -70,11 +70,11 @@ namespace GameStateManagement
         /// </summary>
         public TimeSpan TransitionOffTime
         {
-            get { return transitionOffTime; }
-            protected set { transitionOffTime = value; }
+            get { return m_transitionOffTime; }
+            protected set { m_transitionOffTime = value; }
         }
 
-        TimeSpan transitionOffTime = TimeSpan.Zero;
+        TimeSpan m_transitionOffTime = TimeSpan.Zero;
 
 
         /// <summary>
@@ -84,11 +84,11 @@ namespace GameStateManagement
         /// </summary>
         public float TransitionPosition
         {
-            get { return transitionPosition; }
-            protected set { transitionPosition = value; }
+            get { return m_transitionPosition; }
+            protected set { m_transitionPosition = value; }
         }
 
-        float transitionPosition = 1;
+        float m_transitionPosition = 1;
 
 
         /// <summary>
@@ -107,11 +107,11 @@ namespace GameStateManagement
         /// </summary>
         public ScreenState ScreenState
         {
-            get { return screenState; }
-            protected set { screenState = value; }
+            get { return m_screenState; }
+            protected set { m_screenState = value; }
         }
 
-        ScreenState screenState = ScreenState.TransitionOn;
+        ScreenState m_screenState = ScreenState.TransitionOn;
 
 
         /// <summary>
@@ -124,11 +124,11 @@ namespace GameStateManagement
         /// </summary>
         public bool IsExiting
         {
-            get { return isExiting; }
-            protected internal set { isExiting = value; }
+            get { return m_isExiting; }
+            protected internal set { m_isExiting = value; }
         }
 
-        bool isExiting = false;
+        bool m_isExiting = false;
 
 
         /// <summary>
@@ -138,13 +138,13 @@ namespace GameStateManagement
         {
             get
             {
-                return !otherScreenHasFocus &&
-                       (screenState == ScreenState.TransitionOn ||
-                        screenState == ScreenState.Active);
+                return !m_otherScreenHasFocus &&
+                       (m_screenState == ScreenState.TransitionOn ||
+                        m_screenState == ScreenState.Active);
             }
         }
 
-        bool otherScreenHasFocus;
+        bool m_otherScreenHasFocus;
 
 
         /// <summary>
@@ -152,11 +152,11 @@ namespace GameStateManagement
         /// </summary>
         public ScreenManager ScreenManager
         {
-            get { return screenManager; }
-            internal set { screenManager = value; }
+            get { return m_screenManager; }
+            internal set { m_screenManager = value; }
         }
 
-        ScreenManager screenManager;
+        ScreenManager m_screenManager;
 
 
         /// <summary>
@@ -169,11 +169,11 @@ namespace GameStateManagement
         /// </summary>
         public PlayerIndex? ControllingPlayer
         {
-            get { return controllingPlayer; }
-            internal set { controllingPlayer = value; }
+            get { return m_controllingPlayer; }
+            internal set { m_controllingPlayer = value; }
         }
 
-        PlayerIndex? controllingPlayer;
+        PlayerIndex? m_controllingPlayer;
 
 
         /// <summary>
@@ -248,14 +248,14 @@ namespace GameStateManagement
         /// </summary>
         public virtual void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
-            this.otherScreenHasFocus = otherScreenHasFocus;
+            this.m_otherScreenHasFocus = otherScreenHasFocus;
 
-            if (isExiting)
+            if (m_isExiting)
             {
                 // If the screen is going away to die, it should transition off.
-                screenState = ScreenState.TransitionOff;
+                m_screenState = ScreenState.TransitionOff;
 
-                if (!UpdateTransition(gameTime, transitionOffTime, 1))
+                if (!UpdateTransition(gameTime, m_transitionOffTime, 1))
                 {
                     // When the transition finishes, remove the screen.
                     ScreenManager.RemoveScreen(this);
@@ -264,29 +264,29 @@ namespace GameStateManagement
             else if (coveredByOtherScreen)
             {
                 // If the screen is covered by another, it should transition off.
-                if (UpdateTransition(gameTime, transitionOffTime, 1))
+                if (UpdateTransition(gameTime, m_transitionOffTime, 1))
                 {
                     // Still busy transitioning.
-                    screenState = ScreenState.TransitionOff;
+                    m_screenState = ScreenState.TransitionOff;
                 }
                 else
                 {
                     // Transition finished!
-                    screenState = ScreenState.Hidden;
+                    m_screenState = ScreenState.Hidden;
                 }
             }
             else
             {
                 // Otherwise the screen should transition on and become active.
-                if (UpdateTransition(gameTime, transitionOnTime, -1))
+                if (UpdateTransition(gameTime, m_transitionOnTime, -1))
                 {
                     // Still busy transitioning.
-                    screenState = ScreenState.TransitionOn;
+                    m_screenState = ScreenState.TransitionOn;
                 }
                 else
                 {
                     // Transition finished!
-                    screenState = ScreenState.Active;
+                    m_screenState = ScreenState.Active;
                 }
             }
         }
@@ -306,13 +306,13 @@ namespace GameStateManagement
                 transitionDelta = (float)(gameTime.ElapsedGameTime.TotalMilliseconds / time.TotalMilliseconds);
 
             // Update the transition position.
-            transitionPosition += transitionDelta * direction;
+            m_transitionPosition += transitionDelta * direction;
 
             // Did we reach the end of the transition?
-            if (((direction < 0) && (transitionPosition <= 0)) ||
-                ((direction > 0) && (transitionPosition >= 1)))
+            if (((direction < 0) && (m_transitionPosition <= 0)) ||
+                ((direction > 0) && (m_transitionPosition >= 1)))
             {
-                transitionPosition = MathHelper.Clamp(transitionPosition, 0, 1);
+                m_transitionPosition = MathHelper.Clamp(m_transitionPosition, 0, 1);
                 return false;
             }
 
@@ -350,7 +350,7 @@ namespace GameStateManagement
             else
             {
                 // Otherwise flag that it should transition off and then exit.
-                isExiting = true;
+                m_isExiting = true;
             }
         }
     }
