@@ -24,13 +24,13 @@ namespace GameStateManagement
     {
         public const int MaxInputs = 4;
 
-        public readonly KeyboardState[] CurrentKeyboardStates;
-        public readonly GamePadState[] CurrentGamePadStates;
+        public readonly KeyboardState[] m_CurrentKeyboardStates;
+        public readonly GamePadState[] m_CurrentGamePadStates;
 
-        public readonly KeyboardState[] LastKeyboardStates;
-        public readonly GamePadState[] LastGamePadStates;
+        public readonly KeyboardState[] m_LastKeyboardStates;
+        public readonly GamePadState[] m_LastGamePadStates;
 
-        public readonly bool[] GamePadWasConnected;
+        public readonly bool[] m_GamePadWasConnected;
 
         
 
@@ -40,13 +40,13 @@ namespace GameStateManagement
         /// </summary>
         public InputState()
         {
-            CurrentKeyboardStates = new KeyboardState[MaxInputs];
-            CurrentGamePadStates = new GamePadState[MaxInputs];
+            m_CurrentKeyboardStates = new KeyboardState[MaxInputs];
+            m_CurrentGamePadStates = new GamePadState[MaxInputs];
 
-            LastKeyboardStates = new KeyboardState[MaxInputs];
-            LastGamePadStates = new GamePadState[MaxInputs];
+            m_LastKeyboardStates = new KeyboardState[MaxInputs];
+            m_LastGamePadStates = new GamePadState[MaxInputs];
 
-            GamePadWasConnected = new bool[MaxInputs];
+            m_GamePadWasConnected = new bool[MaxInputs];
         }
 
         /// <summary>
@@ -56,17 +56,17 @@ namespace GameStateManagement
         {
             for (int i = 0; i < MaxInputs; i++)
             {
-                LastKeyboardStates[i] = CurrentKeyboardStates[i];
-                LastGamePadStates[i] = CurrentGamePadStates[i];
+                m_LastKeyboardStates[i] = m_CurrentKeyboardStates[i];
+                m_LastGamePadStates[i] = m_CurrentGamePadStates[i];
 
-                CurrentKeyboardStates[i] = Keyboard.GetState((PlayerIndex)i);
-                CurrentGamePadStates[i] = GamePad.GetState((PlayerIndex)i);
+                m_CurrentKeyboardStates[i] = Keyboard.GetState((PlayerIndex)i);
+                m_CurrentGamePadStates[i] = GamePad.GetState((PlayerIndex)i);
 
                 // Keep track of whether a gamepad has ever been
                 // connected, so we can detect if it is unplugged.
-                if (CurrentGamePadStates[i].IsConnected)
+                if (m_CurrentGamePadStates[i].IsConnected)
                 {
-                    GamePadWasConnected[i] = true;
+                    m_GamePadWasConnected[i] = true;
                 }
             }
 
@@ -97,7 +97,7 @@ namespace GameStateManagement
 
                 int i = (int)playerIndex;
 
-                return CurrentKeyboardStates[i].IsKeyDown(key);
+                return m_CurrentKeyboardStates[i].IsKeyDown(key);
             }
             else
             {
@@ -125,7 +125,7 @@ namespace GameStateManagement
 
                 int i = (int)playerIndex;
 
-                return CurrentGamePadStates[i].IsButtonDown(button);
+                return m_CurrentGamePadStates[i].IsButtonDown(button);
             }
             else
             {
@@ -153,8 +153,8 @@ namespace GameStateManagement
 
                 int i = (int)playerIndex;
 
-                return (CurrentKeyboardStates[i].IsKeyDown(key) &&
-                        LastKeyboardStates[i].IsKeyUp(key));
+                return (m_CurrentKeyboardStates[i].IsKeyDown(key) &&
+                        m_LastKeyboardStates[i].IsKeyUp(key));
             }
             else
             {
@@ -182,8 +182,8 @@ namespace GameStateManagement
 
                 int i = (int)playerIndex;
 
-                return (CurrentGamePadStates[i].IsButtonDown(button) &&
-                        LastGamePadStates[i].IsButtonUp(button));
+                return (m_CurrentGamePadStates[i].IsButtonDown(button) &&
+                        m_LastGamePadStates[i].IsButtonUp(button));
             }
             else
             {

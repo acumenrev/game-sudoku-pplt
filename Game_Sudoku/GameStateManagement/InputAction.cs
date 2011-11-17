@@ -27,9 +27,9 @@ namespace GameStateManagement
     /// </summary>
     public class InputAction
     {
-        private readonly Buttons[] buttons;
-        private readonly Keys[] keys;
-        private readonly bool newPressOnly;
+        private readonly Buttons[] m_buttons;
+        private readonly Keys[] m_keys;
+        private readonly bool m_newPressOnly;
 
         // These delegate types map to the methods on InputState. We use these to simplify the evalute method
         // by allowing us to map the appropriate delegates and invoke them, rather than having two separate code paths.
@@ -47,10 +47,10 @@ namespace GameStateManagement
         {
             // Store the buttons and keys. If the arrays are null, we create a 0 length array so we don't
             // have to do null checks in the Evaluate method
-            this.buttons = buttons != null ? buttons.Clone() as Buttons[] : new Buttons[0];
-            this.keys = keys != null ? keys.Clone() as Keys[] : new Keys[0];
+            this.m_buttons = buttons != null ? buttons.Clone() as Buttons[] : new Buttons[0];
+            this.m_keys = keys != null ? keys.Clone() as Keys[] : new Keys[0];
 
-            this.newPressOnly = newPressOnly;
+            this.m_newPressOnly = newPressOnly;
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace GameStateManagement
             // Figure out which delegate methods to map from the state which takes care of our "newPressOnly" logic
             ButtonPress buttonTest;
             KeyPress keyTest;
-            if (newPressOnly)
+            if (m_newPressOnly)
             {
                 buttonTest = state.IsNewButtonPress;
                 keyTest = state.IsNewKeyPress;
@@ -77,12 +77,12 @@ namespace GameStateManagement
             }
 
             // Now we simply need to invoke the appropriate methods for each button and key in our collections
-            foreach (Buttons button in buttons)
+            foreach (Buttons button in m_buttons)
             {
                 if (buttonTest(button, controllingPlayer, out player))
                     return true;
             }
-            foreach (Keys key in keys)
+            foreach (Keys key in m_keys)
             {
                 if (keyTest(key, controllingPlayer, out player))
                     return true;
