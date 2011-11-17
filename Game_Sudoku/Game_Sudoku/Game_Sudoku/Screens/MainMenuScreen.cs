@@ -22,16 +22,19 @@ namespace Game_Sudoku.Screens
             // Create our menu entries
             MenuEntry playerGameMenuEntry = new MenuEntry("New Game");
             MenuEntry optionsMenuEntry = new MenuEntry("Options");
+            MenuEntry aboutMenuEntry = new MenuEntry("About");
             MenuEntry exitMenuEntry = new MenuEntry("Exit");
            
             // Hook up menu event handlers
             playerGameMenuEntry.Selected += PlayGameMenuEntrySelected;
             optionsMenuEntry.Selected += OptionsMenuEntrySelected;
+            aboutMenuEntry.Selected += AboutMenuEntrySelected;
             exitMenuEntry.Selected += OnCancel;
 
             // Add Entries to the menu
             MenuEntries.Add(playerGameMenuEntry);
             MenuEntries.Add(optionsMenuEntry);
+            MenuEntries.Add(aboutMenuEntry);
             MenuEntries.Add(exitMenuEntry);
 
         }
@@ -57,6 +60,11 @@ namespace Game_Sudoku.Screens
 
         }
 
+        void AboutMenuEntrySelected(object sender,PlayerIndexEventArgs e)
+        {
+            ScreenManager.AddScreen(new AboutScreen(), e.PlayerIndex);
+        }
+
         /// <summary>
         /// When the user cancels the main menu, ask if they want to exit the sample.
         /// </summary>
@@ -69,6 +77,8 @@ namespace Game_Sudoku.Screens
             ScreenManager.AddScreen(confirmExitMessageBox, playerIndex);
 
         }
+
+        
 
 
         /// <summary>
