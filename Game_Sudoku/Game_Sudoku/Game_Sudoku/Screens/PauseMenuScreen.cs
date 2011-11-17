@@ -22,14 +22,17 @@ namespace Game_Sudoku.Screens
         {
             // Create our menu entries
             MenuEntry resumeGameMenuEntry = new MenuEntry("Resume");
+            MenuEntry optionsMenuEntry = new MenuEntry("Options");
             MenuEntry quitGameMenuEntry = new MenuEntry("Quit Game");
 
             // Hook up menu event handlers
             resumeGameMenuEntry.Selected += OnCancel;
             quitGameMenuEntry.Selected += QuitGameMenuEntrySelected;
+            optionsMenuEntry.Selected += OptionsMenuEntrySelected;
 
             // Add entries to the menu.
             MenuEntries.Add(resumeGameMenuEntry);
+            MenuEntries.Add(optionsMenuEntry);
             MenuEntries.Add(quitGameMenuEntry);
             
         }
@@ -48,6 +51,11 @@ namespace Game_Sudoku.Screens
             confirmQuitMessageBox.Accepted += ConfirmQuitMessageBoxAccepted;
 
             ScreenManager.AddScreen(confirmQuitMessageBox, ControllingPlayer);
+        }
+
+        void OptionsMenuEntrySelected(object sender,PlayerIndexEventArgs e)
+        {
+            ScreenManager.AddScreen(new OptionsMenuScreen(), ControllingPlayer);
         }
 
         /// <summary>
