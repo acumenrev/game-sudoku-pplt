@@ -17,7 +17,7 @@ namespace Game_Sudoku
     /// </summary>
     public class MainGame : Microsoft.Xna.Framework.Game
     {
-        GraphicsDeviceManager m_graphics;
+        public static GraphicsDeviceManager m_graphics;
         SpriteBatch m_spriteBatch;
         ScreenManager m_screenManager;
         ScreenFactory m_screenFactory;

@@ -27,6 +27,7 @@ namespace Game_Sudoku.Screens
         SpriteFont m_levelfont;
         SpriteFont m_gameFontError;
         Texture2D m_gamescreenBG;
+        
         SpriteBatch m_spriteBatch;
         
         int [,] m_lockMatrixNumber = new int [9,9];
@@ -76,7 +77,7 @@ namespace Game_Sudoku.Screens
             m_pauseAction = new InputAction(null,new Keys[]{ Keys.Escape}, true);
             m_flagTime = true;
             m_time = new clsTime();
-
+            
             
             
         }
@@ -101,6 +102,7 @@ namespace Game_Sudoku.Screens
                 m_buttonSound = content.Load<SoundEffect>("Sound/buttonpush");
                 m_beginSound = content.Load<SoundEffect>("Sound/startgame");
                 
+
                 //Load Map
                              
                 m_solveSudoku = new Xuly.Sudoku();
@@ -165,6 +167,17 @@ namespace Game_Sudoku.Screens
                 SolveSudoku();
             }
 
+            if (mouseStateCurrent.X > MainGame.m_graphics.PreferredBackBufferWidth ||
+                mouseStateCurrent.Y > MainGame.m_graphics.PreferredBackBufferHeight)
+            {
+
+                m_flagTime = false;
+            }
+            else
+            {
+                m_flagTime = true;
+            }
+            
             mouseStatePrevious = mouseStateCurrent;
 
             
