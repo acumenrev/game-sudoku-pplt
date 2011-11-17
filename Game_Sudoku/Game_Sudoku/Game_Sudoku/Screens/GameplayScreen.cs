@@ -50,7 +50,7 @@ namespace Game_Sudoku.Screens
         
         // time
         clsTime m_time;
-        bool m_flagTime;
+        public static bool m_flagTime;
 
 
         bool m_flagChangeNumber;
@@ -149,13 +149,14 @@ namespace Game_Sudoku.Screens
         /// </summary>
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
+            
             //Play sound keyboard
             PlaySound();
             //
             // catch the mouse events
             mouseStateCurrent = Mouse.GetState();
             if (mouseStateCurrent.LeftButton == ButtonState.Pressed &&
-                mouseStatePrevious.LeftButton == ButtonState.Released)
+                  mouseStatePrevious.LeftButton == ButtonState.Released)
             {
                 m_v2.X = (float)mouseStateCurrent.X;
                 m_v2.Y = (float)mouseStateCurrent.Y;
@@ -164,19 +165,24 @@ namespace Game_Sudoku.Screens
             }
 
             mouseStatePrevious = mouseStateCurrent;
+
             
-            //
-            ChangeNumber();
-            
+
             // Play sound when sudoku is solved
             if (OptionsMenuScreen.m_bMusic == true)
             {
-                Finisheffect();
+                 Finisheffect();
             }
 
             // Draw timer
-            m_time.IncreaseTime(gameTime);
-            base.Update(gameTime, otherScreenHasFocus, false);
+            // if paused is active --> stop time and changing number
+            if (m_flagTime == true)
+            {
+                m_time.IncreaseTime(gameTime);
+                //
+                ChangeNumber();
+            }
+           
 
             // Gradually fade in or out depending on whether we are covered by the pause screen.
             if (coveredByOtherScreen)
@@ -185,13 +191,14 @@ namespace Game_Sudoku.Screens
             }
             else
             {
-                m_pauseAlpha = Math.Max(m_pauseAlpha - 1f / 32, 0);
+                 m_pauseAlpha = Math.Max(m_pauseAlpha - 1f / 32, 0);
             }
 
             //if (IsActive)
             //{
             //    // Apply some random jutter to make the enemy move around
             //}
+            base.Update(gameTime, otherScreenHasFocus, false);
         }
 
         /// <summary>

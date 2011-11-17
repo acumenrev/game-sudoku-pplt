@@ -26,7 +26,7 @@ namespace Game_Sudoku.Screens
             MenuEntry quitGameMenuEntry = new MenuEntry("Quit Game");
 
             // Hook up menu event handlers
-            resumeGameMenuEntry.Selected += OnCancel;
+            resumeGameMenuEntry.Selected += ResumeGameMenuEntry;
             quitGameMenuEntry.Selected += QuitGameMenuEntrySelected;
             optionsMenuEntry.Selected += OptionsMenuEntrySelected;
 
@@ -51,6 +51,12 @@ namespace Game_Sudoku.Screens
             confirmQuitMessageBox.Accepted += ConfirmQuitMessageBoxAccepted;
 
             ScreenManager.AddScreen(confirmQuitMessageBox, ControllingPlayer);
+        }
+
+        void ResumeGameMenuEntry(object sender, PlayerIndexEventArgs e)
+        {
+            OnCancel(e.PlayerIndex);
+            GameplayScreen.m_flagTime = true;
         }
 
         void OptionsMenuEntrySelected(object sender,PlayerIndexEventArgs e)
