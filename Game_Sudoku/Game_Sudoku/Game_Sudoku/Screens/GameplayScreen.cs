@@ -112,9 +112,12 @@ namespace Game_Sudoku.Screens
 
                 }
                 m_resultMatrixNumber = m_solveSudoku.m_resultMatrix;
+                
                 //play Sound Begin
-
-                m_beginSound.Play();
+                if (OptionsMenuScreen.m_bMusic == true)
+                {
+                    m_beginSound.Play();
+                }
 
                 // once the load has finished, we use ResetElapsedTime to tell the game's
                 // timing mechanism that we have just finished a very long frame, and that
@@ -161,15 +164,15 @@ namespace Game_Sudoku.Screens
             }
 
             mouseStatePrevious = mouseStateCurrent;
+            
             //
-
-
-
             ChangeNumber();
-            Finisheffect();
-
-
-
+            
+            // Play sound when sudoku is solved
+            if (OptionsMenuScreen.m_bMusic == true)
+            {
+                Finisheffect();
+            }
 
             // Draw timer
             m_time.IncreaseTime(gameTime);
@@ -204,7 +207,7 @@ namespace Game_Sudoku.Screens
             // look up inputs for the active player profile
             int playerIndex = (int)ControllingPlayer.Value;
 
-            KeyboardState keyboardState = input.CurrentKeyboardStates[playerIndex];
+            KeyboardState keyboardState = input.m_CurrentKeyboardStates[playerIndex];
 
 
             PlayerIndex player;
@@ -222,6 +225,10 @@ namespace Game_Sudoku.Screens
             base.HandleInput(gameTime, input);
         }
 
+        /// <summary>
+        /// Draw methods
+        /// </summary>
+        /// <param name="gameTime"></param>
         public override void Draw(GameTime gameTime)
         {
             
@@ -253,6 +260,10 @@ namespace Game_Sudoku.Screens
             
             base.Draw(gameTime);
         }
+
+        /// <summary>
+        /// Draw matrix to sudoku grid
+        /// </summary>
         public void DrawMatrix()
         {
 
@@ -289,6 +300,10 @@ namespace Game_Sudoku.Screens
 
         }
 
+        /// <summary>
+        /// Gets level status
+        /// </summary>
+        /// <returns></returns>
         private string GetLevel()
         {
             string level = string.Empty;
@@ -308,6 +323,8 @@ namespace Game_Sudoku.Screens
 
             return level;
         }
+
+
         public void ChangeNumber()
         {
             float x = (m_v2.X - 30) / 60;
@@ -338,6 +355,8 @@ namespace Game_Sudoku.Screens
 
 
         }
+
+
         public void PlaySound()
         {
             
@@ -351,12 +370,21 @@ namespace Game_Sudoku.Screens
             {
                 if (m_KeyboardEvent.IsKeyUp(Keys.Up) && m_KeyboardEvent.IsKeyUp(Keys.Down) && m_KeyboardEvent.IsKeyUp(Keys.Enter))
                 {
-                    m_buttonSound.Play();
+
+                    // Turn on/off sound of pause screen
+                    if (OptionsMenuScreen.m_bSound == true)
+                    {
+                        m_buttonSound.Play();
+                    }
                     m_flagsound = false;
 
                 }
             }
         }
+
+        /// <summary>
+        /// Solving sudoku grid
+        /// </summary>
         public void SolveSudoku()
         {
             if(m_v2.X>700)
@@ -368,6 +396,10 @@ namespace Game_Sudoku.Screens
 
             
         }
+
+        /// <summary>
+        /// Sound effect when Sudoku is solved
+        /// </summary>
         public void Finisheffect()
         {
 

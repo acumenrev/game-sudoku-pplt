@@ -57,19 +57,19 @@ namespace Game_Sudoku.Map
                 // 40 -> 45 empty cells
                 case 0:
                     
-                    qCells = m_rand.Next(40, 46);
+                    qCells = m_rand.Next(40, 50);
                     MakingEmptyCells(qCells);
                     break;
                 // Medium
                 // 46 -> 49 empty cells
                 case 1:
-                    qCells = m_rand.Next(46, 50);
+                    qCells = m_rand.Next(50, 60);
                     MakingEmptyCells(qCells);
                     break;
                 // Hard
                 // 50 -> 54 empty cells
                 case 2:
-                    qCells = m_rand.Next(50, 55);
+                    qCells = m_rand.Next(60, 70);
                     MakingEmptyCells(qCells);
                     break;
             }
