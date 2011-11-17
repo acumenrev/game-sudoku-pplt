@@ -53,8 +53,8 @@ namespace Game_Sudoku.Screens
         private void SetMenuEntryText()
         {
             m_projectMenuEntry.Text = "Project: TNTSudoku                        ";
-            m_versionMenuEntry.Text = "Version:  1.00                             ";
-            m_authorMenuEntry.Text = "Authors:  Bui Trong Nghia - 09520185      ";
+            m_versionMenuEntry.Text = "Version: 1.00                             ";
+            m_authorMenuEntry.Text = "Authors: Bui Trong Nghia - 09520185       ";
             m_thinhMenuEntry.Text = "Tran Van Thinh - 09520286";
             m_triMenuEntry.Text = "Vo Minh Tri - 09520319";
         }
