@@ -125,6 +125,7 @@ namespace Game_Sudoku.Screens
         protected virtual void OnCancel(PlayerIndex playerIndex)
         {
             ExitScreen();
+            GameplayScreen.m_flagTime = true;
         }
 
         /// <summary>
@@ -133,6 +134,7 @@ namespace Game_Sudoku.Screens
         protected void OnCancel(object sender, PlayerIndexEventArgs e)
         {
             OnCancel(e.PlayerIndex);
+            
         }
         #endregion
 
