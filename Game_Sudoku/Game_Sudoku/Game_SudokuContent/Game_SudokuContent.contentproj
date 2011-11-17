@@ -93,13 +93,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sound\buttonpush.wav">
-      <Name>buttonpush</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="levelfont.spritefont">
       <Name>levelfont</Name>
       <Importer>FontDescriptionImporter</Importer>
@@ -115,6 +108,13 @@
     <None Include="Sudoku.ico">
       <Name>Sudoku</Name>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sound\buttonpush.wav">
+      <Name>buttonpush</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 
