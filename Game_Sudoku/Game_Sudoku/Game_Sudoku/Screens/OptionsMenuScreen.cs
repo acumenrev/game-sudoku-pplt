@@ -20,8 +20,8 @@ namespace Game_Sudoku.Screens
         MenuEntry m_musicMenuEntry;
         MenuEntry m_backMenuEntry;
 
-        static bool m_bSound = true;
-        static bool m_bMusic = true;
+        public bool m_bSound = true;
+        public bool m_bMusic = true;
         
         #endregion
 

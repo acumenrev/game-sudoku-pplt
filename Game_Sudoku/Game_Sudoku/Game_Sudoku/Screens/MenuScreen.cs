@@ -21,7 +21,7 @@ namespace Game_Sudoku.Screens
         List<MenuEntry> m_menuEntries = new List<MenuEntry>();
         int m_selectedEntry = 0;
         string m_menuTitle = "TNTSUDOKU";
-
+        BackgroundScreen a;
         InputAction m_menuUp;
         InputAction m_menuDown;
         InputAction m_menuSelect;
@@ -50,7 +50,7 @@ namespace Game_Sudoku.Screens
         {
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
-
+            a = new BackgroundScreen();
             m_menuUp = new InputAction(null, new Keys[] { Keys.Up }, true);
 
             m_menuDown = new InputAction(null, new Keys[] { Keys.Down }, true);
@@ -77,7 +77,7 @@ namespace Game_Sudoku.Screens
             if (m_menuUp.Evaluate(input, ControllingPlayer, out playerIndex))
             {
                 m_selectedEntry--;
-
+                
                 if (m_selectedEntry < 0)
                 {
                     m_selectedEntry = m_menuEntries.Count - 1;
@@ -88,6 +88,7 @@ namespace Game_Sudoku.Screens
             if (m_menuDown.Evaluate(input, ControllingPlayer, out playerIndex))
             {
                 m_selectedEntry++;
+                
                 if (m_selectedEntry >= m_menuEntries.Count)
                 {
                     m_selectedEntry = 0;
@@ -96,12 +97,14 @@ namespace Game_Sudoku.Screens
 
             if (m_menuSelect.Evaluate(input, ControllingPlayer, out playerIndex))
             {
+                
                 OnSelectEntry(m_selectedEntry, playerIndex);
             }
             else
             {
                 if (m_menuCancel.Evaluate(input, ControllingPlayer, out playerIndex))
                 {
+                    
                     OnCancel(playerIndex);
                 }
             }
