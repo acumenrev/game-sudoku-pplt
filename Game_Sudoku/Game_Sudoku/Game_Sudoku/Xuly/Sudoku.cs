@@ -97,34 +97,58 @@ namespace Game_Sudoku.Xuly
 				}
 
 			}
-			/*int xvitrixet;
-			int yvitrixet;
-			int xsodu = (j + 1) % 3;
-			int ysodu = (i + 1) % 3;
 			
-
-			if (xsodu == 0)
-			{
-				xvitrixet = j - 2;
-			}
-			else
-				xvitrixet = j + 1 - xsodu;
-
-			if (ysodu == 0)
-			{
-				yvitrixet = i - 2;
-			}
-			else
-				yvitrixet = i + 1 - ysodu;
-
-			for (int x = 0; x <= 2; x++)
-			{
-				for (int y = 0; y <= 2; y++)
-				{
-					m[(int)v3[xvitrixet + x, yvitrixet + y].Z] = 0;  
-				}
-			}*/
 		}
+
+        // Thêm phần checkmap ban đâu vào 
+        public bool checkmap()
+        {
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    if (v3[i, j].Z != 0)
+                    {
+                        for (int l = 0; l < 9; l++)
+                        {
+                            if ((l != j) && (v3[i, l].Z == v3[i, j].Z))
+                            {
+                                //                                 Console.Write("sai hang");
+                                //                                                               Console.WriteLine();
+                                return false;
+                            }
+
+                            if ((l != i) && (v3[l, j].Z == v3[i, j].Z))
+                            {
+                                //                                 Console.Write("sai cot");
+                                //                                                             Console.WriteLine();
+                                return false;
+                            }
+                        }
+
+                        int squareIndex = m_subSquare[i, j];   // mien xac dinh theo index
+                        for (int x = 0; x < 9; x++)
+                        {
+                            for (int y = 0; y < 9; y++)
+                            {
+                                if (m_subSquare[x, y] == squareIndex)
+                                {
+                                    if (((x != i) || (y != j)) && (v3[x, y].Z == v3[i, j].Z))
+                                    {
+                                        //                                         Console.Write("sai mien");
+                                        //                                                                                     Console.WriteLine();
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return true;
+        }
+           // ket thuc sua
 
 		public bool Solve()
 		{
@@ -133,6 +157,10 @@ namespace Game_Sudoku.Xuly
 			int tongSoPhanTu = 10;
 			int[] daySoTam = null;
 
+            if (!checkmap())
+            {
+                return false;
+            }
 
 			for (int i = 0; i < 9; i++)
 			{
