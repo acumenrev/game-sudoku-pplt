@@ -23,6 +23,7 @@ namespace Game_Sudoku.Xuly
 				{0,0,0,0,0,0,0,0,0},
 				{0,0,0,0,0,0,0,0,0}
 			};
+        public int[,] m_resultMatrix = new int[9, 9];
 		private int[,] m_emptyMatrix = new int[9, 9];
 		
 		
@@ -65,7 +66,14 @@ namespace Game_Sudoku.Xuly
 				// Gan cac gia tri tu v3 sang cho m_Sudoku
 				ShowSolve();
 			}
-
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    m_resultMatrix[i,j] = m_Sudoku[i,j];
+                }
+            }
+            
 			// gan cac phan tu ngau nhien trong m_emptyMatrix bang 0
 			// cho cac so ngau nhien bang 0
 			Merge();
