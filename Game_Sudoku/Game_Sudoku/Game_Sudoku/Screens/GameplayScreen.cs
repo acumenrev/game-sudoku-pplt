@@ -39,6 +39,7 @@ namespace Game_Sudoku.Screens
         SoundEffect m_buttonSound;
         SoundEffect m_beginSound;
         bool m_flagsound;
+        public static bool m_flagsoundmenu=false;
         KeyboardState m_KeyboardEvent;
         string m_errorSudoku;
         //Vector2 playerPosition = new Vector2(100, 100);
@@ -222,6 +223,7 @@ namespace Game_Sudoku.Screens
             {
                 ScreenManager.AddScreen(new PauseMenuScreen(), ControllingPlayer);
                 m_flagTime = false;
+                m_flagsoundmenu = true;
             }
             else
             {
@@ -368,25 +370,30 @@ namespace Game_Sudoku.Screens
         {
             
             m_KeyboardEvent = Keyboard.GetState();
-            if (m_KeyboardEvent.IsKeyDown(Keys.Up) || m_KeyboardEvent.IsKeyDown(Keys.Down) || m_KeyboardEvent.IsKeyDown(Keys.Enter))
-            {
-                m_flagsound = true;
 
-            }
-            if (m_flagsound == true)
+            if (m_flagsoundmenu == true)
             {
-                if (m_KeyboardEvent.IsKeyUp(Keys.Up) && m_KeyboardEvent.IsKeyUp(Keys.Down) && m_KeyboardEvent.IsKeyUp(Keys.Enter))
+                if (m_KeyboardEvent.IsKeyDown(Keys.Up) || m_KeyboardEvent.IsKeyDown(Keys.Down) || m_KeyboardEvent.IsKeyDown(Keys.Enter) || m_KeyboardEvent.IsKeyDown(Keys.Escape))
                 {
-
-                    // Turn on/off sound of pause screen
-                    if (OptionsMenuScreen.m_bSound == true)
-                    {
-                        m_buttonSound.Play();
-                    }
-                    m_flagsound = false;
+                    m_flagsound = true;
 
                 }
-            }
+                if (m_flagsound == true)
+                {
+                    if (m_KeyboardEvent.IsKeyUp(Keys.Up) && m_KeyboardEvent.IsKeyUp(Keys.Down) && m_KeyboardEvent.IsKeyUp(Keys.Enter) && m_KeyboardEvent.IsKeyUp(Keys.Escape))
+                    {
+
+                        // Turn on/off sound of pause screen
+                        if (OptionsMenuScreen.m_bSound == true)
+                        {
+                            m_buttonSound.Play();
+                        }
+                        m_flagsound = false;
+
+                    }
+                }
+
+            }    
         }
 
         /// <summary>
