@@ -23,6 +23,8 @@ namespace Game_Sudoku.Screens
         Texture2D m_backgroundTexture;
         SoundEffect m_buttonSound;
         KeyboardState m_KeyboardEvent;
+        bool m_flagsound;
+        // Bien MuteSound tu Optionmenu
         
         #endregion
 
@@ -32,6 +34,7 @@ namespace Game_Sudoku.Screens
         {
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
+            
 
         }
 
@@ -86,12 +89,7 @@ namespace Game_Sudoku.Screens
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
             base.Update(gameTime, otherScreenHasFocus, false);
-            m_KeyboardEvent = Keyboard.GetState();
-            if (m_KeyboardEvent.IsKeyDown(Keys.Up) || m_KeyboardEvent.IsKeyDown(Keys.Down) || m_KeyboardEvent.IsKeyDown(Keys.Enter))
-            {
-                
-                m_buttonSound.Play();
-            }
+            PlaySound();
         }
 
         /// <summary>
@@ -108,6 +106,24 @@ namespace Game_Sudoku.Screens
             spriteBatch.Draw(m_backgroundTexture, fullScreen, new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
 
             spriteBatch.End();
+        }
+        public void PlaySound()
+        {
+            m_KeyboardEvent = Keyboard.GetState();
+            if (m_KeyboardEvent.IsKeyDown(Keys.Up) || m_KeyboardEvent.IsKeyDown(Keys.Down) || m_KeyboardEvent.IsKeyDown(Keys.Enter))
+            {
+                m_flagsound = true;
+
+            }
+            if (m_flagsound == true)
+            {
+                if (m_KeyboardEvent.IsKeyUp(Keys.Up) && m_KeyboardEvent.IsKeyUp(Keys.Down) && m_KeyboardEvent.IsKeyUp(Keys.Enter))
+                {
+                    m_buttonSound.Play();
+                    m_flagsound = false;
+
+                }
+            }
         }
 
         #endregion

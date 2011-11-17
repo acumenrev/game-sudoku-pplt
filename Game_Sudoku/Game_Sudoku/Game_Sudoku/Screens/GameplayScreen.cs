@@ -28,13 +28,17 @@ namespace Game_Sudoku.Screens
         SpriteFont m_gameFontError;
         Texture2D m_gamescreenBG;
         SpriteBatch m_spriteBatch;
-       
+        
         int [,] m_lockMatrixNumber = new int [9,9];
         MouseState mouseStateCurrent, mouseStatePrevious;
         Vector2 m_v2;
         Vector2 m_vTime;
         Xuly.Sudoku m_solveSudoku;
         SoundEffect m_finishSound;
+        SoundEffect m_buttonSound;
+        SoundEffect m_beginSound;
+        bool m_flagsound;
+        KeyboardState m_KeyboardEvent;
         string m_errorSudoku;
         //Vector2 playerPosition = new Vector2(100, 100);
         //Vector2 enemyPosition = new Vector2(100, 100);
@@ -70,6 +74,7 @@ namespace Game_Sudoku.Screens
             m_pauseAction = new InputAction(null,new Keys[]{ Keys.Escape}, true);
             m_flagTime = true;
             m_time = new clsTime();
+
             
             
         }
@@ -91,9 +96,11 @@ namespace Game_Sudoku.Screens
                 m_timefont = content.Load<SpriteFont>("timefont");
                 m_levelfont = content.Load<SpriteFont>("levelfont");
                 m_finishSound = content.Load<SoundEffect>("Sound/finish");
+                m_buttonSound = content.Load<SoundEffect>("Sound/buttonpush");
+                m_beginSound = content.Load<SoundEffect>("Sound/startgame");
+                
                 //Load Map
-                
-                
+                             
                 m_solveSudoku = new Xuly.Sudoku();
                 for (int i = 0; i < 9; i++)
                 {
@@ -103,22 +110,9 @@ namespace Game_Sudoku.Screens
                     }
 
                 }
-                //if(m_solveSudoku.Solve())
-                //{                    
-                //    m_solveSudoku.ShowSolve();
-                //    m_mapDemo.m_matrixMap = m_solveSudoku.m_Sudoku;
-                //    m_finishSound.Play();
-                //}
-                //else
-                //{
-                //    m_errorSudoku = "Sudoku Error: Your sudoku has errors";
-                //}
-                
-                
-            
-               
-                
-                //Thread.Sleep(this.TransitionOnTime);
+                //play Sound Begin
+
+                m_beginSound.Play();
 
                 // once the load has finished, we use ResetElapsedTime to tell the game's
                 // timing mechanism that we have just finished a very long frame, and that
@@ -150,7 +144,9 @@ namespace Game_Sudoku.Screens
         /// </summary>
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
-            
+            //Play sound keyboard
+            PlaySound();
+            //
             // catch the mouse events
             mouseStateCurrent = Mouse.GetState();
             if (mouseStateCurrent.LeftButton == ButtonState.Pressed &&
@@ -329,7 +325,25 @@ namespace Game_Sudoku.Screens
 
 
         }
-        
+        public void PlaySound()
+        {
+            
+            m_KeyboardEvent = Keyboard.GetState();
+            if (m_KeyboardEvent.IsKeyDown(Keys.Up) || m_KeyboardEvent.IsKeyDown(Keys.Down) || m_KeyboardEvent.IsKeyDown(Keys.Enter))
+            {
+                m_flagsound = true;
+
+            }
+            if (m_flagsound == true)
+            {
+                if (m_KeyboardEvent.IsKeyUp(Keys.Up) && m_KeyboardEvent.IsKeyUp(Keys.Down) && m_KeyboardEvent.IsKeyUp(Keys.Enter))
+                {
+                    m_buttonSound.Play();
+                    m_flagsound = false;
+
+                }
+            }
+        }
         #endregion
     }
 }
