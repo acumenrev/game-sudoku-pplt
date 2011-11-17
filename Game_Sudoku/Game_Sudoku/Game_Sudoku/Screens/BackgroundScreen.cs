@@ -22,7 +22,7 @@ namespace Game_Sudoku.Screens
         ContentManager content;
         Texture2D m_backgroundTexture;
         SoundEffect m_buttonSound;
-
+        KeyboardState m_KeyboardEvent;
         
         #endregion
 
@@ -86,6 +86,12 @@ namespace Game_Sudoku.Screens
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
             base.Update(gameTime, otherScreenHasFocus, false);
+            m_KeyboardEvent = Keyboard.GetState();
+            if (m_KeyboardEvent.IsKeyDown(Keys.Up) || m_KeyboardEvent.IsKeyDown(Keys.Down) || m_KeyboardEvent.IsKeyDown(Keys.Enter))
+            {
+                
+                m_buttonSound.Play();
+            }
         }
 
         /// <summary>
