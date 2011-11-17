@@ -30,7 +30,7 @@ namespace Game_Sudoku.Screens
         SpriteBatch m_spriteBatch;
         
         int [,] m_lockMatrixNumber = new int [9,9];
-        int[,] m_ResultMatrixNumber = new int[9, 9];
+        int[,] m_resultMatrixNumber = new int[9, 9];
         MouseState mouseStateCurrent, mouseStatePrevious;
         Vector2 m_v2;
         Vector2 m_vTime;
@@ -111,7 +111,7 @@ namespace Game_Sudoku.Screens
                     }
 
                 }
-               
+                m_resultMatrixNumber = m_solveSudoku.m_resultMatrix;
                 //play Sound Begin
 
                 m_beginSound.Play();
@@ -162,7 +162,15 @@ namespace Game_Sudoku.Screens
 
             mouseStatePrevious = mouseStateCurrent;
             //
+
+
+
             ChangeNumber();
+            Finisheffect();
+
+
+
+
             // Draw timer
             m_time.IncreaseTime(gameTime);
             base.Update(gameTime, otherScreenHasFocus, false);
@@ -355,13 +363,20 @@ namespace Game_Sudoku.Screens
             {
                 m_solveSudoku.Solve();
                 m_solveSudoku.ShowSolve();
-                m_finishSound.Play();
+                
             }
 
             
         }
         public void Finisheffect()
         {
+
+                if (m_solveSudoku.m_Sudoku == m_resultMatrixNumber)
+                {
+                    m_finishSound.Play();
+                  
+                }
+         
             
         }
         #endregion
