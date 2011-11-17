@@ -30,6 +30,7 @@ namespace Game_Sudoku.Screens
         SpriteBatch m_spriteBatch;
         
         int [,] m_lockMatrixNumber = new int [9,9];
+        int[,] m_ResultMatrixNumber = new int[9, 9];
         MouseState mouseStateCurrent, mouseStatePrevious;
         Vector2 m_v2;
         Vector2 m_vTime;
@@ -110,6 +111,7 @@ namespace Game_Sudoku.Screens
                     }
 
                 }
+               
                 //play Sound Begin
 
                 m_beginSound.Play();
@@ -155,10 +157,12 @@ namespace Game_Sudoku.Screens
                 m_v2.X = (float)mouseStateCurrent.X;
                 m_v2.Y = (float)mouseStateCurrent.Y;
                 m_flagChangeNumber = true;
+                SolveSudoku();
             }
 
             mouseStatePrevious = mouseStateCurrent;
-            
+            //
+            ChangeNumber();
             // Draw timer
             m_time.IncreaseTime(gameTime);
             base.Update(gameTime, otherScreenHasFocus, false);
@@ -205,7 +209,8 @@ namespace Game_Sudoku.Screens
             {
                 // handle movement of enemy, player
             }
-            ChangeNumber();
+            
+            
             base.HandleInput(gameTime, input);
         }
 
@@ -221,7 +226,7 @@ namespace Game_Sudoku.Screens
             m_spriteBatch.DrawString(m_timefont, m_time.getTime(), new Vector2(630, 318), Color.White);
             m_spriteBatch.DrawString(m_levelfont, GetLevel(), new Vector2(635, 235),Color.White);
             DrawMatrix();
-            m_spriteBatch.DrawString(m_gameFont, "Mouse", m_v2, Color.White);
+            m_spriteBatch.DrawString(m_gameFont,m_v2.X.ToString(), m_v2, Color.White);
             //if (!m_solveSudoku.Solve())
             //{
             //    m_spriteBatch.DrawString(m_gameFontError, m_errorSudoku, new Vector2(0,0), Color.Yellow);
@@ -343,6 +348,21 @@ namespace Game_Sudoku.Screens
 
                 }
             }
+        }
+        public void SolveSudoku()
+        {
+            if(m_v2.X>700)
+            {
+                m_solveSudoku.Solve();
+                m_solveSudoku.ShowSolve();
+                m_finishSound.Play();
+            }
+
+            
+        }
+        public void Finisheffect()
+        {
+            
         }
         #endregion
     }
