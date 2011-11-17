@@ -24,6 +24,7 @@ namespace Game_Sudoku.Screens
         ContentManager content;
         SpriteFont m_gameFont;
         SpriteFont m_timefont;
+        SpriteFont m_levelfont;
         SpriteFont m_gameFontError;
         Texture2D m_gamescreenBG;
         SpriteBatch m_spriteBatch;
@@ -88,6 +89,7 @@ namespace Game_Sudoku.Screens
                 m_gameFontError = content.Load<SpriteFont>("gameerror");
                 m_gamescreenBG = content.Load<Texture2D>("Background/gamescreenBG");
                 m_timefont = content.Load<SpriteFont>("timefont");
+                m_levelfont = content.Load<SpriteFont>("levelfont");
                 m_finishSound = content.Load<SoundEffect>("Sound/finish");
                 //Load Map
                 
@@ -221,6 +223,7 @@ namespace Game_Sudoku.Screens
 
             m_spriteBatch.Draw(m_gamescreenBG, new Vector2(0, 0), Color.White);
             m_spriteBatch.DrawString(m_timefont, m_time.getTime(), new Vector2(630, 318), Color.White);
+            m_spriteBatch.DrawString(m_levelfont, GetLevel(), new Vector2(635, 235),Color.White);
             DrawMatrix();
             m_spriteBatch.DrawString(m_gameFont, "Mouse", m_v2, Color.White);
             //if (!m_solveSudoku.Solve())
@@ -275,6 +278,26 @@ namespace Game_Sudoku.Screens
             }
 
 
+        }
+
+        private string GetLevel()
+        {
+            string level = string.Empty;
+            switch(Map.Level.m_level)
+            {
+                case 0:
+                    level = "Easy";
+                    break;
+                case 1:
+                    level = "Medium";
+                    break;
+                case 2:
+                    level = "Hard";
+                    break;
+            }
+
+
+            return level;
         }
         public void ChangeNumber()
         {

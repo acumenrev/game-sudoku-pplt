@@ -8,23 +8,23 @@ namespace Game_Sudoku.Xuly
 {
 	class Sudoku
 	{
-	    Random m_rand = new Random();
+		Random m_rand = new Random();
 		public static Vector3[,] v3;
 		public int[,] m_Sudoku = 
-            new int[9, 9]
-            {
-                {0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0}
-            };
+			new int[9, 9]
+			{
+				{0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0}
+			};
 		private int[,] m_emptyMatrix = new int[9, 9];
-        
+		
 		
 		Map.Level m_level;
 
@@ -44,31 +44,31 @@ namespace Game_Sudoku.Xuly
 
 		public Sudoku()
 		{
-            v3 = new Vector3[9, 9];
-            // tao ra 3 so ngau nhien trong 3 mien TopLeft, Middle, BottomRight
-            CreateSubRegions();
-            // tao ra ma tran co o trong
-            m_level = new Map.Level();
+			v3 = new Vector3[9, 9];
+			// tao ra 3 so ngau nhien trong 3 mien TopLeft, Middle, BottomRight
+			CreateSubRegions();
+			// tao ra ma tran co o trong
+			m_level = new Map.Level();
 
 
-            for (int i = 0; i < 9; i++)
-            {
-                for (int j = 0; j < 9; j++)
-                {
-                    v3[i, j].Z = m_Sudoku[i, j];
-                }
-            }
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					v3[i, j].Z = m_Sudoku[i, j];
+				}
+			}
 
-            // Giai o so da cho ben tren
-            if (Solve())
-            {
-                // Gan cac gia tri tu v3 sang cho m_Sudoku
-                ShowSolve();
-            }
+			// Giai o so da cho ben tren
+			if (Solve())
+			{
+				// Gan cac gia tri tu v3 sang cho m_Sudoku
+				ShowSolve();
+			}
 
-            // gan cac phan tu ngau nhien trong m_emptyMatrix bang 0
-            // cho cac so ngau nhien bang 0
-            Merge();
+			// gan cac phan tu ngau nhien trong m_emptyMatrix bang 0
+			// cho cac so ngau nhien bang 0
+			Merge();
 			
 		 
 		}
@@ -207,109 +207,109 @@ namespace Game_Sudoku.Xuly
 				for (int j = 0; j < 9; j++)
 				{
 					m_Sudoku[i, j] = (int)v3[i, j].Z;
-                    
+					
 				}
 			}
 		}
 
 		private void Merge()
 		{
-            for (int i = 0; i < 9; i++)
-            {
-                for (int j = 0; j < 9; j++)
-                {
-                    if (m_level.EmptyMatrix[i, j] == 0)
-                    {
-                        m_Sudoku[i, j] = 0;
-                        
-                    }
-                    
-                }
-            }
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					if (m_level.EmptyMatrix[i, j] == 0)
+					{
+						m_Sudoku[i, j] = 0;
+						
+					}
+					
+				}
+			}
 		}
 
-        /// <summary>
-        /// Gets number in suit conditions
-        /// </summary>
-        /// <param name="n"></param>
-        /// <returns></returns>
-        private int GetCase(int n)
-        {
-            int no = 0;
-            switch(n)
-            {
-                case 0:
-                case 1:
-                case 2:
-                    no = 0;
-                    break;
-                case 3:
-                case 4:
-                case 5:
-                    no = 3;
-                    break;
-                case 6:
-                case 7:
-                case 8:
-                    no = 6;
-                    break;
-            }
-            return no;
-            
-        }
+		/// <summary>
+		/// Gets number in suit conditions
+		/// </summary>
+		/// <param name="n"></param>
+		/// <returns></returns>
+		private int GetCase(int n)
+		{
+			int no = 0;
+			switch(n)
+			{
+				case 0:
+				case 1:
+				case 2:
+					no = 0;
+					break;
+				case 3:
+				case 4:
+				case 5:
+					no = 3;
+					break;
+				case 6:
+				case 7:
+				case 8:
+					no = 6;
+					break;
+			}
+			return no;
+			
+		}
 
-        /// <summary>
-        /// Initialize a random number in a region
-        /// </summary>
-        /// <param name="xStart">Startpoint X</param>
-        /// <param name="xEnd">Endpoint X</param>
-        /// <param name="yStart">Startpoint </param>
-        /// <param name="yEnd">Endpoint Y</param>
-        private void GenerateRegion(int xStart,int xEnd,int yStart,int yEnd)
-        {
-            int x = m_rand.Next(xStart,xEnd);
-            int y = m_rand.Next(yStart,yEnd);
-            int no = m_rand.Next(1,10);
-            m_Sudoku[x,y] = no;
-        }
+		/// <summary>
+		/// Initialize a random number in a region
+		/// </summary>
+		/// <param name="xStart">Startpoint X</param>
+		/// <param name="xEnd">Endpoint X</param>
+		/// <param name="yStart">Startpoint </param>
+		/// <param name="yEnd">Endpoint Y</param>
+		private void GenerateRegion(int xStart,int xEnd,int yStart,int yEnd)
+		{
+			int x = m_rand.Next(xStart,xEnd);
+			int y = m_rand.Next(yStart,yEnd);
+			int no = m_rand.Next(1,10);
+			m_Sudoku[x,y] = no;
+		}
 
-        /// <summary>
-        /// Create 3 regions: top-left, middle, bottom-right
-        /// </summary>
-        private void CreateSubRegions()
-        {
-            int x = 0;
-            int y = 0;
-            for (int i = 0; i < 9; i++)
-            {
-                for (int j = 0; j < 9; j++)
-                {
-                    if (i == 0 && j==0)
-                    {
-                        x = GetCase(i);
-                        y = GetCase(j);
-                        GenerateRegion(x, x + 3, y, y + 3);
-                        i = 3;
-                        j = 3;
-                    }
+		/// <summary>
+		/// Create 3 regions: top-left, middle, bottom-right
+		/// </summary>
+		private void CreateSubRegions()
+		{
+			int x = 0;
+			int y = 0;
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					if (i == 0 && j==0)
+					{
+						x = GetCase(i);
+						y = GetCase(j);
+						GenerateRegion(x, x + 3, y, y + 3);
+						i = 3;
+						j = 3;
+					}
 
-                    if (i == 3 && j == 3)
-                    {
-                        x = GetCase(i);
-                        y = GetCase(j);
-                        GenerateRegion(x, x + 3, y, y + 3);
-                        i = 6;
-                        j = 6;
-                    }
+					if (i == 3 && j == 3)
+					{
+						x = GetCase(i);
+						y = GetCase(j);
+						GenerateRegion(x, x + 3, y, y + 3);
+						i = 6;
+						j = 6;
+					}
 
-                    if (i == 6 && j == 6)
-                    {
-                        x = GetCase(i);
-                        y = GetCase(j);
-                        GenerateRegion(x, x + 3, y, y + 3);
-                    }
-                }
-            }
-        }
-    }
+					if (i == 6 && j == 6)
+					{
+						x = GetCase(i);
+						y = GetCase(j);
+						GenerateRegion(x, x + 3, y, y + 3);
+					}
+				}
+			}
+		}
+	}
 }
