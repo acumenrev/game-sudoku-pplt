@@ -103,22 +103,23 @@ namespace Game_Sudoku.Xuly
 		// Thêm phần checkmap ban đâu vào 
 		public bool checkmap()
 		{
+            
 			for (int i = 0; i < 9; i++)
 			{
 				for (int j = 0; j < 9; j++)
 				{
-					if (v3[i, j].Z != 0)
+					if (v3[i,j].Z != 0)
 					{
 						for (int l = 0; l < 9; l++)
 						{
-							if ((l != j) && (v3[i, l].Z == v3[i, j].Z))
+                            if ((l != j) && (v3[i,l].Z == v3[i, j].Z))
 							{
 								//                                 Console.Write("sai hang");
 								//                                                               Console.WriteLine();
 								return false;
 							}
 
-							if ((l != i) && (v3[l, j].Z == v3[i, j].Z))
+                            if ((l != i) && (v3[l,j].Z == v3[i,j].Z))
 							{
 								//                                 Console.Write("sai cot");
 								//                                                             Console.WriteLine();
@@ -133,7 +134,7 @@ namespace Game_Sudoku.Xuly
 							{
 								if (m_subSquare[x, y] == squareIndex)
 								{
-									if (((x != i) || (y != j)) && (v3[x, y].Z == v3[i, j].Z))
+                                    if (((x != i) || (y != j)) && (v3[x,y].Z == v3[i,j].Z))
 									{
 										//                                         Console.Write("sai mien");
 										//                                                                                     Console.WriteLine();
@@ -148,6 +149,54 @@ namespace Game_Sudoku.Xuly
 
 			return true;
 		}
+        //
+        public bool checkketqua()
+        {
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    if (m_Sudoku[i,j] != 0)
+                    {
+                        for (int l = 0; l < 9; l++)
+                        {
+                            if ((l != j) && (m_Sudoku[i, l ]==m_Sudoku[i,j]))
+                            {
+                                //Console.Write("sai hang");
+                                //Console.WriteLine();
+                                return false;
+                            }
+
+                            if ((l != i) && (m_Sudoku[l,j] == m_Sudoku[i,j]))
+                            {
+                                //Console.Write("sai cot");
+                                //Console.WriteLine();
+                                return false;
+                            }
+                        }
+
+                        int squareIndex = m_subSquare[i, j];   // mien xac dinh theo index
+                        for (int x = 0; x < 9; x++)
+                        {
+                            for (int y = 0; y < 9; y++)
+                            {
+                                if (m_subSquare[x, y] == squareIndex)
+                                {
+                                    if (((x != i) || (y != j)) && (m_Sudoku[x,y] ==m_Sudoku[i,j]))
+                                    {
+                                        //Console.Write("sai mien");
+                                        //Console.WriteLine();
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+        //
 		   // ket thuc sua
 
 		public bool Solve()

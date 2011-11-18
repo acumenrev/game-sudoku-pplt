@@ -27,6 +27,9 @@ namespace Game_Sudoku.Screens
         SpriteFont m_levelfont;
         SpriteFont m_gameFontError;
         Texture2D m_gamescreenBG;
+        Texture2D m_buttonReset;
+        Texture2D m_buttonSetting;
+        Texture2D m_buttonQuit;
         
         SpriteBatch m_spriteBatch;
         
@@ -92,9 +95,12 @@ namespace Game_Sudoku.Screens
 
                 m_gameFont = content.Load<SpriteFont>("gamefont");
                 m_gameFontError = content.Load<SpriteFont>("gameerror");
-                m_gamescreenBG = content.Load<Texture2D>("Background/gamescreenBG");
                 m_timefont = content.Load<SpriteFont>("timefont");
                 m_levelfont = content.Load<SpriteFont>("levelfont");
+
+                m_gamescreenBG = content.Load<Texture2D>("Background/gamescreenBG");
+                //m_buttonQuit = content.Load<Texture2D>("");
+                
                 m_finishSound = content.Load<SoundEffect>("Sound/finish");
                 m_buttonSound = content.Load<SoundEffect>("Sound/buttonpush");
                 m_beginSound = content.Load<SoundEffect>("Sound/startgame");
@@ -118,7 +124,6 @@ namespace Game_Sudoku.Screens
                 {
                     m_beginSound.Play();
                 }
-
                 // once the load has finished, we use ResetElapsedTime to tell the game's
                 // timing mechanism that we have just finished a very long frame, and that
                 // it should not try to catch up.
@@ -261,6 +266,7 @@ namespace Game_Sudoku.Screens
             m_spriteBatch.DrawString(m_timefont, m_time.GetTime(), new Vector2(630, 318), Color.White);
             m_spriteBatch.DrawString(m_levelfont, GetLevel(), new Vector2(635, 235),Color.White);
             DrawMatrix();
+            
             m_spriteBatch.DrawString(m_gameFont,m_v2.X.ToString(), m_v2, Color.White);
             //if (!m_solveSudoku.Solve())
             //{
@@ -413,15 +419,32 @@ namespace Game_Sudoku.Screens
         public void SolveSudoku()
         {
             
-            if(m_v2.X>700)
+            if(m_v2.X>800)
             {
                 m_solveSudoku.Solve();
-
                 m_solveSudoku.ShowSolve();
-                //ScreenManager.AddScreen(new CongratulationScreen(), ControllingPlayer);
-                LoadingScreen.Load(ScreenManager, true, 
-                    ControllingPlayer, new CongratulationScreen());
+                ScreenManager.AddScreen(new CongratulationScreen(), ControllingPlayer);
+                //LoadingScreen.Load(ScreenManager, true, 
+                    //ControllingPlayer, new CongratulationScreen());
             }
+            if(m_v2.X>700)
+            {
+                if (m_solveSudoku.checkketqua()==true)
+                {
+                   // m_solveSudoku.Solve();
+                   // m_solveSudoku.ShowSolve();
+
+                }
+                if (m_solveSudoku.checkketqua() == false)
+                {
+                    m_solveSudoku.Solve();
+                    m_solveSudoku.ShowSolve();
+                }
+
+
+                
+            }
+                
 
             
         }
