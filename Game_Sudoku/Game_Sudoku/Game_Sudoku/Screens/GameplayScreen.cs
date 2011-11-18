@@ -27,15 +27,20 @@ namespace Game_Sudoku.Screens
         SpriteFont m_levelfont;
         SpriteFont m_gameFontError;
         Texture2D m_gamescreenBG;
-        Texture2D m_buttonReset;
-        Texture2D m_buttonSetting;
-        Texture2D m_buttonQuit;
+        Texture2D m_buttonReseton;
+        Texture2D m_buttonSettingon;
+        Texture2D m_buttonQuiton;
+        Texture2D m_buttonResetoff;
+        Texture2D m_buttonSettingoff;
+        Texture2D m_buttonQuitoff;
         
         SpriteBatch m_spriteBatch;
         
         int [,] m_lockMatrixNumber = new int [9,9];
         int[,] m_resultMatrixNumber = new int[9, 9];
+
         MouseState mouseStateCurrent, mouseStatePrevious;
+
         Vector2 m_v2;
         Vector2 m_vTime;
         Xuly.Sudoku m_solveSudoku;
@@ -99,8 +104,13 @@ namespace Game_Sudoku.Screens
                 m_levelfont = content.Load<SpriteFont>("levelfont");
 
                 m_gamescreenBG = content.Load<Texture2D>("Background/gamescreenBG");
-                //m_buttonQuit = content.Load<Texture2D>("");
-                
+                m_buttonQuiton = content.Load<Texture2D>("Buttons/quiton");
+                m_buttonQuitoff = content.Load<Texture2D>("Buttons/quitoff");
+                m_buttonReseton = content.Load<Texture2D>("Buttons/reseton");
+                m_buttonResetoff = content.Load<Texture2D>("Buttons/resetoff");
+                m_buttonSettingon = content.Load<Texture2D>("Buttons/settingon");
+                m_buttonSettingoff = content.Load<Texture2D>("Buttons/settingoff");
+                                
                 m_finishSound = content.Load<SoundEffect>("Sound/finish");
                 m_buttonSound = content.Load<SoundEffect>("Sound/buttonpush");
                 m_beginSound = content.Load<SoundEffect>("Sound/startgame");
@@ -266,13 +276,10 @@ namespace Game_Sudoku.Screens
             m_spriteBatch.DrawString(m_timefont, m_time.GetTime(), new Vector2(630, 318), Color.White);
             m_spriteBatch.DrawString(m_levelfont, GetLevel(), new Vector2(635, 235),Color.White);
             DrawMatrix();
+            DrawButton();
             m_spriteBatch.DrawString(m_levelfont, m_testSudoku, new Vector2(0, 0), Color.BlueViolet);
             m_spriteBatch.DrawString(m_gameFont,m_v2.X.ToString(), m_v2, Color.White);
-            //if (!m_solveSudoku.Solve())
-            //{
-            //    m_spriteBatch.DrawString(m_gameFontError, m_errorSudoku, new Vector2(0,0), Color.Yellow);
-            //}
-            
+
             m_spriteBatch.End();
 
             // If the game is transitioning on or Off, it out to black
@@ -325,7 +332,38 @@ namespace Game_Sudoku.Screens
 
 
         }
+        public void DrawButton()
+        {
 
+            m_spriteBatch.DrawString(m_gameFont, mouseStateCurrent.X.ToString(), new Vector2(0, 0), Color.Black);
+            m_spriteBatch.Draw(m_buttonReseton,new Vector2(610,400),Color.White);
+            m_spriteBatch.Draw(m_buttonSettingon, new Vector2(610, 440), Color.White);
+            m_spriteBatch.Draw(m_buttonQuiton, new Vector2(610, 480), Color.White);
+
+            if (mouseStateCurrent.X>610 && mouseStateCurrent.X< 735)
+            {
+                if (mouseStateCurrent.Y > 400 && mouseStateCurrent.Y < 440)
+                {
+                    m_spriteBatch.Draw(m_buttonResetoff, new Vector2(610, 400), Color.White);
+                }             
+            }
+
+            if (mouseStateCurrent.X > 610 && mouseStateCurrent.X < 735)
+            {
+                if (mouseStateCurrent.Y > 445 && mouseStateCurrent.Y < 480)
+                {
+                    m_spriteBatch.Draw(m_buttonSettingoff, new Vector2(610, 440), Color.White);
+                }
+            }
+
+            if (mouseStateCurrent.X > 610 && mouseStateCurrent.X < 735)
+            {
+                if (mouseStateCurrent.Y > 485 && mouseStateCurrent.Y < 515)
+                {
+                    m_spriteBatch.Draw(m_buttonQuitoff, new Vector2(610, 480), Color.White);
+                }
+            }
+        }
         /// <summary>
         /// Gets level status
         /// </summary>
@@ -437,6 +475,7 @@ namespace Game_Sudoku.Screens
                 if (m_solveSudoku.checkketqua() == false)
                 {
                     m_testSudoku = "Shit Rui";
+
                 }
 
 
