@@ -15,6 +15,7 @@ namespace Game_Sudoku.Screens
         MenuEntry m_mediumMenuEntry;
         MenuEntry m_hardMenuEntry;
         MenuEntry m_backMenuEntry;
+        public static int m_level;
 
 
         #endregion
@@ -50,19 +51,25 @@ namespace Game_Sudoku.Screens
 
         void EasyMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            Map.Level.m_level = 0;
+            Map.Level.m_level = m_level = 0;
+            clsTime.getInstance().ResetTime();
+            GameplayScreen.m_flagTime = true;
             LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new GameplayScreen());
         }
 
         void MediumMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            Map.Level.m_level = 1;
+            Map.Level.m_level = m_level = 1;
+            clsTime.getInstance().ResetTime();
+            GameplayScreen.m_flagTime = true;
             LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new GameplayScreen());
         }
 
         void HardMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            Map.Level.m_level = 2;
+            Map.Level.m_level = m_level = 2;
+            clsTime.getInstance().ResetTime();
+            GameplayScreen.m_flagTime = true;
             LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new GameplayScreen());
         }
         #endregion

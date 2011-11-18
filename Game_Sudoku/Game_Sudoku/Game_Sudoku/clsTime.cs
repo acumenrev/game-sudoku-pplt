@@ -17,6 +17,8 @@ namespace Game_Sudoku
         private Int64 m_hour;
         private static float interval = 1000f;
 
+        private static clsTime m_instance;
+
         #endregion
 
         #region Properties
@@ -53,12 +55,22 @@ namespace Game_Sudoku
 
         #region Constructors & Methods
 
-        public clsTime()
+        private clsTime()
         {
             Second = 0;
             Minute = 0;
             Hour = 0;
             Milliseconds = 0;
+        }
+
+        public static clsTime getInstance()
+        {
+            if (m_instance == null)
+            {
+                m_instance = new clsTime();
+            }
+
+            return m_instance;
         }
 
         public void IncreaseTime(GameTime gameTime)
@@ -83,7 +95,15 @@ namespace Game_Sudoku
 
         }
 
-        public string getTime()
+        public void ResetTime()
+        {
+            Second = 0;
+            Minute = 0;
+            Hour = 0;
+            Milliseconds = 0;
+        }
+
+        public string GetTime()
         {
             return string.Format("{0:00}:{1:00}:{2:00}", this.Hour, this.Minute, this.Second);
         }

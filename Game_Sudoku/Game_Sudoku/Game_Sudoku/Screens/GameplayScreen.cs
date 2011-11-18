@@ -76,10 +76,7 @@ namespace Game_Sudoku.Screens
             m_vTime = new Vector2(630, 320);
             m_pauseAction = new InputAction(null,new Keys[]{ Keys.Escape}, true);
             m_flagTime = true;
-            m_time = new clsTime();
-            
-            
-            
+            m_time = clsTime.getInstance();
         }
 
         /// <summary>
@@ -208,6 +205,7 @@ namespace Game_Sudoku.Screens
                  m_pauseAlpha = Math.Max(m_pauseAlpha - 1f / 32, 0);
             }
 
+            
             //if (IsActive)
             //{
             //    // Apply some random jutter to make the enemy move around
@@ -260,7 +258,7 @@ namespace Game_Sudoku.Screens
             m_spriteBatch.Begin();
 
             m_spriteBatch.Draw(m_gamescreenBG, new Vector2(0, 0), Color.White);
-            m_spriteBatch.DrawString(m_timefont, m_time.getTime(), new Vector2(630, 318), Color.White);
+            m_spriteBatch.DrawString(m_timefont, m_time.GetTime(), new Vector2(630, 318), Color.White);
             m_spriteBatch.DrawString(m_levelfont, GetLevel(), new Vector2(635, 235),Color.White);
             DrawMatrix();
             m_spriteBatch.DrawString(m_gameFont,m_v2.X.ToString(), m_v2, Color.White);
@@ -414,11 +412,15 @@ namespace Game_Sudoku.Screens
         /// </summary>
         public void SolveSudoku()
         {
+            
             if(m_v2.X>700)
             {
                 m_solveSudoku.Solve();
+
                 m_solveSudoku.ShowSolve();
-                
+                //ScreenManager.AddScreen(new CongratulationScreen(), ControllingPlayer);
+                LoadingScreen.Load(ScreenManager, true, 
+                    ControllingPlayer, new CongratulationScreen());
             }
 
             
