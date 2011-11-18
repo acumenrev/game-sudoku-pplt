@@ -23,7 +23,7 @@ namespace Game_Sudoku.Xuly
 				{0,0,0,0,0,0,0,0,0},
 				{0,0,0,0,0,0,0,0,0}
 			};
-        public int[,] m_resultMatrix = new int[9, 9];
+		public int[,] m_resultMatrix = new int[9, 9];
 		private int[,] m_emptyMatrix = new int[9, 9];
 		
 		
@@ -66,14 +66,14 @@ namespace Game_Sudoku.Xuly
 				// Gan cac gia tri tu v3 sang cho m_Sudoku
 				ShowSolve();
 			}
-            for (int i = 0; i < 9; i++)
-            {
-                for (int j = 0; j < 9; j++)
-                {
-                    m_resultMatrix[i,j] = m_Sudoku[i,j];
-                }
-            }
-            
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					m_resultMatrix[i,j] = m_Sudoku[i,j];
+				}
+			}
+			
 			// gan cac phan tu ngau nhien trong m_emptyMatrix bang 0
 			// cho cac so ngau nhien bang 0
 			Merge();
@@ -100,67 +100,68 @@ namespace Game_Sudoku.Xuly
 			
 		}
 
-        // Thêm phần checkmap ban đâu vào 
-        public bool checkmap()
-        {
-            for (int i = 0; i < 9; i++)
-            {
-                for (int j = 0; j < 9; j++)
-                {
-                    if (v3[i, j].Z != 0)
-                    {
-                        for (int l = 0; l < 9; l++)
-                        {
-                            if ((l != j) && (v3[i, l].Z == v3[i, j].Z))
-                            {
-                                //                                 Console.Write("sai hang");
-                                //                                                               Console.WriteLine();
-                                return false;
-                            }
+		// Thêm phần checkmap ban đâu vào 
+		public bool checkmap()
+		{
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					if (v3[i, j].Z != 0)
+					{
+						for (int l = 0; l < 9; l++)
+						{
+							if ((l != j) && (v3[i, l].Z == v3[i, j].Z))
+							{
+								//                                 Console.Write("sai hang");
+								//                                                               Console.WriteLine();
+								return false;
+							}
 
-                            if ((l != i) && (v3[l, j].Z == v3[i, j].Z))
-                            {
-                                //                                 Console.Write("sai cot");
-                                //                                                             Console.WriteLine();
-                                return false;
-                            }
-                        }
+							if ((l != i) && (v3[l, j].Z == v3[i, j].Z))
+							{
+								//                                 Console.Write("sai cot");
+								//                                                             Console.WriteLine();
+								return false;
+							}
+						}
 
-                        int squareIndex = m_subSquare[i, j];   // mien xac dinh theo index
-                        for (int x = 0; x < 9; x++)
-                        {
-                            for (int y = 0; y < 9; y++)
-                            {
-                                if (m_subSquare[x, y] == squareIndex)
-                                {
-                                    if (((x != i) || (y != j)) && (v3[x, y].Z == v3[i, j].Z))
-                                    {
-                                        //                                         Console.Write("sai mien");
-                                        //                                                                                     Console.WriteLine();
-                                        return false;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+						int squareIndex = m_subSquare[i, j];   // mien xac dinh theo index
+						for (int x = 0; x < 9; x++)
+						{
+							for (int y = 0; y < 9; y++)
+							{
+								if (m_subSquare[x, y] == squareIndex)
+								{
+									if (((x != i) || (y != j)) && (v3[x, y].Z == v3[i, j].Z))
+									{
+										//                                         Console.Write("sai mien");
+										//                                                                                     Console.WriteLine();
+										return false;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
 
-            return true;
-        }
-           // ket thuc sua
+			return true;
+		}
+		   // ket thuc sua
 
 		public bool Solve()
 		{
+            
 			int a = 0;
 			int b = 0;
 			int tongSoPhanTu = 10;
 			int[] daySoTam = null;
 
-            if (!checkmap())
-            {
-                return false;
-            }
+			if (!checkmap())
+			{
+				return false;
+			}
 
 			for (int i = 0; i < 9; i++)
 			{
