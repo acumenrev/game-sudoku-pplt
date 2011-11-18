@@ -156,6 +156,18 @@ namespace Game_Sudoku.Xuly
             {
                 for (int j = 0; j < 9; j++)
                 {
+                    if (m_Sudoku[i,j]==0)
+                    {
+                        return false;
+                    }
+                }
+
+            }
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
                     if (m_Sudoku[i,j] != 0)
                     {
                         for (int l = 0; l < 9; l++)
