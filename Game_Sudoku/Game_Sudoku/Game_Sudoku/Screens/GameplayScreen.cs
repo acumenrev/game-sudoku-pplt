@@ -45,7 +45,7 @@ namespace Game_Sudoku.Screens
         bool m_flagsound;
         public static bool m_flagsoundmenu=false;
         KeyboardState m_KeyboardEvent;
-        string m_errorSudoku;
+        string m_testSudoku="";
         //Vector2 playerPosition = new Vector2(100, 100);
         //Vector2 enemyPosition = new Vector2(100, 100);
 
@@ -266,7 +266,7 @@ namespace Game_Sudoku.Screens
             m_spriteBatch.DrawString(m_timefont, m_time.GetTime(), new Vector2(630, 318), Color.White);
             m_spriteBatch.DrawString(m_levelfont, GetLevel(), new Vector2(635, 235),Color.White);
             DrawMatrix();
-            
+            m_spriteBatch.DrawString(m_levelfont, m_testSudoku, new Vector2(0, 0), Color.BlueViolet);
             m_spriteBatch.DrawString(m_gameFont,m_v2.X.ToString(), m_v2, Color.White);
             //if (!m_solveSudoku.Solve())
             //{
@@ -431,14 +431,12 @@ namespace Game_Sudoku.Screens
             {
                 if (m_solveSudoku.checkketqua()==true)
                 {
-                   // m_solveSudoku.Solve();
-                   // m_solveSudoku.ShowSolve();
+                    m_testSudoku="Thanh cong rui";
 
                 }
                 if (m_solveSudoku.checkketqua() == false)
                 {
-                    m_solveSudoku.Solve();
-                    m_solveSudoku.ShowSolve();
+                    m_testSudoku = "Shit Rui";
                 }
 
 
