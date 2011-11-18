@@ -177,6 +177,7 @@ namespace Game_Sudoku.Screens
                 m_v2.Y = (float)mouseStateCurrent.Y;
                 m_flagChangeNumber = true;
                 SolveSudoku();
+                EventButton();
             }
 
             if (mouseStateCurrent.X > MainGame.m_graphics.PreferredBackBufferWidth ||
@@ -207,6 +208,7 @@ namespace Game_Sudoku.Screens
                 m_time.IncreaseTime(gameTime);
                 //
                 ChangeNumber();
+                
             }
            
 
@@ -278,7 +280,7 @@ namespace Game_Sudoku.Screens
             DrawMatrix();
             DrawButton();
             m_spriteBatch.DrawString(m_levelfont, m_testSudoku, new Vector2(0, 0), Color.BlueViolet);
-            m_spriteBatch.DrawString(m_gameFont,m_v2.X.ToString(), m_v2, Color.White);
+            //m_spriteBatch.DrawString(m_gameFont,m_v2.X.ToString(), m_v2, Color.White);
 
             m_spriteBatch.End();
 
@@ -388,7 +390,19 @@ namespace Game_Sudoku.Screens
             return level;
         }
 
-
+        public void EventButton()
+        {
+            if (m_v2.X > 610 && m_v2.X < 735)
+            {
+                if (m_v2.Y > 445 && m_v2.Y < 480)
+                {
+                    ScreenManager.AddScreen(new PauseMenuScreen(), ControllingPlayer);
+                    m_flagTime = false;
+                    m_flagsoundmenu = true;
+                }
+            }
+            
+        }
         public void ChangeNumber()
         {
             float x = (m_v2.X - 30) / 60;
