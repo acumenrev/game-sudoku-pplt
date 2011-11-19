@@ -180,16 +180,16 @@ namespace Game_Sudoku.Screens
                 EventButton();
             }
 
-            if (mouseStateCurrent.X > MainGame.m_graphics.PreferredBackBufferWidth ||
-                mouseStateCurrent.Y > MainGame.m_graphics.PreferredBackBufferHeight)
-            {
+            //if (mouseStateCurrent.X > MainGame.m_graphics.PreferredBackBufferWidth ||
+            //    mouseStateCurrent.Y > MainGame.m_graphics.PreferredBackBufferHeight)
+            //{
 
-                m_flagTime = false;
-            }
-            else
-            {
-                m_flagTime = true;
-            }
+            //    m_flagTime = false;
+            //}
+            //else
+            //{
+            //    m_flagTime = true;
+            //}
             
             mouseStatePrevious = mouseStateCurrent;
 
@@ -206,9 +206,7 @@ namespace Game_Sudoku.Screens
             if (m_flagTime == true)
             {
                 m_time.IncreaseTime(gameTime);
-                //
                 ChangeNumber();
-                
             }
            
 
@@ -471,7 +469,7 @@ namespace Game_Sudoku.Screens
         public void SolveSudoku()
         {
             
-            if(m_v2.X>800)
+            if(m_v2.Y>500)
             {
                 m_solveSudoku.Solve();
                 m_solveSudoku.ShowSolve();
