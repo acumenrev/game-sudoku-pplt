@@ -55,16 +55,17 @@ namespace Game_Sudoku.Screens
 
         #region Handle Input
 
+        /// <summary>
+        /// Event handler for when the Replay Game menu entry is selected.
+        /// </summary>
         void ReplayMenuEntrySelected(object sender,PlayerIndexEventArgs e)
         {
             ScreenManager.AddScreen(new LevelScreen(), e.PlayerIndex);
-
-            
-            //Map.Level.m_level = LevelScreen.m_level;
-            //LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new GameplayScreen());
-
         }
 
+        /// <summary>
+        /// Event handler for when the Quit Game menu entry is selected.
+        /// </summary>
         void QuitMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
             const string msg = "Are you sure you want to exit ?";

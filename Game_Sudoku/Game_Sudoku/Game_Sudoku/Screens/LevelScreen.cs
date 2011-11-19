@@ -51,26 +51,29 @@ namespace Game_Sudoku.Screens
 
         void EasyMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            Map.Level.m_level = m_level = 0;
+            
             clsTime.getInstance().ResetTime();
             GameplayScreen.m_flagTime = true;
             LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new GameplayScreen());
+            Map.Level.m_level = m_level = 0;
         }
 
         void MediumMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            Map.Level.m_level = m_level = 1;
+            
             clsTime.getInstance().ResetTime();
             GameplayScreen.m_flagTime = true;
             LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new GameplayScreen());
+            Map.Level.m_level = m_level = 1;
         }
 
         void HardMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            Map.Level.m_level = m_level = 2;
+           
             clsTime.getInstance().ResetTime();
             GameplayScreen.m_flagTime = true;
             LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new GameplayScreen());
+            Map.Level.m_level = m_level = 2;
         }
         #endregion
     }
