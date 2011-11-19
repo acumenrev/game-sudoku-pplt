@@ -33,6 +33,9 @@ namespace Game_Sudoku.Screens
         Texture2D m_buttonResetoff;
         Texture2D m_buttonSettingoff;
         Texture2D m_buttonQuitoff;
+        Texture2D m_buttonSolve;
+        Texture2D m_buttonCheck;
+        Texture2D m_wrongMess;
         
         SpriteBatch m_spriteBatch;
         
@@ -48,6 +51,7 @@ namespace Game_Sudoku.Screens
         SoundEffect m_buttonSound;
         SoundEffect m_beginSound;
         bool m_flagsound;
+        bool m_flagwrongmess = false;
         public static bool m_flagsoundmenu=false;
         KeyboardState m_KeyboardEvent;
         string m_testSudoku="";
@@ -110,6 +114,9 @@ namespace Game_Sudoku.Screens
                 m_buttonResetoff = content.Load<Texture2D>("Buttons/resetoff");
                 m_buttonSettingon = content.Load<Texture2D>("Buttons/settingon");
                 m_buttonSettingoff = content.Load<Texture2D>("Buttons/settingoff");
+                m_buttonSolve = content.Load<Texture2D>("Buttons/Solve");
+                m_buttonCheck = content.Load<Texture2D>("Buttons/Check");
+                m_wrongMess= content.Load<Texture2D>("Buttons/wrongmess");
                                 
                 m_finishSound = content.Load<SoundEffect>("Sound/finish");
                 m_buttonSound = content.Load<SoundEffect>("Sound/buttonpush");
@@ -187,10 +194,7 @@ namespace Game_Sudoku.Screens
             
 
             // Play sound when sudoku is solved
-            if (OptionsMenuScreen.m_bMusic == true)
-            {
-                 Finisheffect();
-            }
+
 
             // Draw timer
             // if paused is active --> stop time and changing number
@@ -236,7 +240,7 @@ namespace Game_Sudoku.Screens
                 m_v2.X = (float)mouseStateCurrent.X;
                 m_v2.Y = (float)mouseStateCurrent.Y;
                 m_flagChangeNumber = true;
-                SolveSudoku();
+
                 EventButton();
             }
             // look up inputs for the active player profile
@@ -276,11 +280,13 @@ namespace Game_Sudoku.Screens
             m_spriteBatch.Draw(m_gamescreenBG, new Vector2(0, 0), Color.White);
             m_spriteBatch.DrawString(m_timefont, m_time.GetTime(), new Vector2(630, 318), Color.White);
             m_spriteBatch.DrawString(m_levelfont, GetLevel(), new Vector2(635, 235),Color.White);
+
             DrawMatrix();
             DrawButton();
+            DrawWrongMess();
             m_spriteBatch.DrawString(m_levelfont, m_testSudoku, new Vector2(0, 0), Color.BlueViolet);
             //m_spriteBatch.DrawString(m_gameFont,m_v2.X.ToString(), m_v2, Color.White);
-
+ 
             m_spriteBatch.End();
 
             // If the game is transitioning on or Off, it out to black
@@ -337,10 +343,12 @@ namespace Game_Sudoku.Screens
         {
 
             m_spriteBatch.DrawString(m_gameFont, mouseStateCurrent.X.ToString(), new Vector2(0, 0), Color.Black);
+            m_spriteBatch.DrawString(m_gameFont, mouseStateCurrent.Y.ToString(), new Vector2(0, 20), Color.Black);
             m_spriteBatch.Draw(m_buttonReseton,new Vector2(610,400),Color.White);
             m_spriteBatch.Draw(m_buttonSettingon, new Vector2(610, 440), Color.White);
             m_spriteBatch.Draw(m_buttonQuiton, new Vector2(610, 480), Color.White);
-
+            m_spriteBatch.Draw(m_buttonSolve, new Vector2(700, 150), Color.White);
+            m_spriteBatch.Draw(m_buttonCheck, new Vector2(590, 130), Color.White);
             if (mouseStateCurrent.X>610 && mouseStateCurrent.X< 735)
             {
                 if (mouseStateCurrent.Y > 400 && mouseStateCurrent.Y < 440)
@@ -364,6 +372,22 @@ namespace Game_Sudoku.Screens
                     m_spriteBatch.Draw(m_buttonQuitoff, new Vector2(610, 480), Color.White);
                 }
             }
+        }
+        public void DrawWrongMess()
+        {
+            if (mouseStateCurrent.X > 590 && mouseStateCurrent.X < 650)
+            {
+                if (mouseStateCurrent.Y > 130 && mouseStateCurrent.Y < 190)
+                {
+                    if (m_flagwrongmess == true)
+                    {
+                        m_spriteBatch.Draw(m_wrongMess, new Vector2(591, 37), Color.White);
+
+                    }
+                }
+                else { m_flagwrongmess = false; }
+            }
+            else { m_flagwrongmess = false; }
         }
         /// <summary>
         /// Gets level status
@@ -391,6 +415,43 @@ namespace Game_Sudoku.Screens
 
         public void EventButton()
         {
+            if (mouseStateCurrent.X > 590 && mouseStateCurrent.X < 650)
+            {
+                if (mouseStateCurrent.Y > 130 && mouseStateCurrent.Y < 190)
+                {
+                    if (m_solveSudoku.checkketqua() == true)
+                    {
+                        ScreenManager.AddScreen(new CongratulationScreen(), ControllingPlayer);
+                        if (OptionsMenuScreen.m_bMusic == true)
+                        {
+                            m_finishSound.Play();
+                        }
+
+                    }
+                    if (m_solveSudoku.checkketqua() == false)
+                    {
+                        m_flagwrongmess=true;
+
+                    }
+                }
+            }
+
+            if (mouseStateCurrent.X > 700 && mouseStateCurrent.X < 743)
+            {
+                if (mouseStateCurrent.Y > 150 && mouseStateCurrent.Y < 190)
+                {
+                    m_solveSudoku.Solve();
+                    m_solveSudoku.ShowSolve();
+                   /* ScreenManager.AddScreen(new CongratulationScreen(), ControllingPlayer);
+                    if (OptionsMenuScreen.m_bMusic == true)
+                    {
+                      m_finishSound.Play();
+                    }*/
+                    //LoadingScreen.Load(ScreenManager, true, 
+                    //ControllingPlayer, new CongratulationScreen());
+                }
+            }
+
             if (mouseStateCurrent.X > 610 && mouseStateCurrent.X < 735)
             {
                 if (mouseStateCurrent.Y > 400 && mouseStateCurrent.Y < 440)
@@ -496,52 +557,11 @@ namespace Game_Sudoku.Screens
         /// <summary>
         /// Solving sudoku grid
         /// </summary>
-        public void SolveSudoku()
-        {
-            
-            if(m_v2.Y>500)
-            {
-                m_solveSudoku.Solve();
-                m_solveSudoku.ShowSolve();
-                ScreenManager.AddScreen(new CongratulationScreen(), ControllingPlayer);
-                //LoadingScreen.Load(ScreenManager, true, 
-                    //ControllingPlayer, new CongratulationScreen());
-            }
-            if(m_v2.X>700)
-            {
-                if (m_solveSudoku.checkketqua()==true)
-                {
-                    m_testSudoku="Thanh cong rui";
-
-                }
-                if (m_solveSudoku.checkketqua() == false)
-                {
-                    m_testSudoku = "Shit Rui";
-
-                }
-
-
-                
-            }
-                
-
-            
-        }
 
         /// <summary>
         /// Sound effect when Sudoku is solved
         /// </summary>
-        public void Finisheffect()
-        {
 
-                if (m_solveSudoku.m_Sudoku == m_resultMatrixNumber)
-                {
-                    m_finishSound.Play();
-                  
-                }
-         
-            
-        }
         #endregion
     }
 }
