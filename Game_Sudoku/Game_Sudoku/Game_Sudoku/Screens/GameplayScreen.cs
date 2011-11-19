@@ -169,16 +169,7 @@ namespace Game_Sudoku.Screens
             PlaySound();
             //
             // catch the mouse events
-            mouseStateCurrent = Mouse.GetState();
-            if (mouseStateCurrent.LeftButton == ButtonState.Pressed &&
-                  mouseStatePrevious.LeftButton == ButtonState.Released)
-            {
-                m_v2.X = (float)mouseStateCurrent.X;
-                m_v2.Y = (float)mouseStateCurrent.Y;
-                m_flagChangeNumber = true;
-                SolveSudoku();
-                EventButton();
-            }
+
 
             //if (mouseStateCurrent.X > MainGame.m_graphics.PreferredBackBufferWidth ||
             //    mouseStateCurrent.Y > MainGame.m_graphics.PreferredBackBufferHeight)
@@ -238,6 +229,16 @@ namespace Game_Sudoku.Screens
             if (input == null)
                 throw new ArgumentNullException("input");
 
+            mouseStateCurrent = Mouse.GetState();
+            if (mouseStateCurrent.LeftButton == ButtonState.Pressed &&
+                  mouseStatePrevious.LeftButton == ButtonState.Released)
+            {
+                m_v2.X = (float)mouseStateCurrent.X;
+                m_v2.Y = (float)mouseStateCurrent.Y;
+                m_flagChangeNumber = true;
+                SolveSudoku();
+                EventButton();
+            }
             // look up inputs for the active player profile
             int playerIndex = (int)ControllingPlayer.Value;
 
@@ -390,16 +391,45 @@ namespace Game_Sudoku.Screens
 
         public void EventButton()
         {
+            if (mouseStateCurrent.X > 610 && mouseStateCurrent.X < 735)
+            {
+                if (mouseStateCurrent.Y > 400 && mouseStateCurrent.Y < 440)
+                {
+                    clsTime.getInstance().ResetTime();
+                    GameplayScreen.m_flagTime = true;
+                    LoadingScreen.Load(ScreenManager, true, ControllingPlayer ,new GameplayScreen());
+
+                }
+            }
+
             if (m_v2.X > 610 && m_v2.X < 735)
             {
                 if (m_v2.Y > 445 && m_v2.Y < 480)
                 {
                     ScreenManager.AddScreen(new PauseMenuScreen(), ControllingPlayer);
+
                     m_flagTime = false;
                     m_flagsoundmenu = true;
                 }
             }
-            
+
+            if (mouseStateCurrent.X > 610 && mouseStateCurrent.X < 735)
+            {
+                if (mouseStateCurrent.Y > 485 && mouseStateCurrent.Y < 515)
+                {
+                    const string message = "Are you sure you want to quit this game?";
+                    MessageBoxScreen confirmQuitMessageBox = new MessageBoxScreen(message);
+                    confirmQuitMessageBox.Accepted += ConfirmQuitMessageBoxAccepted;
+
+                    ScreenManager.AddScreen(confirmQuitMessageBox, ControllingPlayer);
+                    
+                }
+            }
+        }
+        void ConfirmQuitMessageBoxAccepted(object sender, PlayerIndexEventArgs e)
+        {
+            LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(), new MainMenuScreen());
+
         }
         public void ChangeNumber()
         {
