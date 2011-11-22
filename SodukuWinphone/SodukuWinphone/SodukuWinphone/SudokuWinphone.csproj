@@ -69,6 +69,8 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Screen\BackgroundScreen.cs" />
+    <Compile Include="Screen\LoadingScreen.cs" />
     <Compile Include="Sudoku\clsTime.cs" />
     <Compile Include="Sudoku\Level.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
