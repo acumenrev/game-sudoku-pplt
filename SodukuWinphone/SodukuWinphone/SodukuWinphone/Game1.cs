@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Media;
 using GameStateManagement;
 
-namespace SodukuWinphone
+namespace SudokuWinphone
 {
     /// <summary>
     /// This is the main type for your game

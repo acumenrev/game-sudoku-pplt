@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using GameStateManagement;
 
-namespace SodukuWinphone
+namespace SudokuWinphone
 {
     class GameplayScreen:GameScreen
     {
@@ -21,6 +21,7 @@ namespace SodukuWinphone
 
         //SpriteFont
         SpriteFont m_gameplayFont;
+        SpriteFont m_gametimeFont;
 
         //SpriteBacth
         SpriteBatch m_spriteBatch;
@@ -35,8 +36,11 @@ namespace SodukuWinphone
         //Sudoku
         Sudoku.Sudoku m_sudoku;
 
-        // Vector Change Number
-        Vector2 m_v2=Vector2.Zero;
+        // Vector
+        Vector2 m_v2=Vector2.Zero; // Vector of number tap
+        Vector2 m_vtime = new Vector2(636,268); // Vector of time on screen
+        // Time in Sudoku
+        Sudoku.clsTime m_time;
         #endregion
         #region Init
         //Contructor
@@ -57,6 +61,8 @@ namespace SodukuWinphone
                 }
 
             }
+            //Time (What's Hell? Plz explain it for me here)
+            m_time = Sudoku.clsTime.getInstance();
         }
 
         public override void LoadContent()
@@ -65,6 +71,7 @@ namespace SodukuWinphone
             m_gameplayBG = Load<Texture2D>("gamescreenBG");
             //LoadConten Font
             m_gameplayFont = Load<SpriteFont>("GameFont");
+            m_gametimeFont = Load<SpriteFont>("TimeFont");
             base.LoadContent();
         }
         public override void UnloadContent()
@@ -76,6 +83,10 @@ namespace SodukuWinphone
         // Update
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
+            //get Time sudoku
+            m_time.IncreaseTime(gameTime);
+
+            //
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
         }
         // HandleInput
@@ -102,8 +113,14 @@ namespace SodukuWinphone
             m_spriteBatch = ScreenManager.SpriteBatch;
             m_spriteBatch.Begin();
             m_spriteBatch.Draw(m_gameplayBG, Vector2.Zero, Color.White);
-            m_spriteBatch.DrawString(m_gameplayFont, DemoString.ToString(), Vector2.Zero, Color.White);
+
+            m_spriteBatch.DrawString(m_gameplayFont, "TNT Sudoku", Vector2.Zero, Color.White);
+            //Draw Matrix Sudoku
             DrawMatrix();
+
+            //Draw Time Sudoku
+            m_spriteBatch.DrawString(m_gametimeFont,m_time.GetTime().ToString(),m_vtime, Color.White);
+
             m_spriteBatch.End();
             base.Draw(gameTime);
         }
@@ -121,7 +138,7 @@ namespace SodukuWinphone
                         string a = m_lockMatrixNumber[j, i].ToString();
                         float x = (i * 60) + 35;
                         float y = (j * 50) + 25;
-                        spriteBatch.DrawString(m_gameplayFont, a, new Vector2(x, y), Color.Blue);
+                        spriteBatch.DrawString(m_gameplayFont, a, new Vector2(x, y), Color.DarkSlateBlue);
                     }
 
                     //if (m_lockMatrixNumber[j, i] == 0 &&  m_mapDemo.m_matrixMap[j, i] != 0)
@@ -171,8 +188,7 @@ namespace SodukuWinphone
                 }
             }
 
-
-        }
+    }
 
 #endregion
     
