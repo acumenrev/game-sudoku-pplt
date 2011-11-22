@@ -1,3 +1,5 @@
+
+#region Library
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
@@ -10,21 +12,21 @@ using System.Text;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using GameStateManagement;
+#endregion
 
 namespace SudokuWinphone
 {
     class GameplayScreen:GameScreen
     {
         #region Fields
+        //SpriteBacth
+        SpriteBatch m_spriteBatch;
         //Texture2D
         Texture2D m_gameplayBG;
 
         //SpriteFont
         SpriteFont m_gameplayFont;
         SpriteFont m_gametimeFont;
-
-        //SpriteBacth
-        SpriteBatch m_spriteBatch;
 
         //Demo String
         int DemoString = 0;
