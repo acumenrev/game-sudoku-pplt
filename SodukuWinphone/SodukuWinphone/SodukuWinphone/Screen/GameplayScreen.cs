@@ -22,6 +22,8 @@ namespace SodukuWinphone
         SpriteFont m_gameplayFont;
         //SpriteBacth
         SpriteBatch m_spriteBatch;
+        //Demo String
+        int DemoString = 0;
 
         #endregion
         #region Init
@@ -30,6 +32,7 @@ namespace SodukuWinphone
         {
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
+            EnabledGestures = GestureType.Tap;
         }
 
         public override void LoadContent()
@@ -54,6 +57,16 @@ namespace SodukuWinphone
         // HandleInput
         public override void HandleInput(InputState input)
         {
+            if (input == null)
+                throw new ArgumentNullException("input");
+            // Gesture Tap 
+            foreach (var gesture in input.Gestures)
+            {
+                if (gesture.GestureType == GestureType.Tap)
+                {
+                    //DemoString += 2;
+                }
+            }
             base.HandleInput(input);
         }
         // Draw
@@ -62,6 +75,7 @@ namespace SodukuWinphone
             m_spriteBatch = ScreenManager.SpriteBatch;
             m_spriteBatch.Begin();
             m_spriteBatch.Draw(m_gameplayBG, Vector2.Zero, Color.White);
+            m_spriteBatch.DrawString(m_gameplayFont, DemoString.ToString(), Vector2.Zero, Color.White);
             m_spriteBatch.End();
             base.Draw(gameTime);
         }
