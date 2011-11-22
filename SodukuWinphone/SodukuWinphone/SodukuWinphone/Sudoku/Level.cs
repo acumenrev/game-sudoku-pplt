@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SodukuWinphone.Sudoku
+namespace SudokuWinphone.Sudoku
 {
     class Level
     {

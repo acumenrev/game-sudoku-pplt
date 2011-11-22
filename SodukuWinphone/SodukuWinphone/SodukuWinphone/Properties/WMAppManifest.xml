@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2009/deployment" AppPlatformVersion="7.1">
-  <App xmlns="" ProductID="{43f49088-28c7-43ee-be7f-594a4573a6db}" Title="SodukuWinphone" RuntimeType="XNA" Version="1.0.0.0" Genre="Apps.Normal" Author="" Description="" Publisher="">
+  <App xmlns="" ProductID="{43f49088-28c7-43ee-be7f-594a4573a6db}" Title="SudokuWinphone" RuntimeType="XNA" Version="1.0.0.0" Genre="Apps.Normal" Author="" Description="" Publisher="">
     <IconPath IsRelative="true" IsResource="false"></IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />

@@ -1,6 +1,6 @@
 using System;
 
-namespace SodukuWinphone
+namespace SudokuWinphone
 {
 #if WINDOWS || XBOX
     static class Program
