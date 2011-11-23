@@ -26,8 +26,8 @@ namespace Game_Sudoku
     {
         #region Fields
 
-        bool m_loadingIsSlow;
-        bool m_otherScreenAreGone;
+        bool m_flagLoadingIsSlow;
+        bool m_flagOtherScreenAreGone;
 
         GameScreen[] m_screensToLoad;
 
@@ -37,7 +37,7 @@ namespace Game_Sudoku
 
         private LoadingScreen(ScreenManager screenManager, bool loadingIsSlow, GameScreen[] screensToLoad)
         {
-            this.m_loadingIsSlow = loadingIsSlow;
+            this.m_flagLoadingIsSlow = loadingIsSlow;
             this.m_screensToLoad = screensToLoad;
 
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
@@ -71,7 +71,7 @@ namespace Game_Sudoku
 
             // If all the previous screens have finished transitioning
             // off, it is time to actually perform the load.
-            if (m_otherScreenAreGone)
+            if (m_flagOtherScreenAreGone)
             {
                 ScreenManager.RemoveScreen(this);
 
@@ -103,7 +103,7 @@ namespace Game_Sudoku
             // have actually drawn a frame without them before we perform the load.
             if ((ScreenState == ScreenState.Active) && (ScreenManager.GetScreens().Length == 1))
             {
-                m_otherScreenAreGone = true;
+                m_flagOtherScreenAreGone = true;
             }
             base.Draw(gameTime);
 
@@ -113,7 +113,7 @@ namespace Game_Sudoku
             // second while returning from the game to the menus. This parameter
             // tells us how long the loading is going to take, so we know whether
             // to bother drawing the message.
-            if (m_loadingIsSlow)
+            if (m_flagLoadingIsSlow)
             {
                 SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
                 SpriteFont font = ScreenManager.Font;

@@ -8,8 +8,10 @@ namespace Game_Sudoku.Xuly
 {
 	class Sudoku
 	{
+		#region Fields
+		
 		Random m_rand = new Random();
-		public static Vector3[,] v3;
+		public static Vector3[,] m_v3;
 		public int[,] m_Sudoku = 
 			new int[9, 9]
 			{
@@ -25,10 +27,7 @@ namespace Game_Sudoku.Xuly
 			};
 		public int[,] m_resultMatrix = new int[9, 9];
 		private int[,] m_emptyMatrix = new int[9, 9];
-		
-		
 		Map.Level m_level;
-
 		private int[,] m_subSquare =
 			new int[,]
 			{
@@ -43,27 +42,24 @@ namespace Game_Sudoku.Xuly
 				{6,6,6,7,7,7,8,8,8}
 		};
 
+		#endregion
+
+		#region Constructor
+	   
 		public Sudoku()
 		{
-			v3 = new Vector3[9, 9];
+			m_v3 = new Vector3[9, 9];
 			// tao ra 3 so ngau nhien trong 3 mien TopLeft, Middle, BottomRight
 			CreateSubRegions();
 			// tao ra ma tran co o trong
 			m_level = new Map.Level();
 
-
-			for (int i = 0; i < 9; i++)
-			{
-				for (int j = 0; j < 9; j++)
-				{
-					v3[i, j].Z = m_Sudoku[i, j];
-				}
-			}
+            CopyToV3();
 
 			// Giai o so da cho ben tren
 			if (Solve())
 			{
-				// Gan cac gia tri tu v3 sang cho m_Sudoku
+				// Gan cac gia tri tu m_v3 sang cho m_Sudoku
 				ShowSolve();
 			}
 			for (int i = 0; i < 9; i++)
@@ -81,8 +77,20 @@ namespace Game_Sudoku.Xuly
 		 
 		}
 
-	
+        public Sudoku(int loai)
+        {
+            m_v3 = new Vector3[9, 9];
+            CopyToV3();
+        }
+		#endregion
 
+		#region Methods
+		/// <summary>
+		/// Check fields
+		/// </summary>
+		/// <param name="m"></param>
+		/// <param name="i"></param>
+		/// <param name="j"></param>
 		public void CheckField(int[] m, int i, int j)
 		{
 			int squareIndex = m_subSquare[i, j];   // mien xac dinh theo index
@@ -92,7 +100,7 @@ namespace Game_Sudoku.Xuly
 				{
 					if (m_subSquare[x, y] == squareIndex)
 					{
-						m[(int)v3[x, y].Z] = 0;
+						m[(int)m_v3[x, y].Z] = 0;
 					}
 				}
 
@@ -100,44 +108,62 @@ namespace Game_Sudoku.Xuly
 			
 		}
 
+        /// <summary>
+        /// Copy each cell's value from m_Sudoku to m_v3
+        /// </summary>
+        public void CopyToV3()
+        {
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    m_v3[i, j].Z = m_Sudoku[i, j];
+                }
+            }
+        }
+
+
 		// Thêm phần checkmap ban đâu vào 
-		public bool checkmap()
+		/// <summary>
+		/// Check map
+		/// </summary>
+		/// <returns></returns>
+		public bool FlagCheckMap()
 		{
-            
+			
 			for (int i = 0; i < 9; i++)
 			{
 				for (int j = 0; j < 9; j++)
 				{
-					if (v3[i,j].Z != 0)
+					if (m_v3[i,j].Z != 0)
 					{
 						for (int l = 0; l < 9; l++)
 						{
-                            if ((l != j) && (v3[i,l].Z == v3[i, j].Z))
+							if ((l != j) && (m_v3[i,l].Z == m_v3[i, j].Z))
 							{
-								//                                 Console.Write("sai hang");
-								//                                                               Console.WriteLine();
+								//  Wrong row
 								return false;
 							}
 
-                            if ((l != i) && (v3[l,j].Z == v3[i,j].Z))
+							if ((l != i) && (m_v3[l,j].Z == m_v3[i,j].Z))
 							{
-								//                                 Console.Write("sai cot");
-								//                                                             Console.WriteLine();
+								// Wrong column
 								return false;
 							}
 						}
 
-						int squareIndex = m_subSquare[i, j];   // mien xac dinh theo index
+						// mien xac dinh theo index
+						// defined region with index
+						int squareIndex = m_subSquare[i, j];   
 						for (int x = 0; x < 9; x++)
 						{
 							for (int y = 0; y < 9; y++)
 							{
 								if (m_subSquare[x, y] == squareIndex)
 								{
-                                    if (((x != i) || (y != j)) && (v3[x,y].Z == v3[i,j].Z))
+									if (((x != i) || (y != j)) && (m_v3[x,y].Z == m_v3[i,j].Z))
 									{
-										//                                         Console.Write("sai mien");
-										//                                                                                     Console.WriteLine();
+										// Wrong region
 										return false;
 									}
 								}
@@ -149,77 +175,79 @@ namespace Game_Sudoku.Xuly
 
 			return true;
 		}
-        //
-        public bool checkketqua()
-        {
-            for (int i = 0; i < 9; i++)
-            {
-                for (int j = 0; j < 9; j++)
-                {
-                    if (m_Sudoku[i,j]==0)
-                    {
-                        return false;
-                    }
-                }
+		/// <summary>
+		/// Check result
+		/// </summary>
+		/// <returns></returns>
+		public bool FlagCheckResult()
+		{
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					if (m_Sudoku[i,j]==0)
+					{
+						return false;
+					}
+				}
 
-            }
+			}
 
-            for (int i = 0; i < 9; i++)
-            {
-                for (int j = 0; j < 9; j++)
-                {
-                    if (m_Sudoku[i,j] != 0)
-                    {
-                        for (int l = 0; l < 9; l++)
-                        {
-                            if ((l != j) && (m_Sudoku[i, l ]==m_Sudoku[i,j]))
-                            {
-                                //Console.Write("sai hang");
-                                //Console.WriteLine();
-                                return false;
-                            }
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					if (m_Sudoku[i,j] != 0)
+					{
+						for (int l = 0; l < 9; l++)
+						{
+							if ((l != j) && (m_Sudoku[i, l ]==m_Sudoku[i,j]))
+							{
+								// Wrong row
+								return false;
+							}
 
-                            if ((l != i) && (m_Sudoku[l,j] == m_Sudoku[i,j]))
-                            {
-                                //Console.Write("sai cot");
-                                //Console.WriteLine();
-                                return false;
-                            }
-                        }
+							if ((l != i) && (m_Sudoku[l,j] == m_Sudoku[i,j]))
+							{
+								// Wrong column
+								return false;
+							}
+						}
 
-                        int squareIndex = m_subSquare[i, j];   // mien xac dinh theo index
-                        for (int x = 0; x < 9; x++)
-                        {
-                            for (int y = 0; y < 9; y++)
-                            {
-                                if (m_subSquare[x, y] == squareIndex)
-                                {
-                                    if (((x != i) || (y != j)) && (m_Sudoku[x,y] ==m_Sudoku[i,j]))
-                                    {
-                                        //Console.Write("sai mien");
-                                        //Console.WriteLine();
-                                        return false;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            return true;
-        }
-        //
-		   // ket thuc sua
+						int squareIndex = m_subSquare[i, j];   // mien xac dinh theo index
+						for (int x = 0; x < 9; x++)
+						{
+							for (int y = 0; y < 9; y++)
+							{
+								if (m_subSquare[x, y] == squareIndex)
+								{
+									if (((x != i) || (y != j)) && (m_Sudoku[x,y] ==m_Sudoku[i,j]))
+									{
+										// Wrong region
+										return false;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			return true;
+		}
 
+		/// <summary>
+		/// Solve sudoku
+		/// </summary>
+		/// <returns></returns>
 		public bool Solve()
 		{
-            
+			
 			int a = 0;
 			int b = 0;
-			int tongSoPhanTu = 10;
-			int[] daySoTam = null;
+			int allElements = 10;
+			int[] tempArray = null;
 
-			if (!checkmap())
+			if (!FlagCheckMap())
 			{
 				return false;
 			}
@@ -228,64 +256,72 @@ namespace Game_Sudoku.Xuly
 			{
 				for (int j = 0; j < 9; j++)
 				{
-					if (v3[i, j].Z == 0)             // duyet nhung o trong' hoac. o chua phu hop 
+					// duyet nhung o trong' hoac. o chua phu hop / 
+					//browse empty cells or discordant cells
+					if (m_v3[i, j].Z == 0)             
 					{
 						int[] M = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
-						// xoa nhung so' trong M ma` trung` voi'cac hang , cot trong v3
+						// xoa nhung so' trong M ma` trung` voi'cac hang , cot trong m_v3
+						// Remove M's cells that match with m_v3's cells
 						for (int k = 0; k < 9; k++)
 						{
 							
-							M[(int)v3[i, k].Z] = 0;
+							M[(int)m_v3[i, k].Z] = 0;
 						}
 
 						for (int l = 0; l < 9; l++)
 						{
 
-							M[(int)v3[l, j].Z] = 0;
+							M[(int)m_v3[l, j].Z] = 0;
 						}
-						// xoa nhung so trong M ma` trung` voi mien vi tri dang xet trong v3
+						// xoa nhung so trong M ma` trung` voi mien vi tri dang xet trong m_v3
+						// Remove M's cell that matchs with m_v3's cell's position
 						CheckField(M, i, j);
 
 						// dem so phan tu chua su dung
-						int soPhanTuChuaSuDung = 0;
+						// count unused elements
+						int unusedElements = 0;
 
 						for (int h = 1; h < 10; h++)
 						{
 							if (M[h] != 0)
 							{
-								soPhanTuChuaSuDung++;
+								unusedElements++;
 							}
 						}
 						// thong so de xet them trung hop khac xem co phu hop hon ko
-						if (soPhanTuChuaSuDung < tongSoPhanTu)
+
+						if (unusedElements < allElements)
 						{
-							tongSoPhanTu = soPhanTuChuaSuDung;
-							daySoTam = M;
+							allElements = unusedElements;
+							tempArray = M;
 							a = i;
 							b = j;
 						}
 					}
 				}
 			}
-			// khi ko con so nao trong v3 == 0
-			if (tongSoPhanTu == 10)
+			// khi ko con so nao trong m_v3 == 0
+			// if there are no numbers in m_v3  = 0
+			if (allElements == 10)
 			{
 				return true;
 			}
 			//ko co phan tu de su dung
-			if (tongSoPhanTu == 0)
+			// Do not have elements to use
+			if (allElements == 0)
 			{
 				return false;
 			}
 
 			//thu voi cac phuong an' khac' de tim cai phu hop nhat
-
+			// Try other solutions to find the most suitable one
 			for (int n = 1; n < 10; n++)
 			{
-				if (daySoTam[n] != 0)
+				if (tempArray[n] != 0)
 				{
-					v3[a, b].Z = (float)daySoTam[n];
+					m_v3[a, b].Z = (float)tempArray[n];
 
 					if (Solve())
 					{
@@ -295,21 +331,31 @@ namespace Game_Sudoku.Xuly
 			}
 
 			//xoa vi tri neu ko phu hop
-			v3[a, b].Z = 0;
+			// Remove position if discordant
+			m_v3[a, b].Z = 0;
 			return false;
 		}
+
+		/// <summary>
+		/// Show the result of map after solved
+		/// </summary>
 		public void ShowSolve()
 		{
 			for (int i = 0; i < 9; i++)
 			{
 				for (int j = 0; j < 9; j++)
 				{
-					m_Sudoku[i, j] = (int)v3[i, j].Z;
+					m_Sudoku[i, j] = (int)m_v3[i, j].Z;
 					
 				}
 			}
 		}
 
+		/// <summary>
+		/// Merge m_EmptyMatrix with m_Sudoku. 
+		/// If cells in m_EmptyMatrix have value = 0, 
+		/// then m_Sudoku's cells in those position will have the same value
+		/// </summary>
 		private void Merge()
 		{
 			for (int i = 0; i < 9; i++)
@@ -384,8 +430,11 @@ namespace Game_Sudoku.Xuly
 				{
 					if (i == 0 && j==0)
 					{
+						// Get case for x
 						x = GetCase(i);
+						// Get case for y
 						y = GetCase(j);
+						// Generate a random number with random position in this region
 						GenerateRegion(x, x + 3, y, y + 3);
 						i = 3;
 						j = 3;
@@ -409,5 +458,6 @@ namespace Game_Sudoku.Xuly
 				}
 			}
 		}
+		#endregion
 	}
 }

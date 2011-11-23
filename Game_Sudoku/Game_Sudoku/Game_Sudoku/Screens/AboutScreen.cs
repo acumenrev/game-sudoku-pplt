@@ -48,8 +48,9 @@ namespace Game_Sudoku.Screens
             MenuEntries.Add(m_backMenuEntry);
         }
 
-       
-
+        /// <summary>
+        /// Set menu entry text
+        /// </summary>
         private void SetMenuEntryText()
         {
             m_projectMenuEntry.Text = "Project: TNTSudoku                        ";

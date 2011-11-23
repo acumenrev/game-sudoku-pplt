@@ -63,6 +63,7 @@ namespace Game_Sudoku.Screens
         }
 
         #endregion
+
         #region Update and Draw
 
 

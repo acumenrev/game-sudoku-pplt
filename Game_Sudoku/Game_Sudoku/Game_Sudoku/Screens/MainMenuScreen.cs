@@ -21,18 +21,21 @@ namespace Game_Sudoku.Screens
         {
             // Create our menu entries
             MenuEntry playerGameMenuEntry = new MenuEntry("New Game");
+            MenuEntry solveSudokuMenuEntry = new MenuEntry("Solve sudoku");
             MenuEntry optionsMenuEntry = new MenuEntry("Options");
             MenuEntry aboutMenuEntry = new MenuEntry("About");
             MenuEntry exitMenuEntry = new MenuEntry("Exit");
            
             // Hook up menu event handlers
             playerGameMenuEntry.Selected += PlayGameMenuEntrySelected;
+            solveSudokuMenuEntry.Selected += SolveSudokuMenuEntrySelected;
             optionsMenuEntry.Selected += OptionsMenuEntrySelected;
             aboutMenuEntry.Selected += AboutMenuEntrySelected;
             exitMenuEntry.Selected += OnCancel;
 
             // Add Entries to the menu
             MenuEntries.Add(playerGameMenuEntry);
+            MenuEntries.Add(solveSudokuMenuEntry);
             MenuEntries.Add(optionsMenuEntry);
             MenuEntries.Add(aboutMenuEntry);
             MenuEntries.Add(exitMenuEntry);
@@ -79,7 +82,10 @@ namespace Game_Sudoku.Screens
         }
 
         
-
+        void SolveSudokuMenuEntrySelected(object sender, PlayerIndexEventArgs e)
+        {
+            LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new SolveSudokuScreen());
+        }
 
         /// <summary>
         /// Event handler for when the user selects ok on the "are you sure

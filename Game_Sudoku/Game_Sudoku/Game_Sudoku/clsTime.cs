@@ -63,16 +63,25 @@ namespace Game_Sudoku
             Milliseconds = 0;
         }
 
+        /// <summary>
+        /// get instance of class clsTime
+        /// </summary>
+        /// <returns></returns>
         public static clsTime getInstance()
         {
+            // if m_instance is null, then initilize it
             if (m_instance == null)
             {
                 m_instance = new clsTime();
             }
-
+            // if not null, then return current instance
             return m_instance;
         }
 
+        /// <summary>
+        /// Increase time in game
+        /// </summary>
+        /// <param name="gameTime"></param>
         public void IncreaseTime(GameTime gameTime)
         {
             Milliseconds += (long)gameTime.ElapsedGameTime.TotalMilliseconds;
@@ -95,6 +104,10 @@ namespace Game_Sudoku
 
         }
 
+
+        /// <summary>
+        /// Reset each fields in class Time to 0
+        /// </summary>
         public void ResetTime()
         {
             Second = 0;
@@ -102,7 +115,11 @@ namespace Game_Sudoku
             Hour = 0;
             Milliseconds = 0;
         }
-
+        
+        /// <summary>
+        /// Get current time
+        /// </summary>
+        /// <returns></returns>
         public string GetTime()
         {
             return string.Format("{0:00}:{1:00}:{2:00}", this.Hour, this.Minute, this.Second);

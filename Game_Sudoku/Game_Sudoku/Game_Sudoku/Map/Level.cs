@@ -9,13 +9,13 @@ namespace Game_Sudoku.Map
     {
         #region Fields
 
-        private static int[,] m_emptyMatrix = new int[9, 9];
+        private static int[,] m_EmptyMatrix = new int[9, 9];
 
         public int[,] EmptyMatrix
         {
             get 
             { 
-                return m_emptyMatrix;
+                return m_EmptyMatrix;
             }
             
         }
@@ -37,7 +37,7 @@ namespace Game_Sudoku.Map
             {
                 for (int j = 0; j < 9; j++)
                 {
-                    m_emptyMatrix[i, j] = 1;
+                    m_EmptyMatrix[i, j] = 1;
                 }
             }
             FillEmpty();
@@ -89,13 +89,13 @@ namespace Game_Sudoku.Map
                 {
                     int x = m_rand.Next(0, 9);
                     int y = m_rand.Next(0, 9);
-                    if (m_emptyMatrix[x, y] == 0)
+                    if (m_EmptyMatrix[x, y] == 0)
                     {
                         isDuplicate = true;
                     }
                     else
                     {
-                        m_emptyMatrix[x, y] = 0;
+                        m_EmptyMatrix[x, y] = 0;
                         isDuplicate = false;
                     }
                     
