@@ -127,6 +127,7 @@ namespace SudokuWinphone
                     m_v2.X = gesture.Position.X;
                     m_v2.Y = gesture.Position.Y;
                     ChangeNumber();
+                    EventButton();
                     //DemoString += 2;
                 }
             }
@@ -276,16 +277,16 @@ namespace SudokuWinphone
                 {
                     if (m_sudoku.checkketqua() == true)
                     {
-                        ScreenManager.AddScreen(new CongratulationScreen(), ControllingPlayer);
+                        //ScreenManager.AddScreen(new CongratulationScreen(), ControllingPlayer);
                         if (OptionsMenuScreen.m_bMusic == true)
                         {
-                            m_finishSound.Play();
+                            //m_finishSound.Play();
                         }
 
                     }
                     if (m_sudoku.checkketqua() == false)
                     {
-                        m_flagwrongmess = true;
+                        //m_flagwrongmess = true;
 
                     }
                 }
@@ -300,20 +301,20 @@ namespace SudokuWinphone
                 }
             }
 
-            if (m_v2.X > 610 && m_v2.X < 735)
+            if (m_v2.X > 620 && m_v2.X < 745)
             {
-                if (m_v2.Y > 400 && m_v2.Y < 440)
+                if (m_v2.Y > 335 && m_v2.Y < 375)
                 {
-                    clsTime.getInstance().ResetTime();
+                    Sudoku.clsTime.getInstance().ResetTime();
                     GameplayScreen.m_flagtime = true;
                     LoadingScreen.Load(ScreenManager, true, ControllingPlayer, new GameplayScreen());
 
                 }
             }
 
-            if (m_v2.X > 610 && m_v2.X < 735)
+            if (m_v2.X > 620 && m_v2.X < 745)
             {
-                if (m_v2.Y > 445 && m_v2.Y < 480)
+                if (m_v2.Y > 380 && m_v2.Y < 420)
                 {
                     ScreenManager.AddScreen(new PauseMenuScreen(), ControllingPlayer);
 
@@ -322,15 +323,15 @@ namespace SudokuWinphone
                 }
             }
 
-            if (m_v2.X > 610 && m_v2.X < 735)
+            if (m_v2.X > 620 && m_v2.X < 745)
             {
-                if (m_v2.Y > 485 && m_v2.Y < 515)
+                if (m_v2.Y > 425 && m_v2.Y < 465)
                 {
-                    const string message = "Are you sure you want to quit this game?";
-                    MessageBoxScreen confirmQuitMessageBox = new MessageBoxScreen(message);
-                    confirmQuitMessageBox.Accepted += ConfirmQuitMessageBoxAccepted;
+                    //const string message = "Are you sure you want to quit this game?";
+                    //MessageBoxScreen confirmQuitMessageBox = new MessageBoxScreen(message);
+                    //confirmQuitMessageBox.Accepted += ConfirmQuitMessageBoxAccepted;
 
-                    ScreenManager.AddScreen(confirmQuitMessageBox, ControllingPlayer);
+                    //ScreenManager.AddScreen(confirmQuitMessageBox, ControllingPlayer);
 
                 }
             }
