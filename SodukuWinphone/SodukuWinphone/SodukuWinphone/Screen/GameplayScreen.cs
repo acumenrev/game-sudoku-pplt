@@ -42,12 +42,12 @@ namespace SudokuWinphone
 
         //Demo String
         int DemoString = 0;
-        float m_pauseAlpha;
+        public static float m_pauseAlpha;
 
-        //Flag Time and Sound
+        //Flag Time and Sound, wrong mess
         public static bool m_flagtime;
         public static bool m_flagsound;
-
+        bool m_flagWrongMsg = false;
         // Matrix Lock and Result
         int[,] m_lockMatrixNumber = new int[9, 9];
         int[,] m_resultMatrixNumber = new int[9, 9];
@@ -120,15 +120,7 @@ namespace SudokuWinphone
             {
                 m_time.IncreaseTime(gameTime);
             }
-            //pause screen
-            if (coveredByOtherScreen)
-            {
-                m_pauseAlpha = Math.Min(m_pauseAlpha + 1f / 32, 2);
-            }
-            else
-            {
-                m_pauseAlpha = Math.Max(m_pauseAlpha - 1f / 32, 0);
-            }
+
 
             //
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
@@ -164,12 +156,14 @@ namespace SudokuWinphone
             DrawMatrix();
             //Draw Button Sudoku
             DrawButton();
+            //Draw Wrong Answer
+            DrawWrongMess();
             //Draw Time Sudoku
             m_spriteBatch.DrawString(m_gametimeFont,m_time.GetTime().ToString(),m_vtime, Color.White);
  
             m_spriteBatch.End();
             //
-
+            
             if (TransitionPosition > 0 || m_pauseAlpha > 0)
             {
                 float alpha = MathHelper.Lerp(1f - TransitionAlpha, 1f, m_pauseAlpha / 2);
@@ -249,6 +243,23 @@ namespace SudokuWinphone
                 }
             }
         }
+        // Draw Wrong Matrix
+        public void DrawWrongMess()
+        {
+            if (m_v2.X > 570 && m_v2.X < 630)
+            {
+                if (m_v2.Y > 80 && m_v2.Y < 140)
+                {
+                    if (m_flagWrongMsg == true)
+                    {
+                        m_spriteBatch.Draw(m_wrongMess, new Vector2(571, -13), Color.White);
+
+                    }
+                }
+                else { m_flagWrongMsg = false; }
+            }
+            else { m_flagWrongMsg = false; }
+        }
         // Tap To Change Number On GameScreen
         public void ChangeNumber()
         {
@@ -299,9 +310,9 @@ namespace SudokuWinphone
         public void EventButton()
         {
             //Check the answer matrix
-            if (m_v2.X > 590 && m_v2.X < 650)
+            if (m_v2.X > 570 && m_v2.X < 630)
             {
-                if (m_v2.Y > 130 && m_v2.Y < 190)
+                if (m_v2.Y > 80 && m_v2.Y < 140)
                 {
                     if (m_sudoku.checkketqua() == true)
                     {
@@ -314,15 +325,15 @@ namespace SudokuWinphone
                     }
                     if (m_sudoku.checkketqua() == false)
                     {
-                        //m_flagwrongmess = true;
+                        m_flagWrongMsg = true;
 
                     }
                 }
             }
             // Sovle Your Sudoku
-            if (m_v2.X > 700 && m_v2.X < 743)
+            if (m_v2.X > 720 && m_v2.X < 763)
             {
-                if (m_v2.Y > 150 && m_v2.Y < 190)
+                if (m_v2.Y > 100 && m_v2.Y < 140)
                 {
                     m_sudoku.Solve();
                     m_sudoku.ShowSolve();
@@ -345,7 +356,7 @@ namespace SudokuWinphone
                 if (m_v2.Y > 375 && m_v2.Y < 410)
                 {
                     ScreenManager.AddScreen(new PauseMenuScreen(), ControllingPlayer);
-
+                    m_pauseAlpha = 1f;
                     m_flagtime = false;
                     m_flagsound = true;
                 }
