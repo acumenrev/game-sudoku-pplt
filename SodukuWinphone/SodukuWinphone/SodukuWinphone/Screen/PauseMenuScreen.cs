@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.GamerServices;
 using GameStateManagement;
 
 namespace SudokuWinphone
@@ -47,11 +48,9 @@ namespace SudokuWinphone
         /// </summary>
         void QuitGameMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            //const string message = "Are you sure you want to quit this game?";
-            //MessageBoxScreen confirmQuitMessageBox = new MessageBoxScreen(message);
-            //confirmQuitMessageBox.Accepted += ConfirmQuitMessageBoxAccepted;
-
-            //ScreenManager.AddScreen(confirmQuitMessageBox, ControllingPlayer);
+            Guide.BeginShowMessageBox("TNT - Sudoku", "Do you want to quit your game?",
+                                                                      new String[] { "Yes", "No" }, 0, MessageBoxIcon.Warning,
+                                                                      ShowDialogEnded, null);
         }
 
         void ResumeGameMenuEntry(object sender, PlayerIndexEventArgs e)
@@ -71,9 +70,23 @@ namespace SudokuWinphone
         /// you want to quit" message box. This uses the loading screen to
         /// transition from the game back to the main menu screen.
         /// </summary>
-        void ConfirmQuitMessageBoxAccepted(object sender, PlayerIndexEventArgs e)
+
+        private void ShowDialogEnded(IAsyncResult result)
         {
-            LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(), new MainMenuScreen());
+            int? res = Guide.EndShowMessageBox(result);
+            if (res.HasValue)
+            {
+                if (res.Value == 0)
+                {
+                    foreach (GameScreen screen in ScreenManager.GetScreens())
+                        screen.ExitScreen();
+
+                    ScreenManager.AddScreen(new BackgroundScreen(),
+                        null);
+                    ScreenManager.AddScreen(new MainMenuScreen(), null);
+                }
+
+            }
 
         }
         #endregion
