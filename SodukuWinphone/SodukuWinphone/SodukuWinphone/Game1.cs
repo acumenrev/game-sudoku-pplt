@@ -38,6 +38,7 @@ namespace SudokuWinphone
             screenManager = new ScreenManager(this);
             Components.Add(screenManager);
             screenManager.AddScreen(new BackgroundScreen(), null);
+            screenManager.AddScreen(new MainMenuScreen(), null);
         }
 
         /// <summary>

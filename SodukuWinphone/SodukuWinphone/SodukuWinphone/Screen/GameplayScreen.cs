@@ -23,6 +23,15 @@ namespace SudokuWinphone
         SpriteBatch m_spriteBatch;
         //Texture2D
         Texture2D m_gameplayBG;
+        Texture2D m_buttonReseton;
+        Texture2D m_buttonSettingon;
+        Texture2D m_buttonQuiton;
+        Texture2D m_buttonResetoff;
+        Texture2D m_buttonSettingoff;
+        Texture2D m_buttonQuitoff;
+        Texture2D m_buttonSolve;
+        Texture2D m_buttonCheck;
+        Texture2D m_wrongMess;
 
         //SpriteFont
         SpriteFont m_gameplayFont;
@@ -30,6 +39,10 @@ namespace SudokuWinphone
 
         //Demo String
         int DemoString = 0;
+
+        //Flag Time and Sound
+        public static bool m_flagtime;
+        public static bool m_flagsound;
 
         // Matrix Lock and Result
         int[,] m_lockMatrixNumber = new int[9, 9];
@@ -71,6 +84,16 @@ namespace SudokuWinphone
         {
             //LoadConten Texture2D
             m_gameplayBG = Load<Texture2D>("gamescreenBG");
+            m_buttonQuiton = Load<Texture2D>("Buttons/quiton");
+            m_buttonQuitoff =Load<Texture2D>("Buttons/quitoff");
+            m_buttonReseton = Load<Texture2D>("Buttons/reseton");
+            m_buttonResetoff = Load<Texture2D>("Buttons/resetoff");
+            m_buttonSettingon = Load<Texture2D>("Buttons/settingon");
+            m_buttonSettingoff = Load<Texture2D>("Buttons/settingoff");
+            m_buttonSolve = Load<Texture2D>("Buttons/Solve");
+            m_buttonCheck = Load<Texture2D>("Buttons/Check");
+            m_wrongMess = Load<Texture2D>("Buttons/wrongmess");
+
             //LoadConten Font
             m_gameplayFont = Load<SpriteFont>("GameFont");
             m_gametimeFont = Load<SpriteFont>("TimeFont");
@@ -116,10 +139,11 @@ namespace SudokuWinphone
             m_spriteBatch.Begin();
             m_spriteBatch.Draw(m_gameplayBG, Vector2.Zero, Color.White);
 
-            m_spriteBatch.DrawString(m_gameplayFont, "TNT Sudoku", Vector2.Zero, Color.White);
+            m_spriteBatch.DrawString(m_gameplayFont, GetLevel(), Vector2.Zero, Color.White);
             //Draw Matrix Sudoku
             DrawMatrix();
-
+            //Draw Button Sudoku
+            DrawButton();
             //Draw Time Sudoku
             m_spriteBatch.DrawString(m_gametimeFont,m_time.GetTime().ToString(),m_vtime, Color.White);
 
@@ -162,7 +186,41 @@ namespace SudokuWinphone
 
 
         }
+        // Draw Button in sudoku screen
+        public void DrawButton()
+        {
 
+            //m_spriteBatch.DrawString(m_gameplayFont, m_v2.X.ToString(), new Vector2(0, 0), Color.Black);
+            //m_spriteBatch.DrawString(m_gameplayFont, m_v2.Y.ToString(), new Vector2(0, 20), Color.Black);
+            m_spriteBatch.Draw(m_buttonReseton, new Vector2(620, 335), Color.White);
+            m_spriteBatch.Draw(m_buttonSettingon, new Vector2(620, 375), Color.White);
+            m_spriteBatch.Draw(m_buttonQuiton, new Vector2(620, 415), Color.White);
+            m_spriteBatch.Draw(m_buttonSolve, new Vector2(720, 100), Color.White);
+            m_spriteBatch.Draw(m_buttonCheck, new Vector2(570, 80), Color.White);
+            if (m_v2.X > 620 && m_v2.X < 745)
+            {
+                if ( m_v2.Y > 335 &&  m_v2.Y < 375)
+                {
+                    m_spriteBatch.Draw(m_buttonResetoff, new Vector2(620, 335), Color.White);
+                }
+            }
+
+            if ( m_v2.X > 620 &&  m_v2.X < 745)
+            {
+                if ( m_v2.Y > 380 &&  m_v2.Y < 420)
+                {
+                    m_spriteBatch.Draw(m_buttonSettingoff, new Vector2(620, 375), Color.White);
+                }
+            }
+
+            if ( m_v2.X > 620 &&  m_v2.X < 745)
+            {
+                if ( m_v2.Y > 425 &&  m_v2.Y < 465)
+                {
+                    m_spriteBatch.Draw(m_buttonQuitoff, new Vector2(620, 415), Color.White);
+                }
+            }
+        }
         // Tap To Change Number On GameScreen
         public void ChangeNumber()
         {
@@ -189,6 +247,94 @@ namespace SudokuWinphone
 
                 }
             }
+        //Get Level Of Map
+        private string GetLevel()
+        {
+            string level = string.Empty;
+            switch (Sudoku.Level.m_level)
+            {
+                case 0:
+                    level = "Easy";
+                    break;
+                case 1:
+                    level = "Medium";
+                    break;
+                case 2:
+                    level = "Hard";
+                    break;
+            }
+
+
+            return level;
+        }
+        //Eventhandel Of Button
+        public void EventButton()
+        {
+            if (m_v2.X > 590 && m_v2.X < 650)
+            {
+                if (m_v2.Y > 130 && m_v2.Y < 190)
+                {
+                    if (m_sudoku.checkketqua() == true)
+                    {
+                        ScreenManager.AddScreen(new CongratulationScreen(), ControllingPlayer);
+                        if (OptionsMenuScreen.m_bMusic == true)
+                        {
+                            m_finishSound.Play();
+                        }
+
+                    }
+                    if (m_sudoku.checkketqua() == false)
+                    {
+                        m_flagwrongmess = true;
+
+                    }
+                }
+            }
+
+            if (m_v2.X > 700 && m_v2.X < 743)
+            {
+                if (m_v2.Y > 150 && m_v2.Y < 190)
+                {
+                    m_sudoku.Solve();
+                    m_sudoku.ShowSolve();
+                }
+            }
+
+            if (m_v2.X > 610 && m_v2.X < 735)
+            {
+                if (m_v2.Y > 400 && m_v2.Y < 440)
+                {
+                    clsTime.getInstance().ResetTime();
+                    GameplayScreen.m_flagtime = true;
+                    LoadingScreen.Load(ScreenManager, true, ControllingPlayer, new GameplayScreen());
+
+                }
+            }
+
+            if (m_v2.X > 610 && m_v2.X < 735)
+            {
+                if (m_v2.Y > 445 && m_v2.Y < 480)
+                {
+                    ScreenManager.AddScreen(new PauseMenuScreen(), ControllingPlayer);
+
+                    m_flagtime = false;
+                    m_flagsound = true;
+                }
+            }
+
+            if (m_v2.X > 610 && m_v2.X < 735)
+            {
+                if (m_v2.Y > 485 && m_v2.Y < 515)
+                {
+                    const string message = "Are you sure you want to quit this game?";
+                    MessageBoxScreen confirmQuitMessageBox = new MessageBoxScreen(message);
+                    confirmQuitMessageBox.Accepted += ConfirmQuitMessageBoxAccepted;
+
+                    ScreenManager.AddScreen(confirmQuitMessageBox, ControllingPlayer);
+
+                }
+            }
+        }
 
     }
 
