@@ -57,7 +57,7 @@ namespace Game_Sudoku.Screens
         {
             OnCancel(e.PlayerIndex);
             GameplayScreen.m_flagTime = true;
-            GameplayScreen.m_flagsoundmenu = false;
+            GameplayScreen.m_flagSoundMenu = false;
         }
 
         void OptionsMenuEntrySelected(object sender,PlayerIndexEventArgs e)

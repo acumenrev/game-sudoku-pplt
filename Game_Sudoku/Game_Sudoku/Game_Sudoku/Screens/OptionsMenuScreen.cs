@@ -20,8 +20,8 @@ namespace Game_Sudoku.Screens
         MenuEntry m_musicMenuEntry;
         MenuEntry m_backMenuEntry;
 
-        public static bool m_bSound = true;
-        public static bool m_bMusic = true;
+        public static bool m_flagSound = true;
+        public static bool m_flagMusic = true;
         
         #endregion
 
@@ -50,8 +50,8 @@ namespace Game_Sudoku.Screens
         /// </summary>
         void SetMenuEntryText()
         {
-            m_soundMenuEntry.Text = "Sound : " + (m_bSound ? "On" : "Off");
-            m_musicMenuEntry.Text = "Music : " + (m_bMusic ? "On" : "Off");
+            m_soundMenuEntry.Text = "Sound : " + (m_flagSound ? "On" : "Off");
+            m_musicMenuEntry.Text = "Music : " + (m_flagMusic ? "On" : "Off");
 
         }
         #endregion
@@ -60,7 +60,7 @@ namespace Game_Sudoku.Screens
 
         void SoundMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            m_bSound = !m_bSound;
+            m_flagSound = !m_flagSound;
             
             SetMenuEntryText();
             // can xet them cho GameplayScreen
@@ -68,7 +68,7 @@ namespace Game_Sudoku.Screens
 
         void MusicMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            m_bMusic = !m_bMusic;
+            m_flagMusic = !m_flagMusic;
             
             SetMenuEntryText();
             // xet them cho cai Gameplay screen

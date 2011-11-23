@@ -27,7 +27,7 @@ namespace Game_Sudoku.Screens
             m_congMsgMenuEntry = new MenuEntry("Congratulation!");
             m_messageMenuEntry = new MenuEntry("You win!");
             m_timeMenuEntry = new MenuEntry(string.Empty);
-            m_replayMenuEntry = new MenuEntry("Replay");
+            m_replayMenuEntry = new MenuEntry("Play again");
             m_quitMenuEntry = new MenuEntry("Quit");
 
             SetMenuEntryText();
@@ -41,7 +41,9 @@ namespace Game_Sudoku.Screens
             MenuEntries.Add(m_messageMenuEntry);
             MenuEntries.Add(m_timeMenuEntry);
             MenuEntries.Add(m_replayMenuEntry);
-            MenuEntries.Add(m_quitMenuEntry);
+            MenuEntries.Add
+                
+                (m_quitMenuEntry);
             
         }
 

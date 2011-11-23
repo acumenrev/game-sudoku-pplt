@@ -74,8 +74,6 @@ namespace Game_Sudoku.Screens
 
         #endregion
 
-     
-
         #region Update and Draw
 
 
@@ -119,7 +117,7 @@ namespace Game_Sudoku.Screens
             {
                 if (m_KeyboardEvent.IsKeyUp(Keys.Up) && m_KeyboardEvent.IsKeyUp(Keys.Down) && m_KeyboardEvent.IsKeyUp(Keys.Enter))
                 {
-                    if (OptionsMenuScreen.m_bSound == true)
+                    if (OptionsMenuScreen.m_flagSound == true)
                     {
                         m_buttonSound.Play();
                     }
