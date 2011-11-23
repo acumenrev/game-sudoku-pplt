@@ -1,9 +1,15 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.GamerServices;
+using System.IO.IsolatedStorage;
+using System.IO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
 using GameStateManagement;
 
 namespace SudokuWinphone
@@ -15,7 +21,7 @@ namespace SudokuWinphone
     class PauseMenuScreen : MenuScreen
     {
         #region Initialization
-
+  
         /// <summary>
         ///  Constructor
         /// </summary>
@@ -56,6 +62,7 @@ namespace SudokuWinphone
         void ResumeGameMenuEntry(object sender, PlayerIndexEventArgs e)
         {
             OnCancel(e.PlayerIndex);
+            GameplayScreen.m_pauseAlpha = 0f;
             GameplayScreen.m_flagtime = true;
             GameplayScreen.m_flagsound = false;
         }

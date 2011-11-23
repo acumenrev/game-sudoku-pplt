@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using GameStateManagement;
 namespace SudokuWinphone
 {
@@ -19,7 +20,8 @@ namespace SudokuWinphone
         MenuEntry m_soundMenuEntry;
         MenuEntry m_musicMenuEntry;
         MenuEntry m_backMenuEntry;
-
+        Texture2D m_Background;
+        SpriteBatch m_spriteBatch;
         public static bool m_bSound = true;
         public static bool m_bMusic = true;
         
@@ -78,6 +80,25 @@ namespace SudokuWinphone
         void BackMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
             OnCancel(e.PlayerIndex);
+            
+        }
+        public override void LoadContent()
+        {
+            m_Background = Load<Texture2D>("Background"); 
+            base.LoadContent();
+        }
+        public override void Draw(GameTime gameTime)
+        {
+            m_spriteBatch = ScreenManager.SpriteBatch;
+            Viewport viewport = ScreenManager.GraphicsDevice.Viewport;
+            Rectangle fullScreen = new Rectangle(0, 0, viewport.Width, viewport.Height);
+
+            m_spriteBatch.Begin();
+
+            m_spriteBatch.Draw(m_Background, fullScreen, new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
+
+            m_spriteBatch.End();
+            base.Draw(gameTime);
         }
 
         #endregion
