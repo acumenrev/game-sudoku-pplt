@@ -3,9 +3,12 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.GamerServices;
 using System.IO.IsolatedStorage;
 using System.IO;
 using System;
+using System.Threading;
+using Microsoft.Phone.Shell;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,6 +42,7 @@ namespace SudokuWinphone
 
         //Demo String
         int DemoString = 0;
+        float m_pauseAlpha;
 
         //Flag Time and Sound
         public static bool m_flagtime;
@@ -65,7 +69,8 @@ namespace SudokuWinphone
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
             // Accept what gesture?
             EnabledGestures = GestureType.Tap;
-
+            //
+           
             //Sudoku & Load Map
             m_sudoku = new Sudoku.Sudoku();
             for (int i = 0; i < 9; i++)
@@ -97,6 +102,8 @@ namespace SudokuWinphone
             //LoadConten Font
             m_gameplayFont = Load<SpriteFont>("GameFont");
             m_gametimeFont = Load<SpriteFont>("TimeFont");
+            //
+            Thread.Sleep(1000);
             base.LoadContent();
         }
         public override void UnloadContent()
@@ -109,7 +116,19 @@ namespace SudokuWinphone
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
             //get Time sudoku
-            m_time.IncreaseTime(gameTime);
+            if (m_flagtime)
+            {
+                m_time.IncreaseTime(gameTime);
+            }
+            //pause screen
+            if (coveredByOtherScreen)
+            {
+                m_pauseAlpha = Math.Min(m_pauseAlpha + 1f / 32, 2);
+            }
+            else
+            {
+                m_pauseAlpha = Math.Max(m_pauseAlpha - 1f / 32, 0);
+            }
 
             //
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
@@ -147,8 +166,16 @@ namespace SudokuWinphone
             DrawButton();
             //Draw Time Sudoku
             m_spriteBatch.DrawString(m_gametimeFont,m_time.GetTime().ToString(),m_vtime, Color.White);
-
+ 
             m_spriteBatch.End();
+            //
+
+            if (TransitionPosition > 0 || m_pauseAlpha > 0)
+            {
+                float alpha = MathHelper.Lerp(1f - TransitionAlpha, 1f, m_pauseAlpha / 2);
+                ScreenManager.FadeBackBufferToBlack(alpha);
+
+            }
             base.Draw(gameTime);
         }
         // Draw Matrix Sudoku
@@ -200,7 +227,7 @@ namespace SudokuWinphone
             m_spriteBatch.Draw(m_buttonCheck, new Vector2(570, 80), Color.White);
             if (m_v2.X > 620 && m_v2.X < 745)
             {
-                if ( m_v2.Y > 335 &&  m_v2.Y < 375)
+                if ( m_v2.Y > 335 &&  m_v2.Y < 370)
                 {
                     m_spriteBatch.Draw(m_buttonResetoff, new Vector2(620, 335), Color.White);
                 }
@@ -208,7 +235,7 @@ namespace SudokuWinphone
 
             if ( m_v2.X > 620 &&  m_v2.X < 745)
             {
-                if ( m_v2.Y > 380 &&  m_v2.Y < 420)
+                if ( m_v2.Y > 375 &&  m_v2.Y < 410)
                 {
                     m_spriteBatch.Draw(m_buttonSettingoff, new Vector2(620, 375), Color.White);
                 }
@@ -216,7 +243,7 @@ namespace SudokuWinphone
 
             if ( m_v2.X > 620 &&  m_v2.X < 745)
             {
-                if ( m_v2.Y > 425 &&  m_v2.Y < 465)
+                if ( m_v2.Y > 415 &&  m_v2.Y < 455)
                 {
                     m_spriteBatch.Draw(m_buttonQuitoff, new Vector2(620, 415), Color.White);
                 }
@@ -271,6 +298,7 @@ namespace SudokuWinphone
         //Eventhandel Of Button
         public void EventButton()
         {
+            //Check the answer matrix
             if (m_v2.X > 590 && m_v2.X < 650)
             {
                 if (m_v2.Y > 130 && m_v2.Y < 190)
@@ -291,7 +319,7 @@ namespace SudokuWinphone
                     }
                 }
             }
-
+            // Sovle Your Sudoku
             if (m_v2.X > 700 && m_v2.X < 743)
             {
                 if (m_v2.Y > 150 && m_v2.Y < 190)
@@ -300,10 +328,10 @@ namespace SudokuWinphone
                     m_sudoku.ShowSolve();
                 }
             }
-
+            // Reset to new Map
             if (m_v2.X > 620 && m_v2.X < 745)
             {
-                if (m_v2.Y > 335 && m_v2.Y < 375)
+                if (m_v2.Y > 335 && m_v2.Y < 370)
                 {
                     Sudoku.clsTime.getInstance().ResetTime();
                     GameplayScreen.m_flagtime = true;
@@ -311,10 +339,10 @@ namespace SudokuWinphone
 
                 }
             }
-
+            // Pause screen
             if (m_v2.X > 620 && m_v2.X < 745)
             {
-                if (m_v2.Y > 380 && m_v2.Y < 420)
+                if (m_v2.Y > 375 && m_v2.Y < 410)
                 {
                     ScreenManager.AddScreen(new PauseMenuScreen(), ControllingPlayer);
 
@@ -322,21 +350,39 @@ namespace SudokuWinphone
                     m_flagsound = true;
                 }
             }
-
+            // Exit 
             if (m_v2.X > 620 && m_v2.X < 745)
             {
-                if (m_v2.Y > 425 && m_v2.Y < 465)
+                if (m_v2.Y > 415 && m_v2.Y < 455)
                 {
                     //const string message = "Are you sure you want to quit this game?";
                     //MessageBoxScreen confirmQuitMessageBox = new MessageBoxScreen(message);
                     //confirmQuitMessageBox.Accepted += ConfirmQuitMessageBoxAccepted;
 
                     //ScreenManager.AddScreen(confirmQuitMessageBox, ControllingPlayer);
-
+                    Guide.BeginShowMessageBox("TNT - Sudoku", "Do you want to quit your game?",
+                                                new String[] { "Yes", "No" }, 0, MessageBoxIcon.Warning,
+                                                ShowDialogEnded, null);
                 }
             }
         }
+        private void ShowDialogEnded(IAsyncResult result)
+        {
+            int? res = Guide.EndShowMessageBox(result);
+            if(res.HasValue){
+                if (res.Value==0)
+                {
+                    foreach (GameScreen screen in ScreenManager.GetScreens())
+                        screen.ExitScreen();
 
+                    ScreenManager.AddScreen(new BackgroundScreen(),
+                        null);
+                    ScreenManager.AddScreen(new MainMenuScreen(), null);
+                }
+
+            }
+           
+        }
     }
 
 #endregion

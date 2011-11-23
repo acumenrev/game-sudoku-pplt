@@ -77,8 +77,7 @@ namespace SudokuWinphone
         }
         void BackMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            ScreenManager.AddScreen(new MainMenuScreen(), e.PlayerIndex);
-            ExitScreen();
+            OnCancel(e.PlayerIndex);
         }
 
         #endregion
