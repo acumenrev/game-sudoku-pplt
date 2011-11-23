@@ -19,7 +19,7 @@ namespace Game_Sudoku.Screens
         {
             // create our menu entries
             backMenuEntry = new MenuEntry("Back");
-            tryAgainMessage = new MenuEntry("Your sudoku is not correct.");
+            tryAgainMessage = new MenuEntry("Your input is not correct.");
             
             // hook up the event handler
             backMenuEntry.Selected += OnCancel;
