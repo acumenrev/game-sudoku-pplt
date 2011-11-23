@@ -65,12 +65,6 @@ namespace Game_Sudoku.Screens
         /// 
         /// 
         /// </summary>
-        public override void Unload()
-        {
-            content.Unload();
-          
-            
-        }
 
         #endregion
 

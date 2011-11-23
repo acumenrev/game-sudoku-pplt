@@ -53,7 +53,7 @@ namespace Game_Sudoku.Screens
         bool m_flagSound = true;
         float m_pauseAlpha;
         private static bool m_flagSolve = false;
-        private static bool m_flagSoundMenu = true;
+        private static bool m_flagSoundMenu = false;
       
         KeyboardState m_keyboardEvent;
         InputAction m_pauseAction;
@@ -205,6 +205,7 @@ namespace Game_Sudoku.Screens
             {
                 //Add PauseScreen to current screen
                 ScreenManager.AddScreen(new PauseMenuScreen(), ControllingPlayer);
+                m_flagSoundMenu = true;
             }
             base.HandleInput(gameTime, input);
         }
@@ -360,6 +361,7 @@ namespace Game_Sudoku.Screens
                 if (m_v2.Y > 445 && m_v2.Y < 480)
                 {
                     ScreenManager.AddScreen(new PauseMenuScreen(), ControllingPlayer);
+                    m_flagSoundMenu = true;
                 }
             }
 
