@@ -70,7 +70,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Screen\BackgroundScreen.cs" />
+    <Compile Include="Screen\LevelScreen.cs" />
     <Compile Include="Screen\LoadingScreen.cs" />
+    <Compile Include="Screen\MainMenuScreen.cs" />
+    <Compile Include="Screen\OptionsMenuScreen.cs" />
+    <Compile Include="Screen\PauseMenuScreen.cs" />
     <Compile Include="Sudoku\clsTime.cs" />
     <Compile Include="Sudoku\Level.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
