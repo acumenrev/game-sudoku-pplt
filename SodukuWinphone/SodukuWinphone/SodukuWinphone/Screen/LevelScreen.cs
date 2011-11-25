@@ -56,6 +56,8 @@ namespace SudokuWinphone
             Sudoku.clsTime.getInstance().ResetTime();
             GameplayScreen.m_flagtime = true;
             Sudoku.Level.m_level = m_level = 0;
+            foreach (GameScreen screen in ScreenManager.GetScreens())
+                screen.ExitScreen();
             LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new GameplayScreen());
             
         }
@@ -66,6 +68,8 @@ namespace SudokuWinphone
             Sudoku.clsTime.getInstance().ResetTime();
             GameplayScreen.m_flagtime = true;
             Sudoku.Level.m_level = m_level = 1;
+            foreach (GameScreen screen in ScreenManager.GetScreens())
+                screen.ExitScreen();
             LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new GameplayScreen());
             
         }
@@ -76,13 +80,26 @@ namespace SudokuWinphone
             Sudoku.clsTime.getInstance().ResetTime();
             GameplayScreen.m_flagtime = true;
             Sudoku.Level.m_level = m_level = 2;
+            foreach (GameScreen screen in ScreenManager.GetScreens())
+                screen.ExitScreen();
             LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new GameplayScreen());
             
         }
         void BackMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            ScreenManager.AddScreen(new MainMenuScreen(), e.PlayerIndex);
-            ExitScreen();
+                if (GameplayScreen.m_flagscreen)
+                {
+                    ExitScreen();
+                    ScreenManager.AddScreen(new CongratulationScreen(), e.PlayerIndex);
+                }
+                else
+                {
+                    ExitScreen();
+                    ScreenManager.AddScreen(new MainMenuScreen(), e.PlayerIndex);
+                }
+
+            
+
         }
         
         #endregion

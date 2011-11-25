@@ -43,7 +43,7 @@ namespace GameStateManagement
         #region Fields
 
         // the number of pixels to pad above and below menu entries for touch input
-        const int menuEntryPadding = 20;
+        const int menuEntryPadding = 15;
 
         List<MenuEntry> menuEntries = new List<MenuEntry>();
         int selectedEntry = 0;
