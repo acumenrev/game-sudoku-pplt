@@ -87,7 +87,7 @@ namespace SudokuWinphone
                 {
                     foreach (GameScreen screen in ScreenManager.GetScreens())
                         screen.ExitScreen();
-
+                    GameplayScreen.m_flagscreen = false;
                     ScreenManager.AddScreen(new BackgroundScreen(),
                         null);
                     ScreenManager.AddScreen(new MainMenuScreen(), null);

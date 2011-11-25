@@ -66,7 +66,7 @@ namespace SudokuWinphone
 
         void AboutMenuEntrySelected(object sender,PlayerIndexEventArgs e)
         {
-          // ScreenManager.AddScreen(new AboutScreen(), e.PlayerIndex);
+            ScreenManager.AddScreen(new AboutScreen(), e.PlayerIndex);
             ExitScreen();
         }
 

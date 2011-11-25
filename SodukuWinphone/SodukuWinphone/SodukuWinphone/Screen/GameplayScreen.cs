@@ -40,6 +40,10 @@ namespace SudokuWinphone
         SpriteFont m_gameplayFont;
         SpriteFont m_gametimeFont;
 
+        //SoundEffect
+        SoundEffect m_finishSound;
+        SoundEffect m_buttonSound;
+        SoundEffect m_beginSound;
         //Demo String
         int DemoString = 0;
         public static float m_pauseAlpha;
@@ -48,6 +52,7 @@ namespace SudokuWinphone
         public static bool m_flagtime;
         public static bool m_flagsound;
         bool m_flagWrongMsg = false;
+        public static bool m_flagscreen;
         // Matrix Lock and Result
         int[,] m_lockMatrixNumber = new int[9, 9];
         int[,] m_resultMatrixNumber = new int[9, 9];
@@ -58,6 +63,7 @@ namespace SudokuWinphone
         // Vector
         Vector2 m_v2=Vector2.Zero; // Vector of number tap
         Vector2 m_vtime = new Vector2(636,268); // Vector of time on screen
+        Vector2 m_vlevel = new Vector2(632, 180);
         // Time in Sudoku
         Sudoku.clsTime m_time;
         #endregion
@@ -83,6 +89,12 @@ namespace SudokuWinphone
             }
             //Time (What's Hell? Plz explain it for me here)
             m_time = Sudoku.clsTime.getInstance();
+            //
+            m_flagscreen = true;
+            //
+            m_pauseAlpha = 0f;
+            //play Sound Begin
+
         }
 
         public override void LoadContent()
@@ -102,8 +114,18 @@ namespace SudokuWinphone
             //LoadConten Font
             m_gameplayFont = Load<SpriteFont>("GameFont");
             m_gametimeFont = Load<SpriteFont>("TimeFont");
-            //
+            //Sound Load
+            m_finishSound = Load<SoundEffect>("Sound/finish");
+            m_buttonSound = Load<SoundEffect>("Sound/buttonpush");
+            m_beginSound = Load<SoundEffect>("Sound/startgame");
+
+            //Sleep 1s
             Thread.Sleep(1000);
+            //Play the begin sound;
+            if (OptionsMenuScreen.m_bMusic == true)
+            {
+                m_beginSound.Play();
+            }
             base.LoadContent();
         }
         public override void UnloadContent()
@@ -111,7 +133,7 @@ namespace SudokuWinphone
             base.UnloadContent();
         }
 #endregion
-#region Update & Draw
+        #region Update & Draw
         // Update
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
@@ -150,8 +172,6 @@ namespace SudokuWinphone
             m_spriteBatch = ScreenManager.SpriteBatch;
             m_spriteBatch.Begin();
             m_spriteBatch.Draw(m_gameplayBG, Vector2.Zero, Color.White);
-
-            m_spriteBatch.DrawString(m_gameplayFont, GetLevel(), Vector2.Zero, Color.White);
             //Draw Matrix Sudoku
             DrawMatrix();
             //Draw Button Sudoku
@@ -160,6 +180,8 @@ namespace SudokuWinphone
             DrawWrongMess();
             //Draw Time Sudoku
             m_spriteBatch.DrawString(m_gametimeFont,m_time.GetTime().ToString(),m_vtime, Color.White);
+            //Draw levev
+            DrawLevelStatus();
  
             m_spriteBatch.End();
             //
@@ -260,6 +282,22 @@ namespace SudokuWinphone
             }
             else { m_flagWrongMsg = false; }
         }
+        //
+        public void DrawLevelStatus()
+        {
+            if (GetLevel()=="Easy")
+            {
+                m_spriteBatch.DrawString(m_gameplayFont, GetLevel(),new Vector2(m_vlevel.X +20,m_vlevel.Y), Color.White);
+            }
+            if (GetLevel() == "Medium")
+            {
+                m_spriteBatch.DrawString(m_gameplayFont, GetLevel(), new Vector2(m_vlevel.X, m_vlevel.Y), Color.White);
+            }
+            if (GetLevel() == "Hard")
+            {
+                m_spriteBatch.DrawString(m_gameplayFont, GetLevel(), new Vector2(m_vlevel.X + 20, m_vlevel.Y), Color.White);
+            }
+        }
         // Tap To Change Number On GameScreen
         public void ChangeNumber()
         {
@@ -316,10 +354,13 @@ namespace SudokuWinphone
                 {
                     if (m_sudoku.checkketqua() == true)
                     {
-                        //ScreenManager.AddScreen(new CongratulationScreen(), ControllingPlayer);
+                        ScreenManager.AddScreen(new CongratulationScreen(), ControllingPlayer);
+                        m_pauseAlpha = 1f;
+                        m_flagtime = false;
+                        m_flagsound = true;
                         if (OptionsMenuScreen.m_bMusic == true)
                         {
-                            //m_finishSound.Play();
+                            m_finishSound.Play();
                         }
 
                     }
@@ -385,17 +426,18 @@ namespace SudokuWinphone
                 {
                     foreach (GameScreen screen in ScreenManager.GetScreens())
                         screen.ExitScreen();
-
+                    m_flagscreen = false;
                     ScreenManager.AddScreen(new BackgroundScreen(),
                         null);
                     ScreenManager.AddScreen(new MainMenuScreen(), null);
                 }
 
             }
-           
+
         }
+
+        #endregion
     }
 
-#endregion
     
 }

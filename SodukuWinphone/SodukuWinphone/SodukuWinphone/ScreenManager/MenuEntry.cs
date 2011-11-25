@@ -178,7 +178,7 @@ namespace GameStateManagement
 
             Vector2 origin = new Vector2(0, font.LineSpacing / 2);
 
-            spriteBatch.DrawString(font, text, position, color, 0,
+            spriteBatch.DrawString(font, text, position, Color.White, 0,
                                    origin, scale, SpriteEffects.None, 0);
         }
 
