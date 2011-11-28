@@ -116,8 +116,6 @@ namespace Game_Sudoku.Screens
                 m_selectionFade = Math.Max(m_selectionFade - fadeSpeed, 0);
 
             }
-
-           
         }
         /// <summary>
         /// Draws the menu entry. This can be overridden to customize the appearance.

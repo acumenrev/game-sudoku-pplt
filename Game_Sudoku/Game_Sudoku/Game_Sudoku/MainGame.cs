@@ -20,7 +20,7 @@ namespace Game_Sudoku
         public static GraphicsDeviceManager m_graphics;
         SpriteBatch m_spriteBatch;
         ScreenManager m_screenManager;
-        ScreenFactory m_screenFactory;
+        //ScreenFactory m_screenFactory;
 
         public MainGame()
         {
@@ -36,8 +36,8 @@ namespace Game_Sudoku
 
 
             // Create the screen factory and add it to the Services
-            m_screenFactory = new ScreenFactory();
-            Services.AddService(typeof(IScreenFactory), m_screenFactory);
+            //m_screenFactory = new ScreenFactory();
+            //Services.AddService(typeof(IScreenFactory), m_screenFactory);
 
             // Create the screen manager component
             m_screenManager = new ScreenManager(this);
@@ -52,8 +52,6 @@ namespace Game_Sudoku
             m_screenManager.AddScreen(new Screens.BackgroundScreen(), null);
 
             m_screenManager.AddScreen(new Screens.MainMenuScreen(), null);
-
-
         }
 
         /// <summary>

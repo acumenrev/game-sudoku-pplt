@@ -57,9 +57,9 @@ namespace Game_Sudoku.Screens
             }
 
             IsPopup = true;
-
+          
             TransitionOnTime = TimeSpan.FromSeconds(0.2);
-            TransitionOnTime = TimeSpan.FromSeconds(0.2);
+            TransitionOffTime = TimeSpan.FromSeconds(0.2);
 
             m_menuSelect = new InputAction(null, new Keys[] { Keys.Enter }, true);
             m_menuCancel = new InputAction(null, new Keys[] { Keys.Escape }, true);
@@ -137,7 +137,7 @@ namespace Game_Sudoku.Screens
 
             // Center the message text in the viewport
             Viewport viewport = ScreenManager.GraphicsDevice.Viewport;
-            Vector2 viewportSize = new Vector2(viewport.Width, viewport.Width);
+            Vector2 viewportSize = new Vector2(viewport.Width, viewport.Height);
             Vector2 textSize = font.MeasureString(m_message);
             Vector2 textPostion = (viewportSize - textSize) / 2;
 

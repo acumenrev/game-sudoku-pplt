@@ -120,7 +120,6 @@ namespace Game_Sudoku.Screens
                 }
             }
         }
-
         #endregion
     }
 }
