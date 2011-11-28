@@ -81,6 +81,7 @@ namespace Game_Sudoku.Map
         /// <param name="quantityOfCells"> Cells need to be left empty</param>
         private static void MakingEmptyCells(int quantityOfEmptyCells)
         {
+            
             for (int i = 0; i < quantityOfEmptyCells; i++)
             {
                 // check if cells already selected
