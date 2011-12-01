@@ -26,7 +26,8 @@
     <SupportedCultures>
     </SupportedCultures>
     <ApplicationIcon>Game.ico</ApplicationIcon>
-    <Thumbnail>PhoneGameThumb.png</Thumbnail>
+    <Thumbnail>
+    </Thumbnail>
     <SccProjectName>Svn</SccProjectName>
     <SccLocalPath>Svn</SccLocalPath>
     <SccAuxPath>Svn</SccAuxPath>
@@ -75,6 +76,7 @@
     <Compile Include="Screen\CongratulationScreen.cs" />
     <Compile Include="Screen\LevelScreen.cs" />
     <Compile Include="Screen\LoadingScreen.cs" />
+    <Compile Include="Screen\LoginScreen.cs" />
     <Compile Include="Screen\MainMenuScreen.cs" />
     <Compile Include="Screen\OptionsMenuScreen.cs" />
     <Compile Include="Screen\PauseMenuScreen.cs" />
@@ -100,12 +102,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
-    <Content Include="PhoneGameThumb.png">
-      <XnaPlatformSpecific>true</XnaPlatformSpecific>
-    </Content>
-    <Content Include="Background.png">
-      <XnaPlatformSpecific>true</XnaPlatformSpecific>
-    </Content>
+    <Content Include="PhoneGameThumb.png" />
+    <Content Include="Background.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SodukuWinphoneContent\SudokuWinphoneContent.contentproj">
