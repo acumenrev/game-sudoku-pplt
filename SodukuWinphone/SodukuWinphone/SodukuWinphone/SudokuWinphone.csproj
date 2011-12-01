@@ -22,10 +22,11 @@
     <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
     <XnaWindowsPhoneManifestTemplate>Properties\WMAppManifest.xml</XnaWindowsPhoneManifestTemplate>
     <TileImage>Background.png</TileImage>
-    <TileTitle>SodukuWinphone</TileTitle>
+    <TileTitle>TNT Sudoku</TileTitle>
     <SupportedCultures>
     </SupportedCultures>
-    <ApplicationIcon>Game.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
     <Thumbnail>
     </Thumbnail>
     <SccProjectName>Svn</SccProjectName>
