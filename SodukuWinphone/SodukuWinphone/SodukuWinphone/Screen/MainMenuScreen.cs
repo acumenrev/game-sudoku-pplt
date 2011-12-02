@@ -18,7 +18,7 @@ namespace SudokuWinphone
         /// <summary>
         /// Constructor fills in the menu contents.
         /// </summary>
-        public MainMenuScreen():base("Love Paul")
+        public MainMenuScreen():base("Main Menu")
         {
             IsPopup = true;
             // Create our menu entries
