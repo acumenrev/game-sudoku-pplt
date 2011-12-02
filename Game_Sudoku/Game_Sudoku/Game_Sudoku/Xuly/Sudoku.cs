@@ -49,17 +49,11 @@ namespace Game_Sudoku.Xuly
 		public Sudoku()
 		{
 			m_v3 = new Vector3[9, 9];
-			// tao ra 3 so ngau nhien trong 3 mien TopLeft, Middle, BottomRight
 			CreateSubRegions();
-			// tao ra ma tran co o trong
 			m_level = new Map.Level();
-
             CopyToV3();
-
-			// Giai o so da cho ben tren
 			if (Solve())
 			{
-				// Gan cac gia tri tu m_v3 sang cho m_Sudoku
 				ShowSolve();
 			}
 			for (int i = 0; i < 9; i++)
@@ -69,12 +63,7 @@ namespace Game_Sudoku.Xuly
 					m_resultMatrix[i,j] = m_Sudoku[i,j];
 				}
 			}
-			
-			// gan cac phan tu ngau nhien trong m_emptyMatrix bang 0
-			// cho cac so ngau nhien bang 0
 			Merge();
-			
-		 
 		}
 
         public Sudoku(int loai)
@@ -93,7 +82,7 @@ namespace Game_Sudoku.Xuly
 		/// <param name="j"></param>
 		public void CheckField(int[] m, int i, int j)
 		{
-			int squareIndex = m_subSquare[i, j];   // mien xac dinh theo index
+			int squareIndex = m_subSquare[i, j];
 			for (int x = 0; x < 9; x++)
 			{
 				for (int y = 0; y < 9; y++)
@@ -122,8 +111,6 @@ namespace Game_Sudoku.Xuly
             }
         }
 
-
-		// Thêm phần checkmap ban đâu vào 
 		/// <summary>
 		/// Check map
 		/// </summary>
@@ -151,9 +138,7 @@ namespace Game_Sudoku.Xuly
 								return false;
 							}
 						}
-
-						// mien xac dinh theo index
-						// defined region with index
+						// defined-region with index
 						int squareIndex = m_subSquare[i, j];   
 						for (int x = 0; x < 9; x++)
 						{
@@ -256,13 +241,10 @@ namespace Game_Sudoku.Xuly
 			{
 				for (int j = 0; j < 9; j++)
 				{
-					// duyet nhung o trong' hoac. o chua phu hop / 
 					//browse empty cells or discordant cells
 					if (m_v3[i, j].Z == 0)             
 					{
 						int[] M = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-
-						// xoa nhung so' trong M ma` trung` voi'cac hang , cot trong m_v3
 						// Remove M's cells that match with m_v3's cells
 						for (int k = 0; k < 9; k++)
 						{
@@ -276,10 +258,9 @@ namespace Game_Sudoku.Xuly
 							M[(int)m_v3[l, j].Z] = 0;
 						}
 						// xoa nhung so trong M ma` trung` voi mien vi tri dang xet trong m_v3
-						// Remove M's cell that matchs with m_v3's cell's position
+						// Delete M's cell that matchs with m_v3's cell's position
 						CheckField(M, i, j);
 
-						// dem so phan tu chua su dung
 						// count unused elements
 						int unusedElements = 0;
 
@@ -290,8 +271,8 @@ namespace Game_Sudoku.Xuly
 								unusedElements++;
 							}
 						}
-						// thong so de xet them trung hop khac xem co phu hop hon ko
 
+						// thong so de xet them trung hop khac xem co phu hop hon ko
 						if (unusedElements < allElements)
 						{
 							allElements = unusedElements;
@@ -302,20 +283,19 @@ namespace Game_Sudoku.Xuly
 					}
 				}
 			}
-			// khi ko con so nao trong m_v3 == 0
+
 			// if there are no numbers in m_v3  = 0
 			if (allElements == 10)
 			{
 				return true;
 			}
-			//ko co phan tu de su dung
+
 			// Do not have elements to use
 			if (allElements == 0)
 			{
 				return false;
 			}
 
-			//thu voi cac phuong an' khac' de tim cai phu hop nhat
 			// Try other solutions to find the most suitable one
 			for (int n = 1; n < 10; n++)
 			{
@@ -330,8 +310,7 @@ namespace Game_Sudoku.Xuly
 				}
 			}
 
-			//xoa vi tri neu ko phu hop
-			// Remove position if discordant
+			// Remove position if not suitable
 			m_v3[a, b].Z = 0;
 			return false;
 		}
