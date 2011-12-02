@@ -34,7 +34,7 @@ namespace SudokuWinphone
 
         #endregion
 
-        #region init
+        #region Initialization
         public LoginScreen()
         {
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
@@ -55,6 +55,7 @@ namespace SudokuWinphone
             base.UnloadContent();
         }
         #endregion
+
         #region Handleinput & Draw
         //
         public override void HandleInput(InputState input)
@@ -89,7 +90,7 @@ namespace SudokuWinphone
 
             base.Draw(gameTime);
         }
-        #endregion
+        
         public void TransitionAlphaWord()
         {
             
@@ -110,5 +111,6 @@ namespace SudokuWinphone
                 m_way = true;
             }
         }
+        #endregion
     }
 }

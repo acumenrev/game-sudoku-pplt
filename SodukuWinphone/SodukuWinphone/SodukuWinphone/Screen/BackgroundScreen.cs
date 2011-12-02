@@ -45,6 +45,7 @@ namespace SudokuWinphone
             base.UnloadContent();
         }
         #endregion
+
         #region Handleinput & Draw
         //
         public override void HandleInput(InputState input)

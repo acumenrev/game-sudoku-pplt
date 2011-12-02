@@ -67,6 +67,7 @@ namespace SudokuWinphone
         // Time in Sudoku
         Sudoku.clsTime m_time;
         #endregion
+
         #region Init
         //Contructor
         public GameplayScreen()
@@ -133,6 +134,7 @@ namespace SudokuWinphone
             base.UnloadContent();
         }
 #endregion
+
         #region Update & Draw
         // Update
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
