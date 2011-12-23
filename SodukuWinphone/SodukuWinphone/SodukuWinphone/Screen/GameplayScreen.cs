@@ -35,7 +35,11 @@ namespace SudokuWinphone
         Texture2D m_buttonSolve;
         Texture2D m_buttonCheck;
         Texture2D m_wrongMess;
-
+        //
+        Texture2D m_numbertable;
+        bool m_flagmunbertable = false;
+        Rectangle m_recmunbertable;
+        //
         //SpriteFont
         SpriteFont m_gameplayFont;
         SpriteFont m_gametimeFont;
@@ -53,6 +57,7 @@ namespace SudokuWinphone
         public static bool m_flagsound;
         bool m_flagWrongMsg = false;
         public static bool m_flagscreen;
+
         // Matrix Lock and Result
         int[,] m_lockMatrixNumber = new int[9, 9];
         int[,] m_resultMatrixNumber = new int[9, 9];
@@ -111,6 +116,7 @@ namespace SudokuWinphone
             m_buttonSolve = Load<Texture2D>("Buttons/Solve");
             m_buttonCheck = Load<Texture2D>("Buttons/Check");
             m_wrongMess = Load<Texture2D>("Buttons/wrongmess");
+            m_numbertable = Load<Texture2D>("banso");
 
             //LoadConten Font
             m_gameplayFont = Load<SpriteFont>("GameFont");
@@ -184,6 +190,8 @@ namespace SudokuWinphone
             m_spriteBatch.DrawString(m_gametimeFont,m_time.GetTime().ToString(),m_vtime, Color.White);
             //Draw levev
             DrawLevelStatus();
+            //
+            DrawNumberTable();
  
             m_spriteBatch.End();
             //
@@ -211,6 +219,7 @@ namespace SudokuWinphone
                         float x = (i * 60) + 35;
                         float y = (j * 50) + 25;
                         spriteBatch.DrawString(m_gameplayFont, a, new Vector2(x, y), Color.DarkSlateBlue);
+                        m_flagmunbertable = true;
                     }
 
                     //if (m_lockMatrixNumber[j, i] == 0 &&  m_mapDemo.m_matrixMap[j, i] != 0)
@@ -298,6 +307,18 @@ namespace SudokuWinphone
             if (GetLevel() == "Hard")
             {
                 m_spriteBatch.DrawString(m_gameplayFont, GetLevel(), new Vector2(m_vlevel.X + 20, m_vlevel.Y), Color.White);
+            }
+        }
+        //
+        public void DrawNumberTable()
+        {
+            float x = (m_v2.X - 15) / 60;
+            float y = (m_v2.Y - 15) / 50;
+            if(m_flagmunbertable==true)
+            {
+                m_recmunbertable=new Rectangle(((int)x*60+15)+60,0,100,480);
+                SpriteBatch spriteBatch =ScreenManager.SpriteBatch;
+                spriteBatch.Draw(m_numbertable,m_recmunbertable,Color.White);
             }
         }
         // Tap To Change Number On GameScreen

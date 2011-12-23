@@ -21,14 +21,13 @@
     <XapFilename>$(AssemblyName).xap</XapFilename>
     <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
     <XnaWindowsPhoneManifestTemplate>Properties\WMAppManifest.xml</XnaWindowsPhoneManifestTemplate>
-    <TileImage>Background.png</TileImage>
+    <TileImage>PhoneGameThumb.png</TileImage>
     <TileTitle>TNT Sudoku</TileTitle>
     <SupportedCultures>
     </SupportedCultures>
     <ApplicationIcon>
     </ApplicationIcon>
-    <Thumbnail>
-    </Thumbnail>
+    <Thumbnail>PhoneGameThumb.png</Thumbnail>
     <SccProjectName>Svn</SccProjectName>
     <SccLocalPath>Svn</SccLocalPath>
     <SccAuxPath>Svn</SccAuxPath>
