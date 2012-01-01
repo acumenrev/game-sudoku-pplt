@@ -210,7 +210,7 @@ namespace SudokuWinphone
             //Draw levev
             DrawLevelStatus();
             //
-            DrawNumberTable();
+            //DrawNumberTable();
             //
             DrawSelect();
             //
@@ -239,7 +239,7 @@ namespace SudokuWinphone
                     {
                         SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
                         string a = m_lockMatrixNumber[j, i].ToString();
-                        float x = (i * 60) + 35;
+                        float x = (i * 50) + 42;
                         float y = (j * 50) + 25;
                         spriteBatch.DrawString(m_gameplayFont, a, new Vector2(x, y), Color.DarkSlateBlue);
                         m_flagmunbertable = true;
@@ -251,7 +251,7 @@ namespace SudokuWinphone
                         SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
                         //string a = m_mapDemo.m_matrixMap[j, i].ToString();
                         string a = m_sudoku.m_Sudoku[j, i].ToString();
-                        float x = (i * 60) + 35;
+                        float x = (i * 50) + 42;
                         float y = (j * 50) + 25;
                         spriteBatch.DrawString(m_gameplayFont, a, new Vector2(x, y), Color.White);
                     }
@@ -350,7 +350,7 @@ namespace SudokuWinphone
         }
         public void DrawSelect() 
         {
-            float x = (m_v2.X - 15) / 60;
+            float x = (m_v2.X - 25) / 50;
             float y = (m_v2.Y - 15) / 50;
             if (x >= 0 && x <= 9)
             {
@@ -359,7 +359,7 @@ namespace SudokuWinphone
                     if (m_lockMatrixNumber[(int)y, (int)x] == 0)
                     {
                         SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
-                        float xx = (int)x * 60 + 15;
+                        float xx = (int)x * 50 + 25;
                         float yy = (int)y * 50 + 15;
                         spriteBatch.Draw(m_select, new Vector2(xx, yy), Color.White);
                         m_flagselect = true;
@@ -402,9 +402,9 @@ namespace SudokuWinphone
         }*/
         public void getSelectnumber()
         {
-            float x = (m_v2.X - 15) / 60;
+            float x = (m_v2.X - 15) / 50;
             float y = (m_v2.Y - 15) / 50;
-            if (x > 9 && x < 10)
+            if (x > 9 && x < 11)
             {
                 switch ((int)y)
                 {
