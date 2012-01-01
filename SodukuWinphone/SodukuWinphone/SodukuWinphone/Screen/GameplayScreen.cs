@@ -81,6 +81,8 @@ namespace SudokuWinphone
         int m_xselect;
         int m_yselect;
         bool m_flagselect=false;
+        //fix turnoff button
+        public static bool m_flagbutton = false;
 
         #region Init
         //Contructor
@@ -179,6 +181,7 @@ namespace SudokuWinphone
                     m_v2.Y = gesture.Position.Y;
                     // Version PC
                     //ChangeNumber();
+                    m_flagbutton = true;
                     EventButton();
                     if (m_flagselect==true)
                     {
@@ -272,29 +275,34 @@ namespace SudokuWinphone
             m_spriteBatch.Draw(m_buttonQuiton, new Vector2(620, 415), Color.White);
             m_spriteBatch.Draw(m_buttonSolve, new Vector2(720, 100), Color.White);
             m_spriteBatch.Draw(m_buttonCheck, new Vector2(570, 80), Color.White);
-            if (m_v2.X > 620 && m_v2.X < 745)
+            if (m_flagbutton==true)
             {
-                if ( m_v2.Y > 335 &&  m_v2.Y < 370)
+                if (m_v2.X > 620 && m_v2.X < 745)
                 {
-                    m_spriteBatch.Draw(m_buttonResetoff, new Vector2(620, 335), Color.White);
-                }
-            }
+                    if (m_v2.Y > 335 && m_v2.Y < 370)
+                    {
+                        m_spriteBatch.Draw(m_buttonResetoff, new Vector2(620, 335), Color.White);
 
-            if ( m_v2.X > 620 &&  m_v2.X < 745)
-            {
-                if ( m_v2.Y > 375 &&  m_v2.Y < 410)
-                {
-                    m_spriteBatch.Draw(m_buttonSettingoff, new Vector2(620, 375), Color.White);
+                    }
                 }
-            }
 
-            if ( m_v2.X > 620 &&  m_v2.X < 745)
-            {
-                if ( m_v2.Y > 415 &&  m_v2.Y < 455)
+                if (m_v2.X > 620 && m_v2.X < 745)
                 {
-                    m_spriteBatch.Draw(m_buttonQuitoff, new Vector2(620, 415), Color.White);
+                    if (m_v2.Y > 375 && m_v2.Y < 410)
+                    {
+                        m_spriteBatch.Draw(m_buttonSettingoff, new Vector2(620, 375), Color.White);
+                    }
+                }
+
+                if (m_v2.X > 620 && m_v2.X < 745)
+                {
+                    if (m_v2.Y > 415 && m_v2.Y < 455)
+                    {
+                        m_spriteBatch.Draw(m_buttonQuitoff, new Vector2(620, 415), Color.White);
+                    }
                 }
             }
+            
         }
         // Draw Wrong Matrix
         public void DrawWrongMess()
@@ -493,6 +501,7 @@ namespace SudokuWinphone
             {
                 if (m_v2.Y > 335 && m_v2.Y < 370)
                 {
+                                     
                     Sudoku.clsTime.getInstance().ResetTime();
                     GameplayScreen.m_flagtime = true;
                     LoadingScreen.Load(ScreenManager, true, ControllingPlayer, new GameplayScreen());
@@ -509,6 +518,7 @@ namespace SudokuWinphone
                     m_flagtime = false;
                     m_flagsound = true;
                 }
+                
             }
             // Exit 
             if (m_v2.X > 620 && m_v2.X < 745)
@@ -523,6 +533,7 @@ namespace SudokuWinphone
                     Guide.BeginShowMessageBox("TNT - Sudoku", "Do you want to quit your game?",
                                                 new String[] { "Yes", "No" }, 0, MessageBoxIcon.Warning,
                                                 ShowDialogEnded, null);
+                    
                 }
             }
         }
@@ -539,6 +550,7 @@ namespace SudokuWinphone
                         null);
                     ScreenManager.AddScreen(new MainMenuScreen(), null);
                 }
+                else { m_flagbutton = false; }
 
             }
 

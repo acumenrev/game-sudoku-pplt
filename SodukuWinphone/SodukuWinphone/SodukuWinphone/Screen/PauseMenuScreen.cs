@@ -63,6 +63,7 @@ namespace SudokuWinphone
         {
             OnCancel(e.PlayerIndex);
             GameplayScreen.m_pauseAlpha = 0f;
+            GameplayScreen.m_flagbutton = false;
             GameplayScreen.m_flagtime = true;
             GameplayScreen.m_flagsound = false;
         }
