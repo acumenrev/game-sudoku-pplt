@@ -36,6 +36,7 @@ namespace SudokuWinphone
         Texture2D m_buttonCheck;
         Texture2D m_wrongMess;
         //
+        Texture2D m_select;
         Texture2D m_numbertable;
         bool m_flagmunbertable = false;
         Rectangle m_recmunbertable;
@@ -51,6 +52,7 @@ namespace SudokuWinphone
         //Demo String
         int DemoString = 0;
         public static float m_pauseAlpha;
+        
 
         //Flag Time and Sound, wrong mess
         public static bool m_flagtime;
@@ -72,6 +74,13 @@ namespace SudokuWinphone
         // Time in Sudoku
         Sudoku.clsTime m_time;
         #endregion
+
+        // Get the number select
+        int m_selectmunber;
+        int m_getstring=0;
+        int m_xselect;
+        int m_yselect;
+        bool m_flagselect=false;
 
         #region Init
         //Contructor
@@ -117,6 +126,7 @@ namespace SudokuWinphone
             m_buttonCheck = Load<Texture2D>("Buttons/Check");
             m_wrongMess = Load<Texture2D>("Buttons/wrongmess");
             m_numbertable = Load<Texture2D>("banso");
+            m_select = Load<Texture2D>("select");
 
             //LoadConten Font
             m_gameplayFont = Load<SpriteFont>("GameFont");
@@ -167,8 +177,14 @@ namespace SudokuWinphone
                 {
                     m_v2.X = gesture.Position.X;
                     m_v2.Y = gesture.Position.Y;
-                    ChangeNumber();
+                    // Version PC
+                    //ChangeNumber();
                     EventButton();
+                    if (m_flagselect==true)
+                    {
+                        getSelectnumber();
+                    }
+                    
                     //DemoString += 2;
                 }
             }
@@ -192,6 +208,10 @@ namespace SudokuWinphone
             DrawLevelStatus();
             //
             DrawNumberTable();
+            //
+            DrawSelect();
+            //
+            //m_spriteBatch.DrawString(m_gametimeFont, m_getstring, Vector2.Zero, Color.White);
  
             m_spriteBatch.End();
             //
@@ -312,17 +332,41 @@ namespace SudokuWinphone
         //
         public void DrawNumberTable()
         {
+            if (m_flagmunbertable == true)
+            {
+                m_recmunbertable = new Rectangle(530, 0, 100, 480);
+                SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
+                spriteBatch.Draw(m_numbertable, m_recmunbertable, Color.White);
+            }
+
+        }
+        public void DrawSelect() 
+        {
             float x = (m_v2.X - 15) / 60;
             float y = (m_v2.Y - 15) / 50;
-            if(m_flagmunbertable==true)
+            if (x >= 0 && x <= 9)
             {
-                m_recmunbertable=new Rectangle(((int)x*60+15)+60,0,100,480);
-                SpriteBatch spriteBatch =ScreenManager.SpriteBatch;
-                spriteBatch.Draw(m_numbertable,m_recmunbertable,Color.White);
+                if (y >= 0 && y <= 9)
+                {
+                    if (m_lockMatrixNumber[(int)y, (int)x] == 0)
+                    {
+                        SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
+                        float xx = (int)x * 60 + 15;
+                        float yy = (int)y * 50 + 15;
+                        spriteBatch.Draw(m_select, new Vector2(xx, yy), Color.White);
+                        m_flagselect = true;
+                        m_xselect = (int)x;
+                        m_yselect = (int)y;  
+                    }
+                    else { m_flagselect = false; }
+
+                }
+
             }
+
         }
-        // Tap To Change Number On GameScreen
-        public void ChangeNumber()
+        // Tap To Change Number On GameScreen (PC)
+        /*public void ChangeNumber()
         {
             float x = (m_v2.X - 15) / 60;
             float y = (m_v2.Y - 15) / 50;
@@ -340,13 +384,54 @@ namespace SudokuWinphone
                             }
                             //m_mapDemo.m_matrixMap[(int)y, (int)x] = numbercurrent + 1;
                             m_sudoku.m_Sudoku[(int)y, (int)x] = numbercurrent + 1;
+                         
                           
                         }
 
                     }
 
                 }
+        }*/
+        public void getSelectnumber()
+        {
+            float x = (m_v2.X - 15) / 60;
+            float y = (m_v2.Y - 15) / 50;
+            if (x > 9 && x < 10)
+            {
+                switch ((int)y)
+                {
+                    case 0: 
+                        m_getstring = 1;
+                        break;
+                    case 1:
+                        m_getstring = 2;
+                        break;
+                    case 2:
+                        m_getstring = 3;
+                        break;
+                    case 3:
+                        m_getstring = 4;
+                        break;
+                    case 4:
+                        m_getstring = 5;
+                        break;
+                    case 5:
+                        m_getstring = 6;
+                        break;
+                    case 6:
+                        m_getstring = 7;
+                        break;
+                    case 7:
+                        m_getstring = 8;
+                        break;
+                    case 8:
+                        m_getstring = 9;
+                        break;                
+
+                }
+                 m_sudoku.m_Sudoku[(int)m_yselect, (int)m_xselect] = m_getstring;
             }
+        }
         //Get Level Of Map
         private string GetLevel()
         {
