@@ -478,7 +478,8 @@ namespace SudokuWinphone
                     else
                     {
                         // if player's answer is wrong, then draw wrong message dialog
-                        //ScreenManager.AddScreen(new IncorrectScreen(), ControllingPlayer);
+                        ScreenManager.AddScreen(new Incorretscreen(), ControllingPlayer);
+                        m_pauseAlpha = 1f;
                         for (int i = 0; i < 9; i++)
                         {
                             for (int j = 0; j < 9; j++)
@@ -494,11 +495,16 @@ namespace SudokuWinphone
             {
                 if (m_v2.Y > 335 && m_v2.Y < 370)
                 {
-                                     
-                    Sudoku.clsTime.getInstance().ResetTime();
-                    GameplayScreen.m_flagtime = true;
-                    LoadingScreen.Load(ScreenManager, true, ControllingPlayer, new GameplayScreen());
 
+                    for (int i = 0; i < 9; i++)
+                    {
+                        for (int j = 0; j < 9; j++)
+                        {
+
+                            m_solveSudoku.m_Sudoku[i, j] = 0;
+                            m_lockMatrixNumber[i, j] = 0;
+                        }
+                    }
                 }
             }
             // Pause screen

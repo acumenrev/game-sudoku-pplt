@@ -74,6 +74,7 @@
     <Compile Include="Screen\AboutScreen.cs" />
     <Compile Include="Screen\BackgroundScreen.cs" />
     <Compile Include="Screen\CongratulationScreen.cs" />
+    <Compile Include="Screen\Incorretscreen.cs" />
     <Compile Include="Screen\LevelScreen.cs" />
     <Compile Include="Screen\LoadingScreen.cs" />
     <Compile Include="Screen\LoginScreen.cs" />
