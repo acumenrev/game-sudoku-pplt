@@ -80,6 +80,7 @@
     <Compile Include="Screen\MainMenuScreen.cs" />
     <Compile Include="Screen\OptionsMenuScreen.cs" />
     <Compile Include="Screen\PauseMenuScreen.cs" />
+    <Compile Include="Screen\SolveSudokuScreen.cs" />
     <Compile Include="Sudoku\clsTime.cs" />
     <Compile Include="Sudoku\Level.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

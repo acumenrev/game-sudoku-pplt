@@ -23,18 +23,21 @@ namespace SudokuWinphone
             IsPopup = true;
             // Create our menu entries
             MenuEntry playerGameMenuEntry = new MenuEntry("New Game");
-            MenuEntry optionsMenuEntry = new MenuEntry("Options");
+            MenuEntry SolveMenuEntry = new MenuEntry("Solve Sudoku");
+            MenuEntry optionsMenuEntry = new MenuEntry("Options");            
             MenuEntry aboutMenuEntry = new MenuEntry("About");
             MenuEntry exitMenuEntry = new MenuEntry("Exit");
            
             // Hook up menu event handlers
             playerGameMenuEntry.Selected += PlayGameMenuEntrySelected;
+            SolveMenuEntry.Selected += SolveMenuEntrySelected;
             optionsMenuEntry.Selected += OptionsMenuEntrySelected;
             aboutMenuEntry.Selected += AboutMenuEntrySelected;
             exitMenuEntry.Selected += OnCancel;
 
             // Add Entries to the menu
             MenuEntries.Add(playerGameMenuEntry);
+            MenuEntries.Add(SolveMenuEntry);
             MenuEntries.Add(optionsMenuEntry);
             MenuEntries.Add(aboutMenuEntry);
             MenuEntries.Add(exitMenuEntry);
@@ -54,7 +57,13 @@ namespace SudokuWinphone
             ExitScreen();
            
         }
+        void SolveMenuEntrySelected(object sender, PlayerIndexEventArgs e)
+        {
+            // LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new GameplayScreen());
+            LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new SolveSudokuScreen());
+            ExitScreen();
 
+        }
         /// <summary>
         /// Event handler for when the Options menu entry is selected.
         /// </summary>
