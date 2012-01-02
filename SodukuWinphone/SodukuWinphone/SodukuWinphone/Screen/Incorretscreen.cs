@@ -29,7 +29,7 @@ namespace SudokuWinphone
         {
             IsPopup = true;
             // Create our menu entries
-            MenuEntry resumeGameMenuEntry = new MenuEntry("Your input isn't corret, Please check again!");
+            MenuEntry resumeGameMenuEntry = new MenuEntry("Your input isn't correct, Please Touch this text to go back");
 
 
 
