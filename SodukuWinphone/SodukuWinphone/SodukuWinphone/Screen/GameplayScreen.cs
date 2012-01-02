@@ -35,16 +35,13 @@ namespace SudokuWinphone
         Texture2D m_buttonSolve;
         Texture2D m_buttonCheck;
         Texture2D m_wrongMess;
-        //
         Texture2D m_select;
         Texture2D m_numbertable;
         bool m_flagmunbertable = false;
         Rectangle m_recmunbertable;
-        //
         //SpriteFont
         SpriteFont m_gameplayFont;
         SpriteFont m_gametimeFont;
-
         //SoundEffect
         SoundEffect m_finishSound;
         SoundEffect m_buttonSound;
@@ -52,37 +49,32 @@ namespace SudokuWinphone
         //Demo String
         int DemoString = 0;
         public static float m_pauseAlpha;
-        
-
         //Flag Time and Sound, wrong mess
         public static bool m_flagtime;
         public static bool m_flagsound;
         bool m_flagWrongMsg = false;
         public static bool m_flagscreen;
-
         // Matrix Lock and Result
         int[,] m_lockMatrixNumber = new int[9, 9];
         int[,] m_resultMatrixNumber = new int[9, 9];
-
         //Sudoku
         Sudoku.Sudoku m_sudoku;
-
         // Vector
         Vector2 m_v2=Vector2.Zero; // Vector of number tap
         Vector2 m_vtime = new Vector2(636,268); // Vector of time on screen
         Vector2 m_vlevel = new Vector2(632, 180);
         // Time in Sudoku
         Sudoku.clsTime m_time;
-        #endregion
-
         // Get the number select
         int m_selectmunber;
-        int m_getstring=0;
+        int m_getstring = 0;
         int m_xselect;
         int m_yselect;
-        bool m_flagselect=false;
+        bool m_flagselect = false;
         //fix turnoff button
         public static bool m_flagbutton = false;
+
+        #endregion
 
         #region Init
         //Contructor
@@ -102,9 +94,8 @@ namespace SudokuWinphone
                 {
                     m_lockMatrixNumber[i, j] = m_sudoku.m_Sudoku[i, j];
                 }
-
             }
-            //Time (What's Hell? Plz explain it for me here)
+            //Time
             m_time = Sudoku.clsTime.getInstance();
             //
             m_flagscreen = true;
@@ -468,7 +459,7 @@ namespace SudokuWinphone
             {
                 if (m_v2.Y > 80 && m_v2.Y < 140)
                 {
-                    if (m_sudoku.checkketqua() == true)
+                    if (m_sudoku.FlagCheckResult() == true)
                     {
                         ScreenManager.AddScreen(new CongratulationScreen(), ControllingPlayer);
                         m_pauseAlpha = 1f;
@@ -480,7 +471,7 @@ namespace SudokuWinphone
                         }
 
                     }
-                    if (m_sudoku.checkketqua() == false)
+                    if (m_sudoku.FlagCheckResult() == false)
                     {
                         m_flagWrongMsg = true;
 
