@@ -66,6 +66,9 @@ namespace SudokuWinphone
             GameplayScreen.m_flagbutton = false;
             GameplayScreen.m_flagtime = true;
             GameplayScreen.m_flagsound = false;
+            SolveSudokuScreen.m_pauseAlpha = 0f;
+            SolveSudokuScreen.m_flagbutton = false;
+            SolveSudokuScreen.m_flagsound = false;
         }
 
         void OptionsMenuEntrySelected(object sender,PlayerIndexEventArgs e)
