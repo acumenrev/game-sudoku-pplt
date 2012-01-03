@@ -29,18 +29,17 @@ namespace SudokuWinphone
         {
             IsPopup = true;
             // Create our menu entries
-            MenuEntry resumeGameMenuEntry = new MenuEntry("Your input isn't correct, Please Touch this text to go back");
-
+            MenuEntry resumeGameMenuEntry = new MenuEntry("Your input isn't correct. Please Touch this text to go back");
+            MenuEntry resumeGameMenuEntry2 = new MenuEntry("Please Touch this text to go back");
 
 
             // Hook up menu event handlers
             resumeGameMenuEntry.Selected += ResumeGameMenuEntry;
-
+            resumeGameMenuEntry2.Selected += ResumeGameMenuEntry;
 
             // Add entries to the menu.
             MenuEntries.Add(resumeGameMenuEntry);
-
-            
+            MenuEntries.Add(resumeGameMenuEntry2);            
         }
 
         #endregion
