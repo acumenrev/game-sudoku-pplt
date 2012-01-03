@@ -66,7 +66,7 @@ namespace SudokuWinphone
         // Time in Sudoku
         Sudoku.clsTime m_time;
         // Get the number select
-        int m_selectmunber;
+        //int m_selectmunber;
         int m_getstring = 0;
         int m_xselect;
         int m_yselect;
